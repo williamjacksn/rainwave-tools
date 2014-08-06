@@ -62,6 +62,7 @@ log(subprocess.check_output(['rwtag', 'set', 'album', album, temp_file]).encode(
 log(subprocess.check_output(['rwtag', 'set', 'title', title, temp_file]).encode())
 log(subprocess.check_output(['rwtag', 'set', 'artist', artist, temp_file]).encode())
 log(subprocess.check_output(['rwtag', 'set', 'comment', 'Remix Info @ OCR', temp_file]).encode())
+log(subprocess.check_output(['rwtag', 'drop', 'genre', temp_file]).encode())
 
 log('Cleaning up temporary files ...')
 urllib.request.urlcleanup()
