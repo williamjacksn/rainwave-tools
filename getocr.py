@@ -18,6 +18,11 @@ def make_safe(s):
     translate_table = dict((ord(char), None) for char in unsafe)
     return s.translate(translate_table)
 
+def do_cmd(cmd):
+    output = subprocess.check_output(cmd, universal_newlines=True)
+    for line in output.splitlines():
+        log(line)
+
 if len(sys.argv) > 1:
     cmd = sys.argv[1]
 else:
@@ -68,45 +73,14 @@ log('Downloading mp3 file from {}'.format(mp3_url))
 temp_file, _ = urllib.request.urlretrieve(mp3_url)
 log('Downloaded mp3 file to {}'.format(temp_file))
 
-set_album_cmd = ['rwtag', 'set', 'album', album, temp_file]
-set_album = subprocess.check_output(set_album_cmd, universal_newlines=True)
-for line in set_album.splitlines():
-    log(line)
-
-set_title_cmd = ['rwtag', 'set', 'title', title, temp_file]
-set_title = subprocess.check_output(set_title_cmd, universal_newlines=True)
-for line in set_title.splitlines():
-    log(line)
-
-set_artist_cmd = ['rwtag', 'set', 'artist', artist, temp_file]
-set_artist = subprocess.check_output(set_artist_cmd, universal_newlines=True)
-for line in set_artist.splitlines():
-    log(line)
-
-set_www_cmd = ['rwtag', 'set', 'www', ocr_url, temp_file]
-set_www = subprocess.check_output(set_www_cmd, universal_newlines=True)
-for line in set_www.splitlines():
-    log(line)
-
-set_comment_cmd = ['rwtag', 'set', 'comment', 'Remix Info @ OCR', temp_file]
-set_comment = subprocess.check_output(set_comment_cmd, universal_newlines=True)
-for line in set_comment.splitlines():
-    log(line)
-
-drop_genre_cmd = ['rwtag', 'drop', 'genre', temp_file]
-drop_genre = subprocess.check_output(drop_genre_cmd, universal_newlines=True)
-for line in drop_genre.splitlines():
-    log(line)
-
-drop_track_cmd = ['rwtag', 'drop', 'track', temp_file]
-drop_track = subprocess.check_output(drop_track_cmd, universal_newlines=True)
-for line in drop_track.splitlines():
-    log(line)
-
-drop_year_cmd = ['rwtag', 'drop', 'year', temp_file]
-drop_year = subprocess.check_output(drop_year_cmd, universal_newlines=True)
-for line in drop_year.splitlines():
-    log(line)
+do_cmd(['rwtag', 'set', 'album', album, temp_file])
+do_cmd(['rwtag', 'set', 'title', title, temp_file])
+do_cmd(['rwtag', 'set', 'artist', artist, temp_file])
+do_cmd(['rwtag', 'set', 'www', ocr_url, temp_file])
+do_cmd(['rwtag', 'set', 'comment', 'Remix Info @ OCR', temp_file])
+do_cmd(['rwtag', 'drop', 'genre', temp_file])
+do_cmd(['rwtag', 'drop', 'track', temp_file])
+do_cmd(['rwtag', 'drop', 'year', temp_file])
 
 target_file = '{}.mp3'.format(make_safe(title))
 mp3_dest = os.path.join(DEST_DIR, make_safe(album), target_file)
