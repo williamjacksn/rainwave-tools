@@ -58,12 +58,35 @@ log('Downloading mp3 file from {} ...'.format(url))
 temp_file, _ = urllib.request.urlretrieve(url)
 log('Downloaded mp3 file to {}'.format(temp_file))
 
-log(subprocess.check_output(['rwtag', 'set', 'album', album, temp_file]).decode())
-log(subprocess.check_output(['rwtag', 'set', 'title', title, temp_file]).decode())
-log(subprocess.check_output(['rwtag', 'set', 'artist', artist, temp_file]).decode())
-log(subprocess.check_output(['rwtag', 'set', 'www', ocr_url]).decode())
-log(subprocess.check_output(['rwtag', 'set', 'comment', 'Remix Info @ OCR', temp_file]).decode())
-log(subprocess.check_output(['rwtag', 'drop', 'genre', temp_file]).decode())
+set_album_cmd = ['rwtag', 'set', 'album', album, temp_file]
+set_album = subprocess.check_output(set_album_cmd, universal_newlines=True)
+for line in set_album.splitlines():
+    log(line)
+
+set_title_cmd = ['rwtag', 'set', 'title', title, temp_file]
+set_title = subprocess.check_output(set_title_cmd, universal_newlines=True)
+for line in set_title.splitlines():
+    log(line)
+
+set_artist_cmd = ['rwtag', 'set', 'artist', artist, temp_file]
+set_artist = subprocess.check_output(set_artist_cmd, universal_newlines=True)
+for line in set_artist.splitlines():
+    log(line)
+
+set_www_cmd = ['rwtag', 'set', 'www', ocr_url, temp_file]
+set_www = subprocess.check_output(set_www_cmd, universal_newlines=True)
+for line in set_www.splitlines():
+    log(line)
+
+set_comment_cmd = ['rwtag', 'set', 'comment', 'Remix Info @ OCR', temp_file]
+set_comment = subprocess.check_output(set_comment_cmd, universal_newlines=True)
+for line in set_comment.splitlines():
+    log(line)
+
+drop_genre_cmd = ['rwtag', 'drop', 'genre', temp_file]
+drop_genre = subprocess.check_output(drop_genre_cmd, universal_newlines=True)
+for line in drop_genre.splitlines():
+    log(line)
 
 log('Cleaning up temporary files ...')
 urllib.request.urlcleanup()
