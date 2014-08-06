@@ -2,6 +2,7 @@
 
 import html
 import os
+import stat
 import subprocess
 import sys
 import urllib.request
@@ -111,6 +112,9 @@ target_file = '{}.mp3'.format(make_safe(title))
 mp3_dest = os.path.join(DEST_DIR, make_safe(album), target_file)
 log('Moving {} to {}'.format(temp_file, mp3_dest))
 os.renames(temp_file, mp3_dest)
+
+log('Changing file permissions')
+os.chmod(mp3_dest, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP)
 
 log('Cleaning up temporary files')
 urllib.request.urlcleanup()
