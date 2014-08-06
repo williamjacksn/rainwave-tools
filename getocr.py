@@ -95,6 +95,16 @@ drop_genre = subprocess.check_output(drop_genre_cmd, universal_newlines=True)
 for line in drop_genre.splitlines():
     log(line)
 
+drop_track_cmd = ['rwtag', 'drop', 'track', temp_file]
+drop_track = subprocess.check_output(drop_track_cmd, universal_newlines=True)
+for line in drop_track.splitlines():
+    log(line)
+
+drop_year_cmd = ['rwtag', 'drop', 'year', temp_file]
+drop_year = subprocess.check_output(drop_year_cmd, universal_newlines=True)
+for line in drop_year.splitlines():
+    log(line)
+
 target_file = '{}.mp3'.format(make_safe(title))
 mp3_dest = os.path.join(DEST_DIR, make_safe(album), target_file)
 log('Moving {} to {}'.format(temp_file, mp3_dest))
@@ -102,5 +112,3 @@ os.renames(temp_file, mp3_dest)
 
 log('Cleaning up temporary files')
 urllib.request.urlcleanup()
-
-#log(ocr_page)
