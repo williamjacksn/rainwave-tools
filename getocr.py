@@ -22,10 +22,10 @@ if ocr_num < 1 or ocr_num > 99999:
     sys.exit('{} is not between 1 and 99999'.format(ocr_num))
 
 log('Processing OCR{:05} ...'.format(ocr_num))
-url = REMIX_URL_TEMPLATE.format(ocr_num)
-log('Attempting to read {} ...'.format(url))
+ocr_url = REMIX_URL_TEMPLATE.format(ocr_num)
+log('Attempting to read {} ...'.format(ocr_url))
 try:
-    ocr_data = urllib.request.urlopen(url)
+    ocr_data = urllib.request.urlopen(ocr_url)
 except urllib.error.HTTPError as e:
     sys.exit(e)
 ocr_page = ocr_data.read().decode()
@@ -58,11 +58,12 @@ log('Downloading mp3 file from {} ...'.format(url))
 temp_file, _ = urllib.request.urlretrieve(url)
 log('Downloaded mp3 file to {}'.format(temp_file))
 
-log(subprocess.check_output(['rwtag', 'set', 'album', album, temp_file]).encode())
-log(subprocess.check_output(['rwtag', 'set', 'title', title, temp_file]).encode())
-log(subprocess.check_output(['rwtag', 'set', 'artist', artist, temp_file]).encode())
-log(subprocess.check_output(['rwtag', 'set', 'comment', 'Remix Info @ OCR', temp_file]).encode())
-log(subprocess.check_output(['rwtag', 'drop', 'genre', temp_file]).encode())
+log(subprocess.check_output(['rwtag', 'set', 'album', album, temp_file]).decode())
+log(subprocess.check_output(['rwtag', 'set', 'title', title, temp_file]).decode())
+log(subprocess.check_output(['rwtag', 'set', 'artist', artist, temp_file]).decode())
+log(subprocess.check_output(['rwtag', 'set', 'www', ocr_url]).decode())
+log(subprocess.check_output(['rwtag', 'set', 'comment', 'Remix Info @ OCR', temp_file]).decode())
+log(subprocess.check_output(['rwtag', 'drop', 'genre', temp_file]).decode())
 
 log('Cleaning up temporary files ...')
 urllib.request.urlcleanup()
