@@ -67,6 +67,10 @@ do_cmd(['rwtag', 'drop', 'genre', temp_file])
 do_cmd(['rwtag', 'drop', 'track', temp_file])
 do_cmd(['rwtag', 'drop', 'year', temp_file])
 
+genre = input('Genre > ')
+if genre:
+    do_cmd(['rwtag', 'set', 'genre', genre, temp_file])
+
 target_file = '{}.mp3'.format(make_safe(title))
 mp3_dest = os.path.join(DEST_DIR, make_safe(album), target_file)
 log('Moving {} to {}'.format(temp_file, mp3_dest))
