@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import html
+import lxml.html
 import os
 import stat
 import subprocess
@@ -14,8 +14,10 @@ REMIX_URL_TEMPLATE = 'http://ocremix.org/remix/OCR{:05}'
 DEST_DIR = '/home/icecast/ocr-staging'
 
 def make_safe(s):
-    unsafe = '!"#%\'()*+,-./:;<=>?@[\]^_`{|}~ '
-    translate_table = dict((ord(char), None) for char in unsafe)
+    unsafe = '!"#%\'()*+,-./:;<=>?@[\]^_`{|}~&あまごい '
+    translate_table = {ord(char): None for char in unsafe}
+    special = dict(zip(map(ord, 'äÉéêíñóöÜü'), 'aEeeinooUu'))
+    translate_table.update(special)
     return s.translate(translate_table)
 
 def do_cmd(cmd):
@@ -44,30 +46,13 @@ try:
 except urllib.error.HTTPError as e:
     sys.exit(e)
 ocr_page = ocr_data.read().decode()
+ocr_tree = lxml.html.fromstring(ocr_page)
 
-_, _, ocr_page = ocr_page.partition('<h1>')
-_, _, ocr_page = ocr_page.partition('href')
-_, _, ocr_page = ocr_page.partition('">')
-album, _, ocr_page = ocr_page.partition('</a>')
-album = html.unescape(album)
-
-title, _, ocr_page = ocr_page.partition('</h1>')
-_, _, title = title.partition('\'')
-title, _, _ = title.rpartition('\'')
-
-_, _, ocr_page = ocr_page.partition('ReMixer(s)</strong>: ')
-dirty_artists, _, ocr_page = ocr_page.partition('</li>')
-dirty_artists = dirty_artists.split(',')
-clean_artists = list()
-for artist in dirty_artists:
-    _, _, artist = artist.partition('">')
-    artist, _, _ = artist.partition('<')
-    clean_artists.append(artist)
-artist = ', '.join(clean_artists)
-
-_, host, ocr_page = ocr_page.partition('http://ocrmirror.org/')
-path, ext, ocr_page = ocr_page.partition('.mp3')
-mp3_url = '{}{}{}'.format(host, path, ext)
+album = ocr_tree.xpath('//h1/a')[0].text
+title = ocr_tree.xpath('//h1/a')[0].tail[2:-2]
+art_tree = ocr_tree.xpath('//div[@id="panel-main"]/div/ul/li')[1]
+artist = ', '.join([a.text for a in art_tree.xpath('a')])
+mp3_url = ocr_tree.xpath('//div[@id="panel-download"]/ul/li/a/@href')[3]
 
 log('Downloading mp3 file from {}'.format(mp3_url))
 temp_file, _ = urllib.request.urlretrieve(mp3_url)
