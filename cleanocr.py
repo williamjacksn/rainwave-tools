@@ -18,7 +18,10 @@ for dirpath, dirnames, filenames in os.walk(cwd):
         if filename.endswith('.mp3'):
             mp3s.append(os.path.join(dirpath, filename))
 
-log('** found {} MP3s'.format(len(mp3s)))
+m = '** found {} MP3'.format(len(mp3s))
+if len(mp3) != 1:
+    m = '{}s'.format(m)
+log(m)
 
 for mp3 in mp3s:
     ocr_id = None
@@ -35,7 +38,7 @@ for mp3 in mp3s:
     if remix.info_url != tag_www:
         log('{} : updating www to {}'.format(mp3, remix.info_url))
         tags.delall('WXXX')
-        tags.add(mutagen.id3.WXXX(url=remix.info_url))
+        tags.add(mutagen.id3.WXXX(encoding=0, url=remix.info_url))
         changed = True
 
     tag_title = tags.getall('TIT2')[0][0]
