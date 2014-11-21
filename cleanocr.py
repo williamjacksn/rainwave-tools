@@ -34,6 +34,11 @@ for mp3 in mp3s:
         log('{} : not an OCR url'.format(mp3))
         continue
     remix = ocremix.OCReMix(ocr_id)
+    try:
+        remix._load_from_url()
+    except:
+        log('{} : could not load url {}'.format(mp3, remix.info_url))
+        continue
 
     if remix.info_url != tag_www:
         log('{} : updating www to {}'.format(mp3, remix.info_url))
