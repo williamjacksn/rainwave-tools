@@ -5,7 +5,8 @@ import ocremix
 import os
 import re
 
-log = print
+def log(message):
+    print(message)
 
 cwd = os.getcwd()
 log('{} : current directory'.format(cwd))
