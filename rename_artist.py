@@ -36,7 +36,7 @@ for mp3 in mp3s:
     for i, artist in enumerate(artists):
         if artist == old_name:
             log('{} : found old artist {}'.format(mp3, repr(old_name)))
-            artists[i] == new_name
+            artists[i] = new_name
             changed = True
     if changed:
         artist_tag = ', '.join(artists)
