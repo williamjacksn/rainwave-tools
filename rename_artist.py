@@ -14,7 +14,7 @@ _, old_name, new_name = sys.argv
 
 cwd = os.getcwd()
 log('{} : current directory'.format(cwd))
-log('** looking to replace {} with {}'.format(repr(old_name), repr(new_name))
+log('** looking to replace {} with {}'.format(repr(old_name), repr(new_name)))
 
 mp3s = []
 
