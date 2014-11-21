@@ -19,7 +19,7 @@ for dirpath, dirnames, filenames in os.walk(cwd):
             mp3s.append(os.path.join(dirpath, filename))
 
 m = '** found {} MP3'.format(len(mp3s))
-if len(mp3) != 1:
+if len(mp3s) != 1:
     m = '{}s'.format(m)
 log(m)
 
