@@ -23,7 +23,7 @@ for dirpath, dirnames, filenames in os.walk(cwd):
         if filename.endswith('.mp3'):
             mp3s.append(os.path.join(dirpath, filename))
 
-m = '** scanning a total of {} MP3'.format(len(mp3s))
+m = '** scanning a total of {} file'.format(len(mp3s))
 if len(mp3s) != 1:
     m = '{}s'.format(m)
 log(m)
@@ -38,7 +38,6 @@ for mp3 in mp3s:
     artists = [a.strip() for a in artist_tag.split(',')]
     for i, artist in enumerate(artists):
         if artist == old_name:
-            log('{} : found old artist {}'.format(mp3, repr(old_name)))
             artists[i] = new_name
             changed = True
     if changed:
@@ -49,7 +48,7 @@ for mp3 in mp3s:
         tags.save(mp3)
         log('{} : new artist tag {}'.format(mp3, repr(artist_tag)))
 
-m = '** updated tags in {} MP3'.format(change_count)
+m = '** updated tags in {} file'.format(change_count)
 if change_count != 1:
     m = '{}s'.format(m)
 log(m)
