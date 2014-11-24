@@ -52,7 +52,7 @@ log('Setting WXXX (www) to {}'.format(repr(remix.info_url)))
 tags.delall('WXXX')
 tags.add(mutagen.id3.WXXX(encoding=0, url=remix.info_url))
 
-log('Setting COMM (comments) to {}'.format(repr(COMMENT)))
+log('Setting COMM (comment) to {}'.format(repr(COMMENT)))
 tags.delall('COMM')
 tags.add(mutagen.id3.COMM(encoding=3, text=[COMMENT]))
 
