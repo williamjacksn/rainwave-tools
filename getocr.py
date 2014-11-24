@@ -42,7 +42,7 @@ tags.add(mutagen.id3.TALB(encoding=3, text=[remix.album]))
 
 log('Setting title to {}'.format(repr(remix.title)))
 tags.delall('TIT2')
-tags.add(mutage.id3.TIT2(encoding=3, text=[remix.title]))
+tags.add(mutagen.id3.TIT2(encoding=3, text=[remix.title]))
 
 log('Setting artist to {}'.format(repr(remix.artist)))
 tags.delall('TPE1')
