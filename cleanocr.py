@@ -28,8 +28,8 @@ for mp3 in mp3s:
     changed = False
     tags = mutagen.id3.ID3(mp3)
     tag_www = tags.getall('WXXX')[0].url
-    for match in re.findall('\d{5}', tag_www):
-        ocr_id = int(match)
+    for match in re.findall('OCR\d{5}', tag_www):
+        ocr_id = int(match[3:])
     if ocr_id is None:
         log('{} : not an OCR url'.format(mp3))
         continue
