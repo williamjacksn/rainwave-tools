@@ -6,7 +6,7 @@ import sys
 def log(message):
     print(message)
 
-if len(sys.argv) < 1:
+if len(sys.argv) < 2:
     log('** please provide one or more mp3 file names')
     sys.exit()
 
