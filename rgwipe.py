@@ -12,6 +12,10 @@ if len(sys.argv) < 1:
 
 for fn in sys.argv[1:]:
     tags = mutagen.id3.ID3(fn)
-    tags.delall('TXXX:replaygain_track_peak')
+    tags.delall('RVA2')
+    tags.delall('TXXX:MP3GAIN_MINMAX')
+    tags.delall('TXXX:replaygain_reference_loudness')
     tags.delall('TXXX:replaygain_track_gain')
+    tags.delall('TXXX:replaygain_track_peak')
     tags.save(fn)
+    log('** wiped replaygain tags from {}'.format(fn))
