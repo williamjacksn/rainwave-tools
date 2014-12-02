@@ -4,6 +4,7 @@ import mutagen.id3
 import os
 import sys
 
+
 def log(message):
     print(message)
 
@@ -18,16 +19,15 @@ log('** looking to replace {} with {}'.format(repr(old_name), repr(new_name)))
 
 mp3s = []
 
-for dirpath, dirnames, filenames in os.walk(cwd):
-    for filename in filenames:
+for root, folders, files in os.walk(cwd):
+    for filename in files:
         if filename.endswith('.mp3'):
-            mp3s.append(os.path.join(dirpath, filename))
+            mp3s.append(os.path.join(root, filename))
 
 m = '** scanning a total of {} file'.format(len(mp3s))
 if len(mp3s) != 1:
     m = '{}s'.format(m)
 log(m)
-
 
 change_count = 0
 
@@ -41,7 +41,7 @@ for mp3 in mp3s:
             artists[i] = new_name
             changed = True
     if changed:
-        change_count = change_count + 1
+        change_count += 1
         artist_tag = ', '.join(artists)
         tags.delall('TPE1')
         tags.add(mutagen.id3.TPE1(encoding=3, text=[artist_tag]))

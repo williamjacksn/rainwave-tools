@@ -7,6 +7,7 @@ import stat
 import sys
 import urllib.request
 
+
 def log(message):
     print(message)
 

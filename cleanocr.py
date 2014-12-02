@@ -5,6 +5,7 @@ import ocremix
 import os
 import re
 
+
 def log(message):
     print(message)
 
@@ -13,10 +14,10 @@ log('{} : current directory'.format(cwd))
 
 mp3s = []
 
-for dirpath, dirnames, filenames in os.walk(cwd):
-    for filename in filenames:
+for root, folders, files in os.walk(cwd):
+    for filename in files:
         if filename.endswith('.mp3'):
-            mp3s.append(os.path.join(dirpath, filename))
+            mp3s.append(os.path.join(root, filename))
 
 m = '** found {} MP3'.format(len(mp3s))
 if len(mp3s) != 1:
@@ -35,7 +36,7 @@ for mp3 in mp3s:
         continue
     remix = ocremix.OCReMix(ocr_id)
     try:
-        remix._load_from_url()
+        remix.load_from_url()
     except:
         log('{} : could not load url {}'.format(mp3, remix.info_url))
         continue

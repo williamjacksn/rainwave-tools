@@ -3,6 +3,7 @@
 import mutagen.id3
 import sys
 
+
 def log(message):
     print(message)
 
