@@ -24,6 +24,8 @@ if len(mp3s) != 1:
     m = '{}s'.format(m)
 log(m)
 
+mp3s.sort()
+
 for mp3 in mp3s:
     ocr_id = None
     changed = False
