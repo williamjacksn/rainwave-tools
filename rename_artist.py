@@ -29,6 +29,7 @@ if len(mp3s) != 1:
     m = '{}s'.format(m)
 log(m)
 
+mp3s.sort()
 change_count = 0
 
 for mp3 in mp3s:
