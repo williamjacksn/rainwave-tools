@@ -21,9 +21,9 @@ for root, folders, files in os.walk(cwd):
             if not used_genre:
                 mp3_path = os.path.join(root, filename)
                 tags = mutagen.id3.ID3(mp3_path)
-                tag_genres = tags.getall('TCON')[0].text
-                for tag_genre in tag_genres:
-                    used_genre = tag_genre
+                genre_frames = tags.getall('TCON')
+                for frame in genre_frames:
+                    used_genre = frame.text[0]
                     break
     if not has_mp3s:
         log('{} : no mp3s'.format(root))
