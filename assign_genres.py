@@ -20,7 +20,7 @@ for root, folders, files in os.walk(cwd):
             has_mp3s = True
             if not used_genre:
                 mp3_path = os.path.join(root, filename)
-                tags = mutagen.id3.ID3(filename)
+                tags = mutagen.id3.ID3(mp3_path)
                 tag_genres = tags.getall('TCON')[0].text
                 for tag_genre in tag_genres:
                     used_genre = tag_genre
