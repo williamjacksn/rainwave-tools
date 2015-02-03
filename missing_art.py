@@ -33,7 +33,7 @@ def main():
         album_name = str(row[1])
         album_fn = 'a_{}_120.jpg'.format(album_id)
         if not art_dir.joinpath(album_fn).exists():
-            log('No art found for album {}: {}'.format(album_id, album_name))
+            log(album_name)
 
 
 if __name__ == '__main__':
