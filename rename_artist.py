@@ -10,6 +10,7 @@ def log(message):
 
 if len(sys.argv) < 3:
     log('Usage: rename_artist <old_name> <new_name>')
+    sys.exit()
 
 _, old_name, new_name = sys.argv
 
