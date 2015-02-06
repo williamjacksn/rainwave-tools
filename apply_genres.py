@@ -37,8 +37,9 @@ for root, folders, files in os.walk(cwd):
         if filename.endswith('.mp3'):
             mp3_path = os.path.join(root, filename)
             tags = mutagen.id3.ID3(mp3_path)
-            for tag_genre in tags.getall('TCON')[0].text:
-                current_genre = tag_genre
+            for genre_tag in tags.getall('TCON'):
+                for genre_text in genre_tag.text:
+                    current_genre = genre_text
                 break
             else:
                 current_genre = ''
