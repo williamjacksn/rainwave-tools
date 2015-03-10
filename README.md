@@ -24,6 +24,10 @@ Tools for maintaining a local library of music for [Rainwave][]
 
 *   missing_art.py: find albums that do not have album art
 
+### Rating management
+
+*   move_ratings.py: move ratings from one song to another
+
 ### Replaygain management
 
 *   rgwipe.py: remove all replaygain tags from mp3 files
