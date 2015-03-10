@@ -27,7 +27,7 @@ def connect_db():
 
 def main():
     if len(sys.argv) > 2:
-        old_id, new_id = sys.argv[1:2]
+        old_id, new_id = sys.argv[1:3]
     else:
         usage()
 
