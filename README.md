@@ -1,5 +1,9 @@
 Tools for maintaining a local library of music for [Rainwave][]
 
+### General tag management
+
+*   rwtag.py: view and manipulate ID3 tags on MP3 files
+
 ### Title management
 
 *   titles.py: interactively update titles on all mp3 files in a directory
