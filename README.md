@@ -1,43 +1,29 @@
 Tools for maintaining a local library of music for [Rainwave][]
 
-### General tag management
+### Dealing with mp3 files and id3 tags
 
-*   rwtag.py: view and manipulate ID3 tags on MP3 files
-
-### Title management
-
-*   titles.py: interactively update titles on all mp3 files in a directory
-*   song_search.py: search the database for a song by title substring
-
-### Artist management
-
-*   rename_artist.py: change an artist name in mp3 files, keeping multiple
+*   `apply_genres`: apply genres that are assigned using `assign_genres`
+*   `assign_genres`: interactively assign genres to directories of mp3 files
+*   `rename_artist`: change an artist name in mp3 files, keeping multiple
     artists intact
+*   `rename_genre`: change a genre in mp3 files, keeping multiple genres intact
+*   `rgwipe`: remove all replaygain tags from mp3 files
+*   `rwtag`: view and manipulate id3 tags on mp3 files
+*   `titles`: interactively update titles on all mp3 files in a directory
 
-### Genre management
+### Dealing with the database
 
-*   assign_genres.py: interactively assign genres to directories of mp3 files
-*   apply_genres.py: apply genres that are assigned using assign_genres.py
-*   rename_genre.py: change a genre in mp3 files, keeping multiple genres intact
+*   `missing_art`: find albums that do not have album art
+*   `move_ratings`: move ratings from one song to another
+*   `song_search`: search the database for a song by title substring
 
-### Art management
+### Dealing with OCR
 
-*   missing_art.py: find albums that do not have album art
-
-### Rating management
-
-*   move_ratings.py: move ratings from one song to another
-
-### Replaygain management
-
-*   rgwipe.py: remove all replaygain tags from mp3 files
-
-### OCR management
-
-*   ocremix.py: module for parsing a remix info page on ocremix.org for metadata
-*   getocr.py: download remixes from ocremix.org
-*   cleanocr.py: update local files with metadata from ocremix.org
-*   ocra2ocr.py: update local metadata when a song on an OCR album gets an
+*   `ocremix.py`: Python module for parsing a remix info page on ocremix.org for
+    metadata
+*   `getocr`: download remixes from ocremix.org
+*   `cleanocr`: update local files with metadata from ocremix.org
+*   `ocra2ocr`: update local metadata when a song on an OCR album gets an
     official OCR release
 
 [rainwave]: http://rainwave.cc/
