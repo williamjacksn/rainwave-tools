@@ -26,7 +26,7 @@ else:
 with conn.cursor() as cur:
     sql = ('select song_id, album_name, song_title, song_filename from '
            'r4_songs join r4_albums using (album_id) where song_title ilike '
-           '%s order by album_name, song_title')
+           '%s and song_verified is true order by album_name, song_title')
     cur.execute(sql, ['%{}%'.format(query)])
     rows = cur.fetchall()
 
