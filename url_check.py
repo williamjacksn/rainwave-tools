@@ -99,7 +99,9 @@ def main():
                 code = '---'
             else:
                 if resp.status == 200:
-                    c['good_urls'] = c.get('good_urls', []).append(url)
+                    good_urls = c.get('good_urls', [])
+                    good_urls.append(url)
+                    c['good_urls'] = good_urls
                     set_config(c)
                     continue
                 code = resp.status
