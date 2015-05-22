@@ -84,7 +84,7 @@ def main():
     count = 0
     for row in urls:
         count += 1
-        print('{}\r'.format(count))
+        print('{}\r'.format(count), end='')
         url = str(row[0])
         if url in c.get('good_urls', []):
             continue
