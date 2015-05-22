@@ -16,6 +16,7 @@ Tools for maintaining a local library of music for [Rainwave][]
 *   `missing_art`: find albums that do not have album art
 *   `move_ratings`: move ratings from one song to another
 *   `song_search`: search the database for a song by title substring
+*   `url_check`: check the validity of urls in the database
 
 ### Dealing with OCR
 
