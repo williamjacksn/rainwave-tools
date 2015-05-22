@@ -81,7 +81,10 @@ def main():
             tags.save()
             log('{} : new www {!r}'.format(filename, _new_url))
 
+    count = 0
     for row in urls:
+        count += 1
+        print('{}\r'.format(count))
         url = str(row[0])
         if url in c.get('good_urls', []):
             continue
