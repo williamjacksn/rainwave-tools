@@ -24,17 +24,14 @@ def usage(exit_code=0):
     log('         - show tags in an mp3 file')
     exit(exit_code)
 
-valid_tags = ['album', 'art', 'artist', 'artist2', 'comment', 'composer',
-              'disc', 'encoder', 'genre', 'isrc', 'popm', 'private', 'tcmp',
-              'tcop', 'tenc', 'text', 'tit1', 'tit3', 'title', 'toal', 'tope',
-              'tpub', 'track', 'ufid', 'woar', 'www', 'year']
-
 tag_spec = dict(album='TALB', art='APIC', artist='TPE1', artist2='TPE2',
-                comment='COMM', composer='TCOM', disc='TPOS', encoder='TSSE',
-                genre='TCON', isrc='TSRC', popm='POPM', private='PRIV',
-                tcmp='TCMP', tcop='TCOP', tenc='TENC', text='TXXX', tit1='TIT1',
-                tit3='TIT3', title='TIT2', toal='TOAL', tope='TOPE',
-                tpub='TPUB', track='TRCK', ufid='UFID', woar='WOAR', www='WXXX',
+                bpm='TBPM', comment='COMM', composer='TCOM', disc='TPOS',
+                encoder='TSSE', genre='TCON', isrc='TSRC', popm='POPM',
+                private='PRIV', tcmp='TCMP', tcop='TCOP', tdrl='TDRL',
+                tdtg='TDTG', tenc='TENC', text='TXXX', tflt='TFLT', tit1='TIT1',
+                tit3='TIT3', title='TIT2', tmed='TMED', toal='TOAL',
+                tope='TOPE', tpub='TPUB', track='TRCK', tsst='TSST',
+                ufid='UFID', wcom='WCOM', woaf='WOAF', woar='WOAR', www='WXXX',
                 year='TDRC')
 
 if len(sys.argv) > 1:
@@ -48,7 +45,7 @@ if cmd == 'help':
 elif cmd == 'drop':
     if len(sys.argv) > 2:
         tag = sys.argv[2]
-        if tag in valid_tags:
+        if tag in tag_spec.keys():
             if len(sys.argv) > 3:
                 for fn in sys.argv[3:]:
                     try:
@@ -90,7 +87,7 @@ elif cmd == 'dump':
 elif cmd == 'set':
     if len(sys.argv) > 2:
         tag = sys.argv[2]
-        if tag in valid_tags:
+        if tag in tag_spec.keys():
             if len(sys.argv) > 3:
                 value = sys.argv[3]
                 if len(sys.argv) > 4:
