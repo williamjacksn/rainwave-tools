@@ -15,6 +15,8 @@ for fn in sys.argv[1:]:
     tags = mutagen.id3.ID3(fn)
     tags.delall('RVA2')
     tags.delall('TXXX:MP3GAIN_MINMAX')
+    tags.delall('TXXX:replaygain_album_gain')
+    tags.delall('TXXX:replaygain_album_peak')
     tags.delall('TXXX:replaygain_reference_loudness')
     tags.delall('TXXX:replaygain_track_gain')
     tags.delall('TXXX:replaygain_track_peak')
