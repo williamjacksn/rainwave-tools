@@ -6,9 +6,9 @@ import os
 import pathlib
 import psycopg2
 import requests
-import requests.exceptions
 import sys
 
+from requests.exceptions import ConnectionError, MissingSchema
 
 def log(message):
     print(message)
@@ -86,7 +86,7 @@ def main():
                 continue
             else:
                 code = resp.status_code
-        except requests.exceptions.MissingSchema:
+        except (MissingSchema, ConnectionError):
             code = '---'
         new_url = input('{} {} > '.format(code, url))
         if new_url:
