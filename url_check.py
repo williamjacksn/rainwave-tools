@@ -78,6 +78,8 @@ def main():
             continue
         try:
             resp = requests.head(url)
+            if resp.status_code == 405:
+                resp = requests.get(url)
             if resp.status_code == 200:
                 good_urls = c.get('good_urls', [])
                 good_urls.append(url)
