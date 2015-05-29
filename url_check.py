@@ -5,12 +5,9 @@ import mutagen.id3
 import os
 import pathlib
 import psycopg2
-import socket
+import requests
+import requests.exceptions
 import sys
-import urllib.request
-
-from http.client import BadStatusLine
-from urllib.error import HTTPError, URLError
 
 
 def log(message):
@@ -38,13 +35,6 @@ def set_config(c):
         json.dump(c, f)
 
 
-class NoRedirect(urllib.request.HTTPErrorProcessor):
-    def http_response(self, request, response):
-        return response
-
-    https_response = http_response
-
-
 def main():
     if 'RW_DB_PASS' in os.environ:
         rw_db_pass = os.environ.get('RW_DB_PASS')
@@ -62,8 +52,6 @@ def main():
                'true order by song_url')
         cur.execute(sql)
         urls = cur.fetchall()
-
-    opener = urllib.request.build_opener(NoRedirect)
 
     def replace_url(old_url, _new_url):
         with cnx.cursor() as cur:
@@ -88,26 +76,18 @@ def main():
         url = str(row[0])
         if url in c.get('good_urls', []):
             continue
-        code = None
         try:
-            req = urllib.request.Request(url, method='HEAD')
-        except ValueError:
-            code = '---'
-        if code is None:
-            try:
-                resp = opener.open(req, timeout=5)
-            except HTTPError as err:
-                code = err.status
-            except (URLError, socket.timeout, BadStatusLine):
-                code = '---'
+            resp = requests.head(url)
+            if resp.status_code == 200:
+                good_urls = c.get('good_urls', [])
+                good_urls.append(url)
+                c['good_urls'] = good_urls
+                set_config(c)
+                continue
             else:
-                if resp.status == 200:
-                    good_urls = c.get('good_urls', [])
-                    good_urls.append(url)
-                    c['good_urls'] = good_urls
-                    set_config(c)
-                    continue
-                code = resp.status
+                code = resp.status_code
+        except requests.exceptions.MissingSchema:
+            code = '---'
         new_url = input('{} {} > '.format(code, url))
         if new_url:
             replace_url(url, new_url)
