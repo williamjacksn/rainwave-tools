@@ -78,7 +78,7 @@ def main():
             continue
         try:
             resp = requests.head(url)
-            if resp.status_code == 405:
+            if resp.status_code in [403, 405]:
                 resp = requests.get(url)
             if resp.status_code == 200:
                 good_urls = c.get('good_urls', [])
