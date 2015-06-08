@@ -79,7 +79,7 @@ elif cmd == 'dump':
             except IOError as ioe:
                 log('ERROR : {}'.format(ioe))
                 continue
-            log(str(md))
+            log(md.pprint())
             log('---------')
     else:
         log('ERROR : missing filename')
