@@ -2,6 +2,7 @@
 
 import mutagen.id3
 import os
+import readline
 
 
 def log(message):
