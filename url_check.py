@@ -69,6 +69,20 @@ def main():
             tags.save()
             log('{} : new www {!r}'.format(filename, _new_url))
 
+    def get_files_with_url(q_url):
+        files = []
+        with cnx.cursor() as cur:
+            sql = ('select distinct song_filename from r4_songs where '
+                   'song_verified is true and song_url = %s order by '
+                   'song_filename')
+            cur.execute(sql, [q_url])
+            rows = cur.fetchall()
+
+        for row in rows:
+            files.append(str(row[0]))
+
+        return files
+
     count = 0
     for row in urls:
         count += 1
@@ -90,9 +104,16 @@ def main():
                 code = resp.status_code
         except (MissingSchema, ConnectionError):
             code = '---'
-        new_url = input('{} {} > '.format(code, url))
-        if new_url:
-            replace_url(url, new_url)
+        while True:
+            new_url = input('{} {} > '.format(code, url))
+            if new_url == '?':
+                for file in get_files_with_url(url):
+                    log('  * ' + file)
+            elif new_url:
+                replace_url(url, new_url)
+                break
+            else:
+                break
 
 
 if __name__ == '__main__':
