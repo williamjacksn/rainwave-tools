@@ -88,7 +88,7 @@ def main():
         count += 1
         print('{}\r'.format(count), end='')
         url = str(row[0])
-        if url in c.get('good_urls', []):
+        if url is None or url in c.get('good_urls', []):
             continue
         try:
             resp = requests.head(url)
