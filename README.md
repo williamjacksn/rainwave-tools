@@ -9,6 +9,8 @@ Tools for maintaining a local library of music for [Rainwave][]
 *   `rename_artist`: change an artist name in mp3 files, keeping multiple
     artists intact
 *   `rename_genre`: change a genre in mp3 files, keeping multiple genres intact
+*   `retag`: interactively edit title, album, and artist tags on all mp3 files
+    in a directory
 *   `rgwipe`: remove all replaygain tags from mp3 files
 *   `rwtag`: view and manipulate id3 tags on mp3 files
 *   `titles`: interactively update titles on all mp3 files in a directory
