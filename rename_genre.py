@@ -36,7 +36,10 @@ change_count = 0
 for mp3 in mp3s:
     changed = False
     tags = mutagen.id3.ID3(mp3)
-    genre_tag = tags.getall('TCON')[0].text[0]
+    try:
+        genre_tag = tags.getall('TCON')[0].text[0]
+    except IndexError:
+        continue
     genres = [a.strip() for a in genre_tag.split(',')]
     for i, genre in enumerate(genres):
         if genre == old_name:
