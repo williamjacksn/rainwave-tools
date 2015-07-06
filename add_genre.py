@@ -14,7 +14,7 @@ def add_genre(path, genre):
         for child in path.iterdir():
             add_genre(child, genre)
     elif path.suffix == '.mp3':
-        tags = mutagen.id3.ID3(path)
+        tags = mutagen.id3.ID3(str(path))
         genre_tag = tags.getall('TCON')[0].text[0]
         genres = set([a.strip() for a in genre_tag.split(',')])
         if genre not in genres:
