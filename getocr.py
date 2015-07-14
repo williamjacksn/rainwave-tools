@@ -37,30 +37,30 @@ log('Downloaded mp3 file to {}'.format(temp_file))
 
 tags = mutagen.id3.ID3(temp_file)
 
-log('Setting TALB (album) to {}'.format(repr(remix.album)))
+log('Setting TALB (album) to {!r}'.format(remix.album))
 tags.delall('TALB')
 tags.add(mutagen.id3.TALB(encoding=3, text=[remix.album]))
 
-log('Setting TIT2 (title) to {}'.format(repr(remix.title)))
+log('Setting TIT2 (title) to {!r}'.format(remix.title))
 tags.delall('TIT2')
 tags.add(mutagen.id3.TIT2(encoding=3, text=[remix.title]))
 
-log('Setting TPE1 (artist) to {}'.format(repr(remix.artist)))
+log('Setting TPE1 (artist) to {!r}'.format(remix.artist))
 tags.delall('TPE1')
 tags.add(mutagen.id3.TPE1(encoding=3, text=[remix.artist]))
 
-log('Setting WXXX (www) to {}'.format(repr(remix.info_url)))
+log('Setting WXXX (www) to {!r}'.format(remix.info_url))
 tags.delall('WXXX')
 tags.add(mutagen.id3.WXXX(encoding=0, url=remix.info_url))
 
-log('Setting COMM (comment) to {}'.format(repr(COMMENT)))
+log('Setting COMM (comment) to {!r}'.format(COMMENT))
 tags.delall('COMM')
 tags.add(mutagen.id3.COMM(encoding=3, text=[COMMENT]))
 
 tags.delall('TCON')
 genre = input(GENRE_PROMPT)
 if genre:
-    log('Setting TCON (genre) to {}'.format(repr(genre)))
+    log('Setting TCON (genre) to {!r}'.format(genre))
     tags.add(mutagen.id3.TCON(encoding=3, text=[genre]))
 
 log('Dropping unnecessary tags')

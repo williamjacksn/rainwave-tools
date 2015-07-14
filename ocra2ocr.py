@@ -15,7 +15,7 @@ log('{} : setting www to {}'.format(fn, url))
 tags.delall('WXXX')
 tags.add(mutagen.id3.WXXX(encoding=0, url=url))
 comment = 'Remix Info @ OCR'
-log('{} : setting comment to {}'.format(fn, repr(comment)))
+log('{} : setting comment to {!r}'.format(fn, comment))
 tags.delall('COMM')
 tags.add(mutagen.id3.COMM(encoding=3, text=[comment]))
 tags.save(fn)

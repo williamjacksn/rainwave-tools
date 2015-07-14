@@ -23,7 +23,7 @@ def add_genre(path, genre):
             tags.delall('TCON')
             tags.add(mutagen.id3.TCON(encoding=3, text=[genre_tag]))
             tags.save()
-            log('{} : new genre tag {}'.format(path, repr(genre_tag)))
+            log('{} : new genre tag {!r}'.format(path, genre_tag))
 
 
 def main():

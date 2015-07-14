@@ -16,7 +16,7 @@ _, old_name, new_name = sys.argv
 
 cwd = os.getcwd()
 log('** starting in {}'.format(cwd))
-log('** looking to replace {} with {}'.format(repr(old_name), repr(new_name)))
+log('** looking to replace {!r} with {!r}'.format(old_name, new_name))
 
 mp3s = []
 
@@ -48,7 +48,7 @@ for mp3 in mp3s:
         tags.delall('TPE1')
         tags.add(mutagen.id3.TPE1(encoding=3, text=[artist_tag]))
         tags.save(mp3)
-        log('{} : new artist tag {}'.format(mp3, repr(artist_tag)))
+        log('{} : new artist tag {!r}'.format(mp3, artist_tag))
 
 m = '** updated tags in {} file'.format(change_count)
 if change_count != 1:
