@@ -11,6 +11,7 @@ parser.add_argument('dir', nargs='?', default='.')
 
 args = parser.parse_args()
 
+
 def log(message):
     print('{}'.format(message))
 
