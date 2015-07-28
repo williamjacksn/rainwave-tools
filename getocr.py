@@ -65,7 +65,8 @@ if genre:
 
 log('Dropping unnecessary tags')
 for tag in ['APIC', 'TCMP', 'TCOM', 'TCOP', 'TDRC', 'TENC', 'TIT1', 'TIT3',
-            'TOAL', 'TOPE', 'TPE2', 'TPUB', 'TRCK', 'TSSE', 'TXXX', 'WOAR']:
+            'TOAL', 'TOPE', 'TPE2', 'TPUB', 'TRCK', 'TSSE', 'TXXX', 'USLT',
+            'WOAR']:
     tags.delall(tag)
 
 tags.save(temp_file)
