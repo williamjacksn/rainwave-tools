@@ -27,13 +27,14 @@ def usage(exit_code=0):
 tag_spec = dict(album='TALB', art='APIC', artist='TPE1', artist2='TPE2',
                 bpm='TBPM', comment='COMM', composer='TCOM', disc='TPOS',
                 encoder='TSSE', genre='TCON', isrc='TSRC', lyric='USLT',
-                popm='POPM', private='PRIV', tcmp='TCMP', tcop='TCOP',
-                tdrl='TDRL', tdtg='TDTG', tenc='TENC', text='TXXX', tflt='TFLT',
-                tit1='TIT1', tit3='TIT3', title='TIT2', tmed='TMED',
-                toal='TOAL', tope='TOPE', tpe2='TPE2', tpub='TPUB',
+                popm='POPM', private='PRIV', rva2='RVA2', tcmp='TCMP',
+                tcop='TCOP', tdrl='TDRL', tdtg='TDTG', tenc='TENC', text='TXXX',
+                tflt='TFLT', tit1='TIT1', tit3='TIT3', title='TIT2',
+                tmed='TMED', toal='TOAL', tope='TOPE', tpe2='TPE2', tpub='TPUB',
                 track='TRCK', tsst='TSST', ufid='UFID', wcom='WCOM',
                 woaf='WOAF', woar='WOAR', www='WXXX', year='TDRC')
 
+cmd = None
 if len(sys.argv) > 1:
     cmd = sys.argv[1]
 else:
