@@ -31,8 +31,13 @@ def set_groups(path, groups=None):
 
 
 def get_mp3s(paths):
+    if not isinstance(paths, list):
+        paths = [paths]
     for path in paths:
-        p = pathlib.Path(path).resolve()
+        if isinstance(path, pathlib.Path):
+            p = path.resolve()
+        else:
+            p = pathlib.Path(path).resolve()
         if p.is_dir():
             for item in p.iterdir():
                 for mp3 in get_mp3s(item):
