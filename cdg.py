@@ -26,7 +26,7 @@ def set_groups(path, groups=None):
     if groups:
         group_tag = ', '.join(groups)
         tags.add(mutagen.id3.TCON(encoding=3, text=[group_tag]))
-    log('{} : cooldown groups: {!r}'.format(path, groups))
+    log('{} : cooldown groups: {!r}'.format(path, list(groups)))
     tags.save()
 
 
