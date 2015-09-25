@@ -24,15 +24,19 @@ def usage(exit_code=0):
     log('         - show tags in an mp3 file')
     exit(exit_code)
 
-tag_spec = dict(album='TALB', art='APIC', artist='TPE1', artist2='TPE2',
-                bpm='TBPM', comment='COMM', composer='TCOM', disc='TPOS',
-                encoder='TSSE', genre='TCON', isrc='TSRC', lyric='USLT',
-                popm='POPM', private='PRIV', rva2='RVA2', tcmp='TCMP',
-                tcop='TCOP', tdrl='TDRL', tdtg='TDTG', tenc='TENC', text='TXXX',
-                tflt='TFLT', tit1='TIT1', tit3='TIT3', title='TIT2',
-                tmed='TMED', toal='TOAL', tope='TOPE', tpe2='TPE2', tpub='TPUB',
-                track='TRCK', tsst='TSST', ufid='UFID', wcom='WCOM',
-                woaf='WOAF', woar='WOAR', www='WXXX', year='TDRC')
+tag_spec = dict(album='TALB', apic='APIC', art='APIC', artist='TPE1',
+                artist2='TPE2', bpm='TBPM', comm='COMM', comment='COMM',
+                composer='TCOM', disc='TPOS', encoder='TSSE', genre='TCON',
+                isrc='TSRC', lyric='USLT', popm='POPM', priv='PRIV',
+                private='PRIV', rva2='RVA2', talb='TALB', tbpm='TBPM',
+                tcmp='TCMP', tcom='TCOM', tcon='TCON', tcop='TCOP', tdrc='TDRC',
+                tdrl='TDRL', tdtg='TDTG', tenc='TENC', text='TXXX', tflt='TFLT',
+                tit1='TIT1', tit2='TIT2', tit3='TIT3', title='TIT2',
+                tmed='TMED', toal='TOAL', tope='TOPE', tpe1='TPE1', tpe2='TPE2',
+                tpos='TPOS', tpub='TPUB', track='TRCK', trck='TRCK',
+                tsrc='TSRC', tsse='TSSE', tsst='TSST', txxx='TXXX', ufid='UFID',
+                uslt='USLT', wcom='WCOM', woaf='WOAF', woar='WOAR', www='WXXX',
+                wxxx='WXXX', year='TDRC')
 
 cmd = None
 if len(sys.argv) > 1:
