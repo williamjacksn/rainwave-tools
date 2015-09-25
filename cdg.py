@@ -9,24 +9,24 @@ def log(m):
     print(m)
 
 
-def get_genres(file):
+def get_groups(path):
     rv = set()
-    tags = mutagen.id3.ID3(str(file))
-    for genre_tag in tags.getall('TCON'):
-        for genre_text in genre_tag.text:
-            rv = rv | set([a.strip() for a in genre_text.split(',')])
+    tags = mutagen.id3.ID3(str(path))
+    for group_tag in tags.getall('TCON'):
+        for group_text in group_tag.text:
+            rv = rv | set([a.strip() for a in group_text.split(',')])
     return rv
 
 
-def set_genres(file, genres=None):
-    tags = mutagen.id3.ID3(str(file))
+def set_groups(path, groups=None):
+    if groups is None:
+        groups = set()
+    tags = mutagen.id3.ID3(str(path))
     tags.delall('TCON')
-    if genres:
-        genre_tag = ', '.join(genres)
-        tags.add(mutagen.id3.TCON(encoding=3, text=[genre_tag]))
-        log('{} : new genre tag {!r}'.format(file, genre_tag))
-    else:
-        log('{} : dropping genre tag'.format(file))
+    if groups:
+        group_tag = ', '.join(groups)
+        tags.add(mutagen.id3.TCON(encoding=3, text=[group_tag]))
+    log('{} : cooldown groups: {!r}'.format(path, groups))
     tags.save()
 
 
@@ -35,8 +35,8 @@ def get_mp3s(paths):
         p = pathlib.Path(path).resolve()
         if p.is_dir():
             for item in p.iterdir():
-                if item.name.endswith('.mp3'):
-                    yield item
+                for mp3 in get_mp3s(item):
+                    yield mp3
         else:
             if p.name.endswith('.mp3'):
                 yield p
@@ -44,46 +44,47 @@ def get_mp3s(paths):
 
 def cdg_add(args):
     for f in get_mp3s(args.path):
-        cdgs = get_genres(f)
+        cdgs = get_groups(f)
         if args.group not in cdgs:
             cdgs.add(args.group)
-            set_genres(f, cdgs)
+            set_groups(f, cdgs)
 
 
 def cdg_drop(args):
     for f in get_mp3s(args.path):
-        cdgs = get_genres(f)
+        cdgs = get_groups(f)
         if args.group in cdgs:
             cdgs.discard(args.group)
-            set_genres(f, cdgs)
+            set_groups(f, cdgs)
 
 
 def cdg_list(args):
     for f in get_mp3s(args.path):
-        cdgs = get_genres(f)
+        cdgs = get_groups(f)
         log('{} : {}'.format(f, list(cdgs)))
 
 
 def cdg_rename(args):
     for f in get_mp3s(args.path):
-        cdgs = get_genres(f)
+        cdgs = get_groups(f)
         if args.old_group in cdgs:
             cdgs.discard(args.old_group)
             cdgs.add(args.new_group)
-            set_genres(f, cdgs)
+            set_groups(f, cdgs)
 
 
-def main():
+def parse_args():
     desc = 'Manage cooldown groups (genre tags) in mp3 files'
     ap = argparse.ArgumentParser(description=desc)
     sp = ap.add_subparsers(dest='command', title='commands')
     sp.required = True
 
     path_help = ('A file or directory to process. If you specify a directory, '
-                 'all files in the directory will be processed. If you do not '
-                 'specify this argument, it will default to the current '
-                 'working directory. In any case, only files with the '
-                 'extension \'.mp3\' will be processed.')
+                 'all files and subdirectories in the directory will be '
+                 'processed recursively. If you do not specify this argument, '
+                 'it will default to the current working directory. In any '
+                 'case, only files with the extension \'.mp3\' will be '
+                 'processed.')
 
     ls_help = 'Show the current cooldown groups for one or more mp3 files'
     ps_ls = sp.add_parser('ls', aliases=['list'], help=ls_help,
@@ -118,7 +119,11 @@ def main():
     ps_mv.add_argument('path', nargs='*', default='.', help=path_help)
     ps_mv.set_defaults(func=cdg_rename)
 
-    args = ap.parse_args()
+    return ap.parse_args()
+
+
+def main():
+    args = parse_args()
     args.func(args)
 
 if __name__ == '__main__':
