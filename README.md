@@ -5,11 +5,11 @@ Tools for maintaining a local library of music for [Rainwave][]
 *   `add_genre`: add a genre to mp3 files, leaving existing genres in place
 *   `apply_genres`: apply genres that are assigned using `assign_genres`
 *   `assign_genres`: interactively assign genres to directories of mp3 files
+*   `cdg`: manage cooldown groups (genre tags) in mp3 files
 *   `normalize_filenames`: automatically rename all files in a directory based
     on information in id3 tags
 *   `rename_artist`: change an artist name in mp3 files, keeping multiple
     artists intact
-*   `rename_genre`: change a genre in mp3 files, keeping multiple genres intact
 *   `retag`: interactively edit title, album, and artist tags on all mp3 files
     in a directory
 *   `rgwipe`: remove all replaygain tags from mp3 files
