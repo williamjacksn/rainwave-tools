@@ -30,76 +30,95 @@ def set_genres(file, genres=None):
     tags.save()
 
 
-def cdg_add(args):
-    for f in args.files:
-        p = pathlib.Path(f).resolve()
-        cdgs = get_genres(p)
-        if args.genre not in cdgs:
-            cdgs.add(args.genre)
-            set_genres(p, cdgs)
-
-
-def cdg_drop(args):
-    for f in args.files:
-        p = pathlib.Path(f).resolve()
-        cdgs = get_genres(p)
-        if args.genre in cdgs:
-            cdgs.discard(args.genre)
-            set_genres(p, cdgs)
-
-
-def cdg_list(args):
-    file_list = []
-    for f in args.paths:
-        p = pathlib.Path(f).resolve()
+def get_mp3s(paths):
+    for path in paths:
+        p = pathlib.Path(path).resolve()
         if p.is_dir():
             for item in p.iterdir():
                 if item.name.endswith('.mp3'):
-                    file_list.append(item)
+                    yield item
         else:
             if p.name.endswith('.mp3'):
-                file_list.append(p)
-    for f in file_list:
+                yield p
+
+
+def cdg_add(args):
+    for f in get_mp3s(args.path):
+        cdgs = get_genres(f)
+        if args.group not in cdgs:
+            cdgs.add(args.group)
+            set_genres(f, cdgs)
+
+
+def cdg_drop(args):
+    for f in get_mp3s(args.path):
+        cdgs = get_genres(f)
+        if args.group in cdgs:
+            cdgs.discard(args.group)
+            set_genres(f, cdgs)
+
+
+def cdg_list(args):
+    for f in get_mp3s(args.path):
         cdgs = get_genres(f)
         log('{} : {}'.format(f, list(cdgs)))
 
 
 def cdg_rename(args):
-    for f in args.files:
-        p = pathlib.Path(f).resolve()
-        cdgs = get_genres(p)
-        if args.old_genre in cdgs:
-            cdgs.discard(args.old_genre)
-            cdgs.add(args.new_genre)
-            set_genres(p, cdgs)
+    for f in get_mp3s(args.path):
+        cdgs = get_genres(f)
+        if args.old_group in cdgs:
+            cdgs.discard(args.old_group)
+            cdgs.add(args.new_group)
+            set_genres(f, cdgs)
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers(dest='command')
-    subparsers.required = True
+    desc = 'Manage cooldown groups (genre tags) in mp3 files'
+    ap = argparse.ArgumentParser(description=desc)
+    sp = ap.add_subparsers(dest='command', title='commands')
+    sp.required = True
 
-    parser_list = subparsers.add_parser('list', aliases=['ls'])
-    parser_list.add_argument('paths', nargs='*', default='.')
-    parser_list.set_defaults(func=cdg_list)
+    path_help = ('A file or directory to process. If you specify a directory, '
+                 'all files in the directory will be processed. If you do not '
+                 'specify this argument, it will default to the current '
+                 'working directory. In any case, only files with the '
+                 'extension \'.mp3\' will be processed.')
 
-    parser_add = subparsers.add_parser('add')
-    parser_add.add_argument('genre')
-    parser_add.add_argument('files', nargs='+')
-    parser_add.set_defaults(func=cdg_add)
+    ls_help = 'Show the current cooldown groups for one or more mp3 files'
+    ps_ls = sp.add_parser('ls', aliases=['list'], help=ls_help,
+                          description=ls_help)
+    ps_ls.add_argument('path', nargs='*', default='.', help=path_help)
+    ps_ls.set_defaults(func=cdg_list)
 
-    parser_drop = subparsers.add_parser('drop', aliases=['rm'])
-    parser_drop.add_argument('genre')
-    parser_drop.add_argument('files', nargs='+')
-    parser_drop.set_defaults(func=cdg_drop)
+    add_help = 'Add a cooldown group to one or more mp3 files'
+    add_group_help = 'The cooldown group to add to the specified files.'
+    ps_add = sp.add_parser('add', help=add_help, description=add_help)
+    ps_add.add_argument('group', help=add_group_help)
+    ps_add.add_argument('path', nargs='*', default='.', help=path_help)
+    ps_add.set_defaults(func=cdg_add)
 
-    parser_rename = subparsers.add_parser('rename', aliases=['mv'])
-    parser_rename.add_argument('old_genre')
-    parser_rename.add_argument('new_genre')
-    parser_rename.add_argument('files', nargs='+')
-    parser_rename.set_defaults(func=cdg_rename)
+    rm_help = 'Remove a cooldown group from one or more mp3 files'
+    rm_group_help = 'The cooldown group to remove from the specified files.'
+    ps_rm = sp.add_parser('rm', aliases=['drop', 'remove'], help=rm_help,
+                          description=rm_help)
+    ps_rm.add_argument('group', help=rm_group_help)
+    ps_rm.add_argument('path', nargs='*', default='.', help=path_help)
+    ps_rm.set_defaults(func=cdg_drop)
 
-    args = parser.parse_args()
+    mv_help = 'Rename a cooldown group in one or more mp3 files'
+    mv_old_group_help = ('The current name of the cooldown group that you want '
+                         'to rename.')
+    mv_new_group_help = ('The new name for the cooldown group that you want to '
+                         'rename.')
+    ps_mv = sp.add_parser('mv', aliases=['rename', 'replace'], help=mv_help,
+                          description=mv_help)
+    ps_mv.add_argument('old_group', help=mv_old_group_help)
+    ps_mv.add_argument('new_group', help=mv_new_group_help)
+    ps_mv.add_argument('path', nargs='*', default='.', help=path_help)
+    ps_mv.set_defaults(func=cdg_rename)
+
+    args = ap.parse_args()
     args.func(args)
 
 if __name__ == '__main__':
