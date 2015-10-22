@@ -57,6 +57,9 @@ log('Setting COMM (comment) to {!r}'.format(COMMENT))
 tags.delall('COMM')
 tags.add(mutagen.id3.COMM(encoding=3, text=[COMMENT]))
 
+if remix.has_lyrics:
+    log('** This remix has lyrics!')
+
 tags.delall('TCON')
 genre = input(GENRE_PROMPT)
 if genre:
