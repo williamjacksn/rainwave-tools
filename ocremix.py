@@ -15,6 +15,7 @@ class OCReMix(object):
         self._safe_title = None
         self._artist = None
         self._mp3_url = None
+        self._has_lyrics = None
 
     def load_from_url(self):
         data = urllib.request.urlopen(self.info_url)
@@ -66,6 +67,15 @@ class OCReMix(object):
             mp3_url_xpath = '//div[@id="panel-download"]/ul/li/a/@href'
             self._mp3_url = self._tree.xpath(mp3_url_xpath)[3]
         return self._mp3_url
+
+    @property
+    def has_lyrics(self):
+        if self._has_lyrics is None:
+            if self._tree is None:
+                self.load_from_url()
+            lyrics_panel = self._tree.xpath('//div[@id="lyrics"]')
+            self._has_lyrics = len(lyrics_panel) > 0
+        return self._has_lyrics
 
     @staticmethod
     def make_safe(s):
