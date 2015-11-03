@@ -1,30 +1,16 @@
 #!/usr/bin/env python3
 
+import argparse
 import mutagen.id3
 import mutagen.mp3
-import sys
+import pathlib
 
 
-def log(message):
-    print(message)
+def log(m):
+    print(m)
 
 
-def usage(exit_code=0):
-    log('Usage : rwtag help')
-    log('         - show this help')
-    log('   or : rwtag drop <tag> <filename>')
-    log('         - delete all tags of type <tag> from <filename>')
-    log('   or : rwtag dump <filename>')
-    log('         - display all available metadata (ugly)')
-    log('   or : rwtag set <tag> <value> <filename>')
-    log('         - set <tag> to <value> on <filename>')
-    log('           <tag> can be one of album, title, artist, genre, track, '
-        'disc, www, comment, year')
-    log('   or : rwtag show <filename>')
-    log('         - show tags in an mp3 file')
-    exit(exit_code)
-
-tag_spec = dict(album='TALB', apic='APIC', art='APIC', artist='TPE1',
+TAG_SPEC = dict(album='TALB', apic='APIC', art='APIC', artist='TPE1',
                 artist2='TPE2', bpm='TBPM', comm='COMM', comment='COMM',
                 composer='TCOM', disc='TPOS', encoder='TSSE', genre='TCON',
                 isrc='TSRC', lyric='USLT', popm='POPM', priv='PRIV',
@@ -38,178 +24,140 @@ tag_spec = dict(album='TALB', apic='APIC', art='APIC', artist='TPE1',
                 uslt='USLT', wcom='WCOM', woaf='WOAF', woar='WOAR', www='WXXX',
                 wxxx='WXXX', year='TDRC')
 
-cmd = None
-if len(sys.argv) > 1:
-    cmd = sys.argv[1]
-else:
-    log('ERROR : missing command')
-    usage(1)
 
-if cmd == 'help':
-    usage()
-elif cmd == 'drop':
-    if len(sys.argv) > 2:
-        tag = sys.argv[2]
-        if tag in tag_spec.keys():
-            if len(sys.argv) > 3:
-                for fn in sys.argv[3:]:
-                    try:
-                        md = mutagen.id3.ID3(fn)
-                    except IOError as ioe:
-                        log('ERROR : {}'.format(ioe))
-                        continue
-                    except mutagen.id3.ID3NoHeaderError:
-                        md = mutagen.id3.ID3()
-                    md.delall(tag_spec[tag])
-                    try:
-                        md.save()
-                    except IOError as ioe:
-                        log('ERROR : {}'.format(ioe))
-                        continue
-                    log('{}: dropped all tags of type {!r}'.format(fn, tag))
-            else:
-                log('ERROR : missing filename')
-                usage(1)
+def get_mp3s(paths):
+    if not isinstance(paths, list):
+        paths = [paths]
+    for path in paths:
+        if isinstance(path, pathlib.Path):
+            p = path.resolve()
         else:
-            log('ERROR : {!r} is not a valid tag name'.format(tag))
-            usage(1)
-    else:
-        log('ERROR : missing tag name')
-        usage(1)
-elif cmd == 'dump':
-    if len(sys.argv) > 2:
-        for fn in sys.argv[2:]:
-            try:
-                md = mutagen.mp3.MP3(fn)
-            except IOError as ioe:
-                log('ERROR : {}'.format(ioe))
-                continue
-            log(md.pprint())
-            log('---------')
-    else:
-        log('ERROR : missing filename')
-        usage(1)
-elif cmd == 'set':
-    if len(sys.argv) > 2:
-        tag = sys.argv[2]
-        if tag in tag_spec.keys():
-            if len(sys.argv) > 3:
-                value = sys.argv[3]
-                if len(sys.argv) > 4:
-                    for fn in sys.argv[4:]:
-                        try:
-                            md = mutagen.id3.ID3(fn)
-                        except IOError as ioe:
-                            log('ERROR : {}'.format(ioe))
-                            continue
-                        except mutagen.id3.ID3NoHeaderError:
-                            md = mutagen.id3.ID3()
-                        if tag == 'album':
-                            md.delall('TALB')
-                            md.add(mutagen.id3.TALB(encoding=3, text=[value]))
-                        elif tag == 'title':
-                            md.delall('TIT2')
-                            md.add(mutagen.id3.TIT2(encoding=3, text=[value]))
-                        elif tag == 'artist':
-                            md.delall('TPE1')
-                            md.add(mutagen.id3.TPE1(encoding=3, text=[value]))
-                        elif tag == 'genre':
-                            md.delall('TCON')
-                            md.add(mutagen.id3.TCON(encoding=3, text=[value]))
-                        elif tag == 'track':
-                            md.delall('TRCK')
-                            md.add(mutagen.id3.TRCK(encoding=3, text=[value]))
-                        elif tag == 'disc':
-                            md.dellall('TPOS')
-                            md.add(mutagen.id3.TPOS(encoding=3, text=[value]))
-                        elif tag == 'www':
-                            md.delall('WXXX')
-                            md.add(mutagen.id3.WXXX(encoding=0, url=value))
-                        elif tag == 'comment':
-                            md.delall('COMM')
-                            md.add(mutagen.id3.COMM(encoding=3, text=[value]))
-                        elif tag == 'year':
-                            md.delall('TDRC')
-                            md.add(mutagen.id3.TDRC(encoding=3, text=[value]))
-                        md.save(fn)
-                        log('{}: {} set to {!r}'.format(fn, tag, value))
-                else:
-                    log('ERROR : missing filename')
-                    usage(1)
-            else:
-                log('ERROR : missing tag value')
-                usage(1)
+            p = pathlib.Path(path).resolve()
+        if p.is_dir():
+            for item in p.iterdir():
+                for mp3 in get_mp3s(item):
+                    yield mp3
         else:
-            log('ERROR : {!r} is not a valid tag name'.format(tag))
-            usage(1)
-    else:
-        log('ERROR : missing tag name')
-        usage(1)
-elif cmd == 'show':
-    if len(sys.argv) > 2:
-        for fn in sys.argv[2:]:
-            try:
-                audio = mutagen.mp3.MP3(fn)
-            except IOError as ioe:
-                log('ERROR : {}'.format(ioe))
-                continue
+            if p.name.endswith('.mp3'):
+                yield p
 
-            log('file    : {}'.format(fn))
-            log('length  : {} seconds'.format(int(audio.info.length)))
 
-            try:
-                md = mutagen.id3.ID3(fn)
-            except mutagen.id3.ID3NoHeaderError:
-                md = mutagen.id3.ID3()
+def tag_drop(args):
+    for mp3 in get_mp3s(args.path):
+        try:
+            _md = mutagen.id3.ID3(str(mp3))
+        except mutagen.id3.ID3NoHeaderError:
+            _md = mutagen.id3.ID3()
+        _tag = TAG_SPEC.get(args.tag, args.tag)
+        _md.delall(_tag)
+        try:
+            _md.save()
+        except IOError as _ioe:
+            log('ERROR : {}'.format(_ioe))
+            continue
+        log('{} : dropped all tags of type {!r}'.format(mp3, args.tag))
 
-            album_frames = md.getall('TALB')
-            for frame in album_frames:
-                for txt in frame.text:
-                    log('album   : {}'.format(txt))
 
-            title_frames = md.getall('TIT2')
-            for frame in title_frames:
-                for text in frame:
-                    log('title   : {}'.format(text))
+def tag_dump(args):
+    for mp3 in get_mp3s(args.path):
+        _md = mutagen.id3.ID3(str(mp3))
+        log(_md.pprint())
+        log('---------')
 
-            artist_frames = md.getall('TPE1')
-            for frame in artist_frames:
-                for txt in frame.text:
-                    log('artist  : {}'.format(txt))
 
-            genre_frames = md.getall('TCON')
-            for frame in genre_frames:
-                for text in frame:
-                    log('genre   : {}'.format(text))
+def tag_set(args):
+    for mp3 in get_mp3s(args.path):
+        try:
+            _md = mutagen.id3.ID3(str(mp3))
+        except mutagen.id3.ID3NoHeaderError:
+            _md = mutagen.id3.ID3()
+        _tag = TAG_SPEC.get(args.tag, args.tag)
+        if _tag in ['COMM', 'TALB', 'TCON', 'TDRC', 'TIT2', 'TPE1', 'TPOS',
+                    'TRCK']:
+            _md.delall(_tag)
+            tag_class = getattr(mutagen.id3, _tag)
+            _md.add(tag_class(encoding=3, text=[args.value]))
+        elif _tag == 'WXXX':
+            _md.delall(_tag)
+            _md.add(mutagen.id3.WXXX(encoding=0, url=args.value))
+        _md.save(str(mp3))
+        log('{}: {} set to {!r}'.format(mp3, args.tag, args.value))
 
-            track_frames = md.getall('TRCK')
-            for frame in track_frames:
-                for text in frame:
-                    log('track   : {}'.format(text))
 
-            disc_frames = md.getall('TPOS')
-            for frame in disc_frames:
-                for text in frame:
-                    log('disc    : {}'.format(text))
+def tag_show(args):
+    for mp3 in get_mp3s(args.path):
+        _audio = mutagen.mp3.MP3(str(mp3))
+        log('file    : {}'.format(mp3))
+        log('length  : {} seconds'.format(int(_audio.info.length)))
+        _md = mutagen.id3.ID3(str(mp3))
 
-            www_frames = md.getall('WXXX')
-            for frame in www_frames:
-                log('www     : {}'.format(frame.url))
+        for _frame in _md.getall('TALB'):
+            for _text in _frame.text:
+                log('album   : {}'.format(_text))
 
-            comment_frames = md.getall('COMM')
-            for frame in comment_frames:
-                for text in frame:
-                    log('comment : {}'.format(text))
+        for _frame in _md.getall('TIT2'):
+            for _text in _frame:
+                log('title   : {}'.format(_text))
 
-            year_frames = md.getall('TDRC')
-            for frame in year_frames:
-                for text in frame:
-                    log('year    : {}'.format(text))
-            log('---------')
+        for _frame in _md.getall('TPE1'):
+            for _text in _frame.text:
+                log('artist  : {}'.format(_text))
 
-    else:
-        log('ERROR : missing filename')
-        usage(1)
-else:
-    log('ERROR : {!r} is not a valid command'.format(cmd))
-    usage(1)
+        for _frame in _md.getall('TCON'):
+            for _text in _frame:
+                log('genre   : {}'.format(_text))
+
+        for _frame in _md.getall('TRCK'):
+            for _text in _frame:
+                log('track   : {}'.format(_text))
+
+        for _frame in _md.getall('TPOS'):
+            for _text in _frame:
+                log('disc    : {}'.format(_text))
+
+        for _frame in _md.getall('WXXX'):
+            log('www     : {}'.format(_frame.url))
+
+        for _frame in _md.getall('COMM'):
+            for _text in _frame:
+                log('comment : {}'.format(_text))
+
+        for _frame in _md.getall('TDRC'):
+            for _text in _frame:
+                log('year    : {}'.format(_text))
+        log('---------')
+
+
+def parse_args():
+    ap = argparse.ArgumentParser()
+    sp = ap.add_subparsers(dest='command', title='commands')
+    sp.required = True
+
+    ps_drop = sp.add_parser('drop', aliases=['remove', 'rm'])
+    ps_drop.add_argument('tag')
+    ps_drop.add_argument('path', nargs='*', default='.')
+    ps_drop.set_defaults(func=tag_drop)
+
+    ps_dump = sp.add_parser('dump')
+    ps_dump.add_argument('path', nargs='*', default='.')
+    ps_dump.set_defaults(func=tag_dump)
+
+    ps_set = sp.add_parser('set')
+    ps_set.add_argument('tag')
+    ps_set.add_argument('value')
+    ps_set.add_argument('path', nargs='*', default='.')
+    ps_set.set_defaults(func=tag_set)
+
+    ps_show = sp.add_parser('show')
+    ps_show.add_argument('path', nargs='*', default='.')
+    ps_show.set_defaults(func=tag_show)
+
+    return ap.parse_args()
+
+
+def main():
+    args = parse_args()
+    args.func(args)
+
+if __name__ == '__main__':
+    main()
