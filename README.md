@@ -2,7 +2,6 @@ Tools for maintaining a local library of music for [Rainwave][]
 
 ### Dealing with mp3 files and id3 tags
 
-*   `add_genre`: add a genre to mp3 files, leaving existing genres in place
 *   `apply_genres`: apply genres that are assigned using `assign_genres`
 *   `assign_genres`: interactively assign genres to directories of mp3 files
 *   `cdg`: manage cooldown groups (genre tags) in mp3 files
