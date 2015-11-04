@@ -1,5 +1,11 @@
 Tools for maintaining a local library of music for [Rainwave][]
 
+## Install
+
+    pip install https://github.com/williamjacksn/rainwave_tools/archive/master.zip
+
+## Tools
+
 ### Dealing with mp3 files and id3 tags
 
 *   `apply_genres`: apply genres that are assigned using `assign_genres`
