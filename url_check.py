@@ -10,8 +10,9 @@ import sys
 
 from requests.exceptions import ConnectionError, MissingSchema
 
-def log(message):
-    print(message)
+
+def log(m):
+    print(m)
 
 
 def get_config():
@@ -35,6 +36,36 @@ def set_config(c):
         json.dump(c, f)
 
 
+def get_files_with_url(cnx, url):
+    files = []
+    with cnx.cursor() as cur:
+        sql = '''SELECT DISTINCT song_filename FROM r4_songs WHERE song_verified
+                 IS TRUE AND song_url = %s ORDER BY song_filename'''
+        cur.execute(sql, [url])
+        rows = cur.fetchall()
+
+    for row in rows:
+        files.append(str(row[0]))
+
+    return files
+
+
+def replace_url(cnx, old_url, new_url):
+    with cnx.cursor() as cur:
+        sql = '''SELECT DISTINCT song_filename FROM r4_songs WHERE song_verified
+                 IS TRUE AND song_url = %s ORDER BY song_filename'''
+        cur.execute(sql, [old_url])
+        files = cur.fetchall()
+
+    for file in files:
+        filename = str(file[0])
+        tags = mutagen.id3.ID3(filename)
+        tags.delall('WXXX')
+        tags.add(mutagen.id3.WXXX(encoding=0, url=new_url))
+        tags.save()
+        log('{} : new www {!r}'.format(filename, new_url))
+
+
 def main():
     if 'RW_DB_PASS' in os.environ:
         rw_db_pass = os.environ.get('RW_DB_PASS')
@@ -48,40 +79,10 @@ def main():
     cnx = psycopg2.connect(cnx_string)
 
     with cnx.cursor() as cur:
-        sql = ('select distinct song_url from r4_songs where song_verified is '
-               'true order by song_url')
+        sql = '''SELECT DISTINCT song_url FROM r4_songs WHERE song_verified IS
+                 TRUE ORDER BY song_url'''
         cur.execute(sql)
         urls = cur.fetchall()
-
-    def replace_url(old_url, _new_url):
-        with cnx.cursor() as cur:
-            sql = ('select distinct song_filename from r4_songs where '
-                   'song_verified is true and song_url = %s order by '
-                   'song_filename')
-            cur.execute(sql, [old_url])
-            files = cur.fetchall()
-
-        for file in files:
-            filename = str(file[0])
-            tags = mutagen.id3.ID3(filename)
-            tags.delall('WXXX')
-            tags.add(mutagen.id3.WXXX(encoding=0, url=_new_url))
-            tags.save()
-            log('{} : new www {!r}'.format(filename, _new_url))
-
-    def get_files_with_url(q_url):
-        files = []
-        with cnx.cursor() as cur:
-            sql = ('select distinct song_filename from r4_songs where '
-                   'song_verified is true and song_url = %s order by '
-                   'song_filename')
-            cur.execute(sql, [q_url])
-            rows = cur.fetchall()
-
-        for row in rows:
-            files.append(str(row[0]))
-
-        return files
 
     count = 0
     for row in urls:
@@ -107,10 +108,10 @@ def main():
         while True:
             new_url = input('{} {} > '.format(code, url))
             if new_url == '?':
-                for file in get_files_with_url(url):
+                for file in get_files_with_url(cnx, url):
                     log('  * ' + file)
             elif new_url:
-                replace_url(url, new_url)
+                replace_url(cnx, url, new_url)
                 break
             else:
                 break

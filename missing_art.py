@@ -6,8 +6,8 @@ import psycopg2
 import sys
 
 
-def log(message):
-    print(message)
+def log(m):
+    print(m)
 
 
 def main():
@@ -21,8 +21,8 @@ def main():
     cnx = psycopg2.connect(cnx_string)
 
     with cnx.cursor() as cur:
-        sql = ('select distinct album_id, album_name from r4_songs join '
-               'r4_albums using (album_id) where song_verified is true')
+        sql = '''SELECT DISTINCT album_id, album_name FROM r4_songs JOIN
+                 r4_albums USING (album_id) WHERE song_verified IS TRUE'''
         cur.execute(sql)
         rows = cur.fetchall()
 
