@@ -3,7 +3,7 @@
 import argparse
 import mutagen.id3
 import mutagen.mp3
-import pathlib
+import rainwave_tools.utils
 
 
 def log(m):
@@ -25,25 +25,8 @@ TAG_SPEC = dict(album='TALB', apic='APIC', art='APIC', artist='TPE1',
                 wxxx='WXXX', year='TDRC')
 
 
-def get_mp3s(paths):
-    if not isinstance(paths, list):
-        paths = [paths]
-    for path in paths:
-        if isinstance(path, pathlib.Path):
-            p = path.resolve()
-        else:
-            p = pathlib.Path(path).resolve()
-        if p.is_dir():
-            for item in p.iterdir():
-                for mp3 in get_mp3s(item):
-                    yield mp3
-        else:
-            if p.name.endswith('.mp3'):
-                yield p
-
-
 def tag_drop(args):
-    for mp3 in get_mp3s(args.path):
+    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         try:
             _md = mutagen.id3.ID3(str(mp3))
         except mutagen.id3.ID3NoHeaderError:
@@ -59,14 +42,14 @@ def tag_drop(args):
 
 
 def tag_dump(args):
-    for mp3 in get_mp3s(args.path):
+    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         _md = mutagen.id3.ID3(str(mp3))
         log(_md.pprint())
         log('---------')
 
 
 def tag_set(args):
-    for mp3 in get_mp3s(args.path):
+    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         try:
             _md = mutagen.id3.ID3(str(mp3))
         except mutagen.id3.ID3NoHeaderError:
@@ -85,7 +68,7 @@ def tag_set(args):
 
 
 def tag_show(args):
-    for mp3 in get_mp3s(args.path):
+    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         _audio = mutagen.mp3.MP3(str(mp3))
         log('file    : {}'.format(mp3))
         log('length  : {} seconds'.format(int(_audio.info.length)))

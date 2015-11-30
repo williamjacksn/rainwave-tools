@@ -2,7 +2,7 @@
 
 import argparse
 import mutagen.id3
-import pathlib
+import rainwave_tools.utils
 
 
 def log(m):
@@ -30,25 +30,8 @@ def set_groups(path, groups=None):
     tags.save()
 
 
-def get_mp3s(paths):
-    if not isinstance(paths, list):
-        paths = [paths]
-    for path in paths:
-        if isinstance(path, pathlib.Path):
-            p = path.resolve()
-        else:
-            p = pathlib.Path(path).resolve()
-        if p.is_dir():
-            for item in p.iterdir():
-                for mp3 in get_mp3s(item):
-                    yield mp3
-        else:
-            if p.name.endswith('.mp3'):
-                yield p
-
-
 def cdg_add(args):
-    for f in get_mp3s(args.path):
+    for f in rainwave_tools.utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.group not in cdgs:
             cdgs.add(args.group)
@@ -56,7 +39,7 @@ def cdg_add(args):
 
 
 def cdg_drop(args):
-    for f in get_mp3s(args.path):
+    for f in rainwave_tools.utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.group in cdgs:
             cdgs.discard(args.group)
@@ -64,13 +47,13 @@ def cdg_drop(args):
 
 
 def cdg_list(args):
-    for f in get_mp3s(args.path):
+    for f in rainwave_tools.utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         log('{} : {}'.format(f, list(cdgs)))
 
 
 def cdg_rename(args):
-    for f in get_mp3s(args.path):
+    for f in rainwave_tools.utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.old_group in cdgs:
             cdgs.discard(args.old_group)
