@@ -30,6 +30,7 @@ setup(
             'rgwipe = rainwave_tools.rgwipe:main',
             'rwtag = rainwave_tools.rwtag:main',
             'song_search = rainwave_tools.song_search:main',
+            'tit3_tit2 = rainwave_tools.tit3_tit2:main',
             'titles = rainwave_tools.titles:main',
             'url_check = rainwave_tools.url_check:main'
         ]

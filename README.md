@@ -19,6 +19,7 @@ Tools for maintaining a local library of music for [Rainwave][]
     in a directory
 *   `rgwipe`: remove all replaygain tags from mp3 files
 *   `rwtag`: view and manipulate id3 tags on mp3 files
+*   `tit3_tit2`: Copy the contents of TIT3 to TIT2
 *   `titles`: interactively update titles on all mp3 files in a directory
 
 ### Dealing with the database
