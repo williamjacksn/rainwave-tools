@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import mutagen.id3
 import os
 

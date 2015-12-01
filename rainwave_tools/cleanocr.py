@@ -1,8 +1,7 @@
-#!/usr/bin/env python3
-
+import argparse
 import mutagen.id3
 import rainwave_tools.ocremix
-import os
+import rainwave_tools.utils
 import re
 
 
@@ -10,28 +9,19 @@ def log(m):
     print(m)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('path', nargs='*', default='.')
+    return parser.parse_args()
+
+
 def main():
-    cwd = os.getcwd()
-    log('{} : current directory'.format(cwd))
+    args = parse_args()
 
-    mp3s = []
-
-    for root, folders, files in os.walk(cwd):
-        for filename in files:
-            if filename.endswith('.mp3'):
-                mp3s.append(os.path.join(root, filename))
-
-    m = '** found {} MP3'.format(len(mp3s))
-    if len(mp3s) != 1:
-        m = '{}s'.format(m)
-    log(m)
-
-    mp3s.sort()
-
-    for mp3 in mp3s:
+    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         ocr_id = None
         changed = False
-        tags = mutagen.id3.ID3(mp3)
+        tags = mutagen.id3.ID3(str(mp3))
         tag_www = tags.getall('WXXX')[0].url
         for match in re.findall('OCR\d{5}', tag_www):
             ocr_id = int(match[3:])
@@ -59,7 +49,7 @@ def main():
             changed = True
 
         if changed:
-            tags.save(mp3)
+            tags.save()
         else:
             log('{} : no change'.format(mp3))
 

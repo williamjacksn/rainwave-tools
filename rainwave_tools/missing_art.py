@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import pathlib
 import psycopg2
@@ -34,7 +32,6 @@ def main():
         album_fn = 'a_{}_120.jpg'.format(album_id)
         if not art_dir.joinpath(album_fn).exists():
             log(album_name)
-
 
 if __name__ == '__main__':
     main()

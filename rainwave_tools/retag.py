@@ -1,31 +1,22 @@
-#!/usr/bin/env python3
-
 import argparse
 import mutagen.id3
-import pathlib
+import rainwave_tools.utils
 
 
 def log(message):
     print('** {}'.format(message))
 
 
-def main():
+def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('dir', nargs='?', default='.')
+    parser.add_argument('dir', nargs='*', default='.')
+    return parser.parse_args()
 
-    args = parser.parse_args()
 
-    cwd = pathlib.Path(args.dir).resolve()
+def main():
+    args = parse_args()
 
-    mp3s = []
-
-    for item in cwd.iterdir():
-        if item.is_file() and item.suffix == '.mp3':
-            mp3s.append(item)
-
-    mp3s.sort()
-
-    for mp3 in mp3s:
+    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         log(mp3)
         tags = mutagen.id3.ID3(str(mp3))
 

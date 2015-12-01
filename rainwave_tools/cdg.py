@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import argparse
 import mutagen.id3
 import rainwave_tools.utils

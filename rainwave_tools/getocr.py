@@ -1,37 +1,30 @@
-#!/usr/bin/env python3
-
+import argparse
 import mutagen.id3
 import os
 import rainwave_tools.ocremix
 import stat
-import sys
 import urllib.request
-
-
-def log(m):
-    print(m)
 
 DEST_DIR = '/home/icecast/ocr-staging'
 COMMENT = 'Remix Info @ OCR'
 GENRE_PROMPT = 'Enter a genre > '
 
 
+def log(m):
+    print(m)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('ocr_num', type=int)
+    return parser.parse_args()
+
+
 def main():
-    if len(sys.argv) > 1:
-        cmd = sys.argv[1]
-    else:
-        sys.exit('Please provide an OCR ID as the first argument.')
+    args = parse_args()
 
-    if cmd.isdigit():
-        ocr_num = int(cmd)
-    else:
-        sys.exit('{} is not an integer.'.format(cmd))
-
-    if ocr_num < 1 or ocr_num > 99999:
-        sys.exit('{} is not between 1 and 99999'.format(ocr_num))
-
-    log('Processing OCR{:05}'.format(ocr_num))
-    remix = rainwave_tools.ocremix.OCReMix(ocr_num)
+    log('Processing OCR{:05}'.format(args.ocr_num))
+    remix = rainwave_tools.ocremix.OCReMix(args.ocr_num)
 
     log('Downloading mp3 file from {}'.format(remix.mp3_url))
     temp_file, _ = urllib.request.urlretrieve(remix.mp3_url)

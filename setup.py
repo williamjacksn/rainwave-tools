@@ -1,5 +1,3 @@
-import rainwave_tools
-
 from setuptools import find_packages, setup
 
 REQUIREMENTS = []
@@ -12,7 +10,7 @@ with open('requirements.txt') as f:
 
 setup(
     name="rainwave-tools",
-    version=rainwave_tools.__version__,
+    version='0.5',
     packages=find_packages(),
     install_requires=REQUIREMENTS,
     entry_points={
