@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import argparse
 import mutagen.id3
 import mutagen.mp3
@@ -112,27 +110,44 @@ def tag_show(args):
 
 
 def parse_args():
-    ap = argparse.ArgumentParser()
-    sp = ap.add_subparsers(dest='command', title='commands')
+    description = 'View and edit ID3 tags on MP3 files.'
+    ap = argparse.ArgumentParser(description=description)
+
+    sp_desc = ('Specify one of the following commands. To get help on an '
+               'individual command, use \'rwtag <command> -h\'.')
+    sp = ap.add_subparsers(title='Available commands', description=sp_desc,
+                           dest='command')
     sp.required = True
 
-    ps_drop = sp.add_parser('drop', aliases=['remove', 'rm'])
-    ps_drop.add_argument('tag')
-    ps_drop.add_argument('path', nargs='*', default='.')
+    path_help = ('A file or directory to process. If you specify a directory, '
+                 'all files and subdirectories in the directory will be '
+                 'processed recursively. Only files with the extension '
+                 '\'.mp3\' will be processed. You may specify more than one '
+                 'file or directory.')
+
+    drop_desc = 'Remove a tag from one or more MP3 files.'
+    ps_drop = sp.add_parser('drop', description=drop_desc,
+                            aliases=['remove', 'rm'])
+    ps_drop.add_argument('tag', help='The name of the tag to remove.')
+    ps_drop.add_argument('path', nargs='+', help=path_help)
     ps_drop.set_defaults(func=tag_drop)
 
-    ps_dump = sp.add_parser('dump')
-    ps_dump.add_argument('path', nargs='*', default='.')
+    dump_desc = 'Show all tags on one or more MP3 files.'
+    ps_dump = sp.add_parser('dump', description=dump_desc)
+    ps_dump.add_argument('path', nargs='+', help=path_help)
     ps_dump.set_defaults(func=tag_dump)
 
-    ps_set = sp.add_parser('set')
-    ps_set.add_argument('tag')
-    ps_set.add_argument('value')
-    ps_set.add_argument('path', nargs='*', default='.')
+    set_desc = 'Set a tag to a certain value on one or more MP3 files.'
+    ps_set = sp.add_parser('set', description=set_desc)
+    ps_set.add_argument('tag', help='The name of the tag to set.')
+    ps_set.add_argument('value', help='The value to set for the tag.')
+    ps_set.add_argument('path', nargs='+', help=path_help)
     ps_set.set_defaults(func=tag_set)
 
-    ps_show = sp.add_parser('show')
-    ps_show.add_argument('path', nargs='*', default='.')
+    show_desc = ('Show only tags that Rainwave cares about on one or more MP3 '
+                 'files.')
+    ps_show = sp.add_parser('show', description=show_desc)
+    ps_show.add_argument('path', nargs='+', help=path_help)
     ps_show.set_defaults(func=tag_show)
 
     return ap.parse_args()
