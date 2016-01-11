@@ -1,18 +1,14 @@
 from setuptools import find_packages, setup
 
-REQUIREMENTS = []
-with open('requirements.txt') as f:
-    while True:
-        req = f.readline()
-        if req == '':
-            break
-        REQUIREMENTS.append(req.strip())
-
 setup(
     name="rainwave-tools",
-    version='0.5.1',
+    version='0.5.2',
+    author='William Jackson',
+    author_email='william@subtlecoolness.com',
+    url='https://github.com/williamjacksn/rainwave_tools',
+    description='Tools for maintaining a local library of music for Rainwave',
+    license='MIT License',
     packages=find_packages(),
-    install_requires=REQUIREMENTS,
     entry_points={
         'console_scripts': [
             'apply_genres = rainwave_tools.apply_genres:main',

@@ -74,14 +74,14 @@ def parse_args():
     ls_help = 'Show the current cooldown groups for one or more mp3 files'
     ps_ls = sp.add_parser('ls', aliases=['list'], help=ls_help,
                           description=ls_help)
-    ps_ls.add_argument('path', nargs='+', default='.', help=path_help)
+    ps_ls.add_argument('path', nargs='+', help=path_help)
     ps_ls.set_defaults(func=cdg_list)
 
     add_help = 'Add a cooldown group to one or more mp3 files'
     add_group_help = 'The cooldown group to add to the specified files.'
     ps_add = sp.add_parser('add', help=add_help, description=add_help)
     ps_add.add_argument('group', help=add_group_help)
-    ps_add.add_argument('path', nargs='+', default='.', help=path_help)
+    ps_add.add_argument('path', nargs='+', help=path_help)
     ps_add.set_defaults(func=cdg_add)
 
     rm_help = 'Remove a cooldown group from one or more mp3 files'
@@ -89,7 +89,7 @@ def parse_args():
     ps_rm = sp.add_parser('rm', aliases=['drop', 'remove'], help=rm_help,
                           description=rm_help)
     ps_rm.add_argument('group', help=rm_group_help)
-    ps_rm.add_argument('path', nargs='+', default='.', help=path_help)
+    ps_rm.add_argument('path', nargs='+', help=path_help)
     ps_rm.set_defaults(func=cdg_drop)
 
     mv_help = 'Rename a cooldown group in one or more mp3 files'
@@ -101,7 +101,7 @@ def parse_args():
                           description=mv_help)
     ps_mv.add_argument('old_group', help=mv_old_group_help)
     ps_mv.add_argument('new_group', help=mv_new_group_help)
-    ps_mv.add_argument('path', nargs='+', default='.', help=path_help)
+    ps_mv.add_argument('path', nargs='+', help=path_help)
     ps_mv.set_defaults(func=cdg_rename)
 
     return ap.parse_args()
