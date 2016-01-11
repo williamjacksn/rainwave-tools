@@ -10,7 +10,7 @@ with open('requirements.txt') as f:
 
 setup(
     name="rainwave-tools",
-    version='0.5',
+    version='0.5.1',
     packages=find_packages(),
     install_requires=REQUIREMENTS,
     entry_points={
