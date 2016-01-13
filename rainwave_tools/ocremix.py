@@ -81,6 +81,7 @@ class OCReMix(object):
     def make_safe(s):
         unsafe = ' !"#%&\'()*+,-./:;<=>?@[\]^_`{|}~—あいごま'
         translate_table = {ord(char): None for char in unsafe}
-        special = dict(zip(map(ord, 'áäÉéêèíñóöşÜü'), 'aaEeeeinoosUu'))
+        special = dict(zip(map(ord, 'áäÉéêèíñóöşÜüСоветскийКмна'),
+                           'aaEeeeinoosUuSovetskijKmna'))
         translate_table.update(special)
         return s.translate(translate_table)
