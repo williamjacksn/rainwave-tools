@@ -11,7 +11,7 @@ def log(m):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-a', '--include-album', action='store_true')
-    parser.add_argument('path', nargs='*', default='.')
+    parser.add_argument('path', nargs='+')
     return parser.parse_args()
 
 
