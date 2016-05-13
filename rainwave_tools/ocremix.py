@@ -66,7 +66,7 @@ class OCReMix(object):
             if self._tree is None:
                 self.load_from_url()
             mp3_url_xpath = '//div[@id="panel-download"]/div/ul/li/a/@href'
-            self._mp3_url = self._tree.xpath(mp3_url_xpath)[3]
+            self._mp3_url = self._tree.xpath(mp3_url_xpath)[2]
         return self._mp3_url
 
     @property
