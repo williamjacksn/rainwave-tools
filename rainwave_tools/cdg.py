@@ -29,34 +29,55 @@ def set_groups(path, groups=None):
 
 
 def cdg_add(args):
+    errors = []
     for f in rainwave_tools.utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.group not in cdgs:
             cdgs.add(args.group)
-            set_groups(f, cdgs)
+            try:
+                set_groups(f, cdgs)
+            except PermissionError as e:
+                errors.append(e)
+    return errors
 
 
 def cdg_drop(args):
+    errors = []
     for f in rainwave_tools.utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.group in cdgs:
             cdgs.discard(args.group)
-            set_groups(f, cdgs)
+            try:
+                set_groups(f, cdgs)
+            except PermissionError as e:
+                errors.append(e)
+    return errors
 
 
 def cdg_list(args):
+    errors = []
     for f in rainwave_tools.utils.get_mp3s(args.path):
-        cdgs = get_groups(f)
+        try:
+            cdgs = get_groups(f)
+        except mutagen.id3._util.ID3NoHeaderError as e:
+            errors.append(e)
+            continue
         log('{} : {}'.format(f, list(cdgs)))
+    return errors
 
 
 def cdg_rename(args):
+    errors = []
     for f in rainwave_tools.utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.old_group in cdgs:
             cdgs.discard(args.old_group)
             cdgs.add(args.new_group)
-            set_groups(f, cdgs)
+            try:
+                set_groups(f, cdgs)
+            except PermissionError as e:
+                errors.append(e)
+    return errors
 
 
 def parse_args():
@@ -109,7 +130,14 @@ def parse_args():
 
 def main():
     args = parse_args()
-    args.func(args)
+    errors = args.func(args)
+    if errors:
+        log('**********')
+        log('* ERRORS *')
+        log('**********')
+        for error in errors:
+            log(error)
+
 
 if __name__ == '__main__':
     main()
