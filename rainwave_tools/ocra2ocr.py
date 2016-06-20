@@ -20,7 +20,7 @@ def main():
     log('{} : setting www to {}'.format(args.file, args.url))
     tags.delall('WXXX')
     tags.add(mutagen.id3.WXXX(encoding=0, url=args.url))
-    comment = 'Remix Info @ OCR'
+    comment = 'Get @ OCR'
     log('{} : setting comment to {!r}'.format(args.file, comment))
     tags.delall('COMM')
     tags.add(mutagen.id3.COMM(encoding=3, text=[comment]))

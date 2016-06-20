@@ -6,7 +6,7 @@ import stat
 import urllib.request
 
 DEST_DIR = '/home/icecast/ocr-staging'
-COMMENT = 'Remix Info @ OCR'
+COMMENT = 'Get @ OCR'
 GENRE_PROMPT = 'Enter a genre > '
 
 
