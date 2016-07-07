@@ -18,6 +18,7 @@ def parse_args():
 def main():
     args = parse_args()
     change_count = 0
+    errors = []
 
     for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         changed = False
@@ -29,17 +30,27 @@ def main():
                 artists[i] = args.new_name
                 changed = True
         if changed:
-            change_count += 1
             artist_tag = ', '.join(artists)
             tags.delall('TPE1')
             tags.add(mutagen.id3.TPE1(encoding=3, text=[artist_tag]))
-            tags.save()
-            log('{} : new artist tag {!r}'.format(mp3, artist_tag))
+            try:
+                tags.save()
+            except PermissionError as e:
+                errors.append(e)
+            else:
+                change_count += 1
+                log('{} : new artist tag {!r}'.format(mp3, artist_tag))
 
     m = '** updated tags in {} file'.format(change_count)
     if change_count != 1:
         m = '{}s'.format(m)
     log(m)
+    if errors:
+        log('**********')
+        log('* ERRORS *')
+        log('**********')
+        for error in errors:
+            log(error)
 
 if __name__ == '__main__':
     main()
