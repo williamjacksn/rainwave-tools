@@ -16,5 +16,5 @@ def get_mp3s(paths):
                 for mp3 in get_mp3s(item):
                     yield mp3
         else:
-            if p.name.endswith('.mp3'):
+            if p.suffix.lower() == '.mp3':
                 yield p
