@@ -1,4 +1,5 @@
 import lxml.html
+import rainwave_tools.utils
 import urllib.request
 
 
@@ -33,7 +34,7 @@ class OCReMix(object):
     @property
     def safe_album(self):
         if self._safe_album is None:
-            self._safe_album = self.make_safe(self.album)
+            self._safe_album = rainwave_tools.utils.make_safe(self.album)
         return self._safe_album
 
     @property
@@ -47,7 +48,7 @@ class OCReMix(object):
     @property
     def safe_title(self):
         if self._safe_title is None:
-            self._safe_title = self.make_safe(self.title)
+            self._safe_title = rainwave_tools.utils.make_safe(self.title)
         return self._safe_title
 
     @property
@@ -77,12 +78,3 @@ class OCReMix(object):
             lyrics_panel = self._tree.xpath('//div[@id="lyrics"]')
             self._has_lyrics = len(lyrics_panel) > 0
         return self._has_lyrics
-
-    @staticmethod
-    def make_safe(s):
-        unsafe = ' !"#%&\'()*+,-./:;<=>?@[\]^_`{|}~—あいごま'
-        translate_table = {ord(char): None for char in unsafe}
-        special = dict(zip(map(ord, 'áäÉéêèíñóöşÜüСоветскийКмна'),
-                           'aaEeeeinoosUuSovetskijKmna'))
-        translate_table.update(special)
-        return s.translate(translate_table)

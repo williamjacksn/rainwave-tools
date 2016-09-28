@@ -1,6 +1,5 @@
 import argparse
 import mutagen.id3
-import rainwave_tools.ocremix
 import rainwave_tools.utils
 
 
@@ -22,11 +21,11 @@ def main():
         log('** {}'.format(mp3))
         tags = mutagen.id3.ID3(str(mp3))
         title = tags.getall('TIT2')[0].text[0]
-        safe_title = rainwave_tools.ocremix.OCReMix.make_safe(title)
+        safe_title = rainwave_tools.utils.make_safe(title)
         new_name = safe_title + '.mp3'
         if args.include_album:
             album = tags.getall('TALB')[0].text[0]
-            safe_album = rainwave_tools.ocremix.OCReMix.make_safe(album)
+            safe_album = rainwave_tools.utils.make_safe(album)
             new_name = safe_album + '_' + new_name
         new_file = mp3.with_name(new_name)
         log('-> {}'.format(new_file))

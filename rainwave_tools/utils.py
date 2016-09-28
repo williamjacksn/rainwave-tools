@@ -1,6 +1,6 @@
 import pathlib
 
-__all__ = ['get_mp3s']
+__all__ = ['get_mp3s', 'make_safe']
 
 
 def get_mp3s(paths):
@@ -18,3 +18,11 @@ def get_mp3s(paths):
         else:
             if p.suffix.lower() == '.mp3':
                 yield p
+
+
+def make_safe(s):
+    unsafe = ' !"#%&\'()*+,-./:;<=>?@[\]^_`{|}~—あいごま'
+    translate_table = {ord(char): None for char in unsafe}
+    special = dict(zip(map(ord, 'áäÉéêèíñóöşÜüСоветскийКмна'), 'aaEeeeinoosUuSovetskijKmna'))
+    translate_table.update(special)
+    return s.translate(translate_table)
