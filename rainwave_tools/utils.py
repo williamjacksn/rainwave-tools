@@ -23,6 +23,6 @@ def get_mp3s(paths):
 def make_safe(s):
     unsafe = ' !"#%&\'()*+,-./:;<=>?@[\]^_`{|}~—あいごま'
     translate_table = {ord(char): None for char in unsafe}
-    special = dict(zip(map(ord, 'áäÉéêèíñóöşÜüСоветскийКмна'), 'aaEeeeinoosUuSovetskijKmna'))
+    special = dict(zip(map(ord, 'áãäÉéêèíñóöşÜüСоветскийКмна'), 'aaaEeeeinoosUuSovetskijKmna'))
     translate_table.update(special)
     return s.translate(translate_table)
