@@ -58,7 +58,10 @@ def cdg_find(args):
     for f in rainwave_tools.utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.group in cdgs:
-            log(f)
+            if args.print0:
+                print(f, end='\x00')
+            else:
+                log(f)
 
 
 def cdg_list(args):
@@ -108,6 +111,7 @@ def parse_args():
     find_help = 'Find mp3 files that belong to the specified cooldown group'
     find_group_help = 'The cooldown group to search for'
     ps_find = sp.add_parser('find', aliases=['search'], help=find_help, description=find_help)
+    ps_find.add_argument('-0', '--print0', action='store_true', help='Separate file names with a null character instead of a newline')
     ps_find.add_argument('group', help=find_group_help)
     ps_find.add_argument('path', nargs='+', help=path_help)
     ps_find.set_defaults(func=cdg_find)
