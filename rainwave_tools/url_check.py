@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import json
 import mutagen.id3
 import os
@@ -9,10 +7,6 @@ import requests
 import sys
 
 from requests.exceptions import ConnectionError, MissingSchema
-
-
-def log(m):
-    print(m)
 
 
 def get_config():
@@ -38,9 +32,13 @@ def set_config(c):
 
 def get_files_with_url(cnx, url):
     files = []
+    sql = '''
+        SELECT DISTINCT song_filename
+        FROM r4_songs
+        WHERE song_verified IS TRUE AND song_url = %s
+        ORDER BY song_filename
+    '''
     with cnx.cursor() as cur:
-        sql = '''SELECT DISTINCT song_filename FROM r4_songs WHERE song_verified
-                 IS TRUE AND song_url = %s ORDER BY song_filename'''
         cur.execute(sql, [url])
         rows = cur.fetchall()
 
@@ -51,9 +49,13 @@ def get_files_with_url(cnx, url):
 
 
 def replace_url(cnx, old_url, new_url):
+    sql = '''
+        SELECT DISTINCT song_filename
+        FROM r4_songs
+        WHERE song_verified IS TRUE AND song_url = %s
+        ORDER BY song_filename
+    '''
     with cnx.cursor() as cur:
-        sql = '''SELECT DISTINCT song_filename FROM r4_songs WHERE song_verified
-                 IS TRUE AND song_url = %s ORDER BY song_filename'''
         cur.execute(sql, [old_url])
         files = cur.fetchall()
 
@@ -63,14 +65,14 @@ def replace_url(cnx, old_url, new_url):
         tags.delall('WXXX')
         tags.add(mutagen.id3.WXXX(encoding=0, url=new_url))
         tags.save()
-        log('{} : new www {!r}'.format(filename, new_url))
+        print('{} : new www {!r}'.format(filename, new_url))
 
 
 def main():
     if 'RW_DB_PASS' in os.environ:
         rw_db_pass = os.environ.get('RW_DB_PASS')
     else:
-        log('Please set the RW_DB_PASS environment variable.')
+        print('Please set the RW_DB_PASS environment variable.')
         sys.exit()
 
     c = get_config()
@@ -78,9 +80,8 @@ def main():
     cnx_string = 'dbname=rainwave user=orpheus password={}'.format(rw_db_pass)
     cnx = psycopg2.connect(cnx_string)
 
+    sql = 'SELECT DISTINCT song_url FROM r4_songs WHERE song_verified IS TRUE ORDER BY song_url'
     with cnx.cursor() as cur:
-        sql = '''SELECT DISTINCT song_url FROM r4_songs WHERE song_verified IS
-                 TRUE ORDER BY song_url'''
         cur.execute(sql)
         urls = cur.fetchall()
 
@@ -109,7 +110,7 @@ def main():
             new_url = input('{} {} > '.format(code, url))
             if new_url == '?':
                 for file in get_files_with_url(cnx, url):
-                    log('  * ' + file)
+                    print('  * ' + file)
             elif new_url:
                 replace_url(cnx, url, new_url)
                 break

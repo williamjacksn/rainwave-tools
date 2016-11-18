@@ -3,10 +3,6 @@ import mutagen.id3
 import rainwave_tools.utils
 
 
-def log(m):
-    print(m)
-
-
 def get_groups(path):
     rv = set()
     tags = mutagen.id3.ID3(str(path))
@@ -25,7 +21,7 @@ def set_groups(path, groups=None):
         group_tag = ', '.join(groups)
         tags.add(mutagen.id3.TCON(encoding=3, text=[group_tag]))
     tags.save()
-    log('{} : cooldown groups: {!r}'.format(path, list(groups)))
+    print('{} : cooldown groups: {!r}'.format(path, list(groups)))
 
 
 def cdg_add(args):
@@ -61,7 +57,7 @@ def cdg_find(args):
             if args.print0:
                 print(f, end='\x00')
             else:
-                log(f)
+                print(f)
 
 
 def cdg_list(args):
@@ -69,10 +65,10 @@ def cdg_list(args):
     for f in rainwave_tools.utils.get_mp3s(args.path):
         try:
             cdgs = get_groups(f)
-        except mutagen.id3._util.ID3NoHeaderError as e:
+        except mutagen.id3.ID3NoHeaderError as e:
             errors.append(e)
             continue
-        log('{} : {}'.format(f, list(cdgs)))
+        print('{} : {}'.format(f, list(cdgs)))
     return errors
 
 
@@ -91,55 +87,43 @@ def cdg_rename(args):
 
 
 def parse_args():
-    desc = 'Manage cooldown groups (genre tags) in mp3 files'
-    ap = argparse.ArgumentParser(description=desc)
+    ap = argparse.ArgumentParser(description='Manage cooldown groups (genre tags) in mp3 files')
     sp = ap.add_subparsers(dest='command', title='commands')
     sp.required = True
 
-    path_help = ('A file or directory to process. If you specify a directory, '
-                 'all files and subdirectories in the directory will be '
-                 'processed recursively. Only files with the extension '
-                 '\'.mp3\' will be processed. You may specify more than one '
-                 'file or directory.')
+    path_help = ("A file or directory to process. If you specify a directory, all files and subdirectories in the "
+                 "directory will be processed recursively. Only files with the extension '.mp3' will be processed. You "
+                 "may specify more than one file or directory.")
 
     ls_help = 'Show the current cooldown groups for one or more mp3 files'
-    ps_ls = sp.add_parser('ls', aliases=['list'], help=ls_help,
-                          description=ls_help)
+    ps_ls = sp.add_parser('ls', aliases=['list'], help=ls_help, description=ls_help)
     ps_ls.add_argument('path', nargs='+', help=path_help)
     ps_ls.set_defaults(func=cdg_list)
 
     find_help = 'Find mp3 files that belong to the specified cooldown group'
-    find_group_help = 'The cooldown group to search for'
+    find_print0_help = 'Separate file names with a null character instead of a newline'
     ps_find = sp.add_parser('find', aliases=['search'], help=find_help, description=find_help)
-    ps_find.add_argument('-0', '--print0', action='store_true', help='Separate file names with a null character instead of a newline')
-    ps_find.add_argument('group', help=find_group_help)
+    ps_find.add_argument('-0', '--print0', action='store_true', help=find_print0_help)
+    ps_find.add_argument('group', help='The cooldown group to search for')
     ps_find.add_argument('path', nargs='+', help=path_help)
     ps_find.set_defaults(func=cdg_find)
 
     add_help = 'Add a cooldown group to one or more mp3 files'
-    add_group_help = 'The cooldown group to add to the specified files.'
     ps_add = sp.add_parser('add', help=add_help, description=add_help)
-    ps_add.add_argument('group', help=add_group_help)
+    ps_add.add_argument('group', help='The cooldown group to add to the specified files')
     ps_add.add_argument('path', nargs='+', help=path_help)
     ps_add.set_defaults(func=cdg_add)
 
     rm_help = 'Remove a cooldown group from one or more mp3 files'
-    rm_group_help = 'The cooldown group to remove from the specified files.'
-    ps_rm = sp.add_parser('rm', aliases=['drop', 'remove'], help=rm_help,
-                          description=rm_help)
-    ps_rm.add_argument('group', help=rm_group_help)
+    ps_rm = sp.add_parser('rm', aliases=['drop', 'remove'], help=rm_help, description=rm_help)
+    ps_rm.add_argument('group', help='The cooldown group to remove from the specified files')
     ps_rm.add_argument('path', nargs='+', help=path_help)
     ps_rm.set_defaults(func=cdg_drop)
 
     mv_help = 'Rename a cooldown group in one or more mp3 files'
-    mv_old_group_help = ('The current name of the cooldown group that you want '
-                         'to rename.')
-    mv_new_group_help = ('The new name for the cooldown group that you want to '
-                         'rename.')
-    ps_mv = sp.add_parser('mv', aliases=['rename', 'replace'], help=mv_help,
-                          description=mv_help)
-    ps_mv.add_argument('old_group', help=mv_old_group_help)
-    ps_mv.add_argument('new_group', help=mv_new_group_help)
+    ps_mv = sp.add_parser('mv', aliases=['rename', 'replace'], help=mv_help, description=mv_help)
+    ps_mv.add_argument('old_group', help='The current name of the cooldown group that you want to rename')
+    ps_mv.add_argument('new_group', help='The new name for the cooldown group that you want to rename')
     ps_mv.add_argument('path', nargs='+', help=path_help)
     ps_mv.set_defaults(func=cdg_rename)
 
@@ -150,11 +134,11 @@ def main():
     args = parse_args()
     errors = args.func(args)
     if errors:
-        log('**********')
-        log('* ERRORS *')
-        log('**********')
+        print('**********')
+        print('* ERRORS *')
+        print('**********')
         for error in errors:
-            log(error)
+            print(error)
 
 
 if __name__ == '__main__':

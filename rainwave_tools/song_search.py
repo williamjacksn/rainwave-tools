@@ -4,10 +4,6 @@ import psycopg2
 import sys
 
 
-def log(m):
-    print(m)
-
-
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('query')
@@ -20,16 +16,26 @@ def main():
     if 'RW_DB_PASS' in os.environ:
         rw_db_pass = os.environ.get('RW_DB_PASS')
     else:
-        log('Please set the RW_DB_PASS environment variable.')
+        print('Please set the RW_DB_PASS environment variable.')
         sys.exit()
 
     conn_string = 'dbname=rainwave user=orpheus password={}'.format(rw_db_pass)
     conn = psycopg2.connect(conn_string)
 
     with conn.cursor() as cur:
-        sql = '''SELECT song_id, album_name, song_title, song_filename FROM
-                 r4_songs JOIN r4_albums USING (album_id) WHERE song_title ILIKE
-                 %s AND song_verified IS TRUE ORDER BY album_name, song_title'''
+        sql = '''
+            SELECT
+                song_id,
+                album_name,
+                song_title,
+                song_filename
+            FROM r4_songs
+                JOIN r4_albums USING (album_id)
+            WHERE
+                song_title ILIKE %s AND
+                song_verified IS TRUE
+            ORDER BY album_name, song_title
+        '''
         cur.execute(sql, ['%{}%'.format(args.query)])
         rows = cur.fetchall()
 
@@ -39,7 +45,7 @@ def main():
         song_title = row[2]
         song_filename = row[3]
         m = '{} // {} // {} // {}'
-        log(m.format(song_id, album_name, song_title, song_filename))
+        print(m.format(song_id, album_name, song_title, song_filename))
 
 if __name__ == '__main__':
     main()
