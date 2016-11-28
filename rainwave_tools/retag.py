@@ -9,7 +9,7 @@ def log(message):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('dir', nargs='*', default='.')
+    parser.add_argument('path', nargs='+')
     return parser.parse_args()
 
 
