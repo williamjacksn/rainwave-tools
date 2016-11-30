@@ -64,6 +64,7 @@ def cdg_find(args):
                 print(f, end='\x00')
             else:
                 print(f)
+    return errors
 
 
 def cdg_list(args):
