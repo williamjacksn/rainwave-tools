@@ -1,6 +1,7 @@
 import argparse
 import mutagen.id3
 import rainwave_tools.utils
+import sys
 
 
 def get_groups(path):
@@ -8,7 +9,7 @@ def get_groups(path):
     tags = mutagen.id3.ID3(str(path))
     for group_tag in tags.getall('TCON'):
         for group_text in group_tag.text:
-            rv = rv | set([a.strip() for a in group_text.split(',')])
+            rv |= set([a.strip() for a in group_text.split(',')])
     return rv
 
 
@@ -51,8 +52,13 @@ def cdg_drop(args):
 
 
 def cdg_find(args):
+    errors = []
     for f in rainwave_tools.utils.get_mp3s(args.path):
-        cdgs = get_groups(f)
+        try:
+            cdgs = get_groups(f)
+        except mutagen.id3.ID3NoHeaderError as e:
+            errors.append(e)
+            continue
         if args.group in cdgs:
             if args.print0:
                 print(f, end='\x00')
@@ -134,11 +140,11 @@ def main():
     args = parse_args()
     errors = args.func(args)
     if errors:
-        print('**********')
-        print('* ERRORS *')
-        print('**********')
+        print('**********', file=sys.stderr)
+        print('* ERRORS *', file=sys.stderr)
+        print('**********', file=sys.stderr)
         for error in errors:
-            print(error)
+            print(error, file=sys.stderr)
 
 
 if __name__ == '__main__':
