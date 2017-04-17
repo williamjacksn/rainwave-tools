@@ -56,9 +56,7 @@ class OCReMix(object):
         if self._artist is None:
             if self._tree is None:
                 self.load_from_url()
-            artist_xpath = '//div[@id="panel-main"]/div/div/ul/li'
-            art_tree = self._tree.xpath(artist_xpath)[2]
-            self._artist = ', '.join([a.text for a in art_tree.xpath('a')])
+            self._artist = ', '.join([a.text for a in self._tree.xpath('//h2/a[starts-with(@href, "/artist")]')])
         return self._artist
 
     @property
@@ -66,8 +64,7 @@ class OCReMix(object):
         if self._mp3_url is None:
             if self._tree is None:
                 self.load_from_url()
-            mp3_url_xpath = '//div[@id="panel-download"]/div/ul/li/a/@href'
-            self._mp3_url = self._tree.xpath(mp3_url_xpath)[2]
+            self._mp3_url = self._tree.xpath('//div[@id="modalDownload"]//a[contains(@href, "ocrmirror")]/@href')[0]
         return self._mp3_url
 
     @property
@@ -75,6 +72,5 @@ class OCReMix(object):
         if self._has_lyrics is None:
             if self._tree is None:
                 self.load_from_url()
-            lyrics_panel = self._tree.xpath('//div[@id="lyrics"]')
-            self._has_lyrics = len(lyrics_panel) > 0
+            self._has_lyrics = bool(self._tree.xpath('//a[@href="#tab-lyrics"]'))
         return self._has_lyrics
