@@ -17,6 +17,7 @@ class OCReMix(object):
         self._artist = None
         self._mp3_url = None
         self._has_lyrics = None
+        self._tags = []
 
     def load_from_url(self):
         data = urllib.request.urlopen(self.info_url)
@@ -74,3 +75,11 @@ class OCReMix(object):
                 self.load_from_url()
             self._has_lyrics = bool(self._tree.xpath('//a[@href="#tab-lyrics"]'))
         return self._has_lyrics
+
+    @property
+    def tags(self):
+        if not self._tags:
+            for t in self._tree.xpath('//*[@id="main-content"]/div[1]/div/div[1]/section[1]/div/div/section[2]/div[2]/section[3]/div/span'):
+                self._tags.append(t.text)
+            self._tags.sort()
+        return self._tags
