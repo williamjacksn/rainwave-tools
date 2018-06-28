@@ -79,7 +79,8 @@ class OCReMix(object):
     @property
     def tags(self):
         if not self._tags:
-            for t in self._tree.xpath('//*[@id="main-content"]/div[1]/div/div[1]/section[1]/div/div/section[2]/div[2]/section[3]/div/span'):
+            xpath = '//*[@id="main-content"]/div[1]/div/div[1]/section[1]/div/div/section[2]/div[2]/section[3]/div/span'
+            for t in self._tree.xpath(xpath):
                 self._tags.append(t.text)
             self._tags.sort()
         return self._tags

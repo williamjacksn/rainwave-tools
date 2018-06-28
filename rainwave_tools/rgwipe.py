@@ -9,7 +9,7 @@ def log(m):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('path', nargs='*', default='.')
+    parser.add_argument('path', nargs='+', help=rainwave_tools.utils.path_help)
     return parser.parse_args()
 
 
@@ -27,6 +27,7 @@ def main():
         tags.delall('TXXX:replaygain_track_peak')
         tags.save()
         log('** wiped replaygain tags from {}'.format(mp3))
+
 
 if __name__ == '__main__':
     main()

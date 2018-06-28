@@ -10,7 +10,7 @@ def log(m):
 
 def main():
     cwd = os.getcwd()
-    log('{} : current directory'.format(cwd))
+    log(f'{cwd} : current directory')
 
     for root, folders, files in os.walk(cwd):
         used_genre = ''
@@ -26,24 +26,25 @@ def main():
                         used_genre = frame.text[0]
                         break
         if not has_mp3s:
-            log('{} : no mp3s'.format(root))
+            log(f'{root} : no mp3s')
             continue
 
         this_genre_file = os.path.join(root, GENRE_FILE)
         if GENRE_FILE in files:
             with open(this_genre_file) as f:
                 genre = f.readline().strip()
-                log('{} : {}'.format(this_genre_file, genre))
+                log(f'{this_genre_file} : {genre}')
             continue
         try:
-            new_genre = input('{} : set genre [{}] > '.format(root, used_genre))
+            new_genre = input(f'{root} : set genre [{used_genre}] > ')
             if new_genre == '':
                 continue
             with open(this_genre_file, 'w') as f:
-                f.write('{}\n'.format(new_genre))
+                f.write(f'{new_genre}\n')
         except KeyboardInterrupt:
             print('')
             break
+
 
 if __name__ == '__main__':
     main()

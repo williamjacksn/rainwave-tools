@@ -1,9 +1,11 @@
 import pathlib
 
-__all__ = ['get_mp3s', 'make_safe']
+from typing import Any
+
+__all__ = ['get_mp3s', 'make_safe', 'path_help']
 
 
-def get_mp3s(paths):
+def get_mp3s(paths: Any):
     if not isinstance(paths, list):
         paths = [paths]
     for path in paths:
@@ -21,8 +23,12 @@ def get_mp3s(paths):
 
 
 def make_safe(s):
-    unsafe = ' !"#%&\'()*+,-./:;<=>?@[\]^_`{|}~—あいごま'
-    translate_table = {ord(char): None for char in unsafe}
+    translate_table = {ord(char): None for char in ' !"#%&\'()*+,-./:;<=>?@[\]^_`{|}~—あいごま'}
     special = dict(zip(map(ord, 'áãäÉéêèíñóöşÜüСоветскийКмна'), 'aaaEeeeinoosUuSovetskijKmna'))
     translate_table.update(special)
     return s.translate(translate_table)
+
+
+path_help = ("A file or directory to process. If you specify a directory, all files and subdirectories in the "
+             "directory will be processed recursively. Only files with the extension '.mp3' will be processed. You may "
+             "specify more than one file or directory.")

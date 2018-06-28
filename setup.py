@@ -2,13 +2,14 @@ from setuptools import find_packages, setup
 
 setup(
     name="rainwave-tools",
-    version='0.6.4',
+    version='0.7.0',
     author='William Jackson',
     author_email='william@subtlecoolness.com',
     url='https://github.com/williamjacksn/rainwave_tools',
     description='Tools for maintaining a local library of music for Rainwave',
     license='MIT License',
     packages=find_packages(),
+    install_requires=['lxml', 'mutagen', 'psycopg2', 'requests'],
     entry_points={
         'console_scripts': [
             'apply_genres = rainwave_tools.apply_genres:main',

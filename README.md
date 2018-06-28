@@ -11,12 +11,9 @@ Tools for maintaining a local library of music for [Rainwave][]
 *   `apply_genres`: apply genres that are assigned using `assign_genres`
 *   `assign_genres`: interactively assign genres to directories of mp3 files
 *   `cdg`: manage cooldown groups (genre tags) in mp3 files
-*   `normalize_filenames`: automatically rename all files in a directory based
-    on information in id3 tags
-*   `rename_artist`: change an artist name in mp3 files, keeping multiple
-    artists intact
-*   `retag`: interactively edit title, album, and artist tags on all mp3 files
-    in a directory
+*   `normalize_filenames`: automatically rename all files in a directory based on information in id3 tags
+*   `rename_artist`: change an artist name in mp3 files, keeping multiple artists intact
+*   `retag`: interactively edit title, album, and artist tags on all mp3 files in a directory
 *   `rgwipe`: remove all replaygain tags from mp3 files
 *   `rwtag`: view and manipulate id3 tags on mp3 files
 *   `tit3_tit2`: Copy the contents of TIT3 to TIT2
@@ -30,11 +27,9 @@ Tools for maintaining a local library of music for [Rainwave][]
 
 ### Dealing with OCR
 
-*   `ocremix.py`: Python module for parsing a remix info page on ocremix.org for
-    metadata
+*   `ocremix.py`: Python module for parsing a remix info page on ocremix.org for metadata
 *   `getocr`: download remixes from ocremix.org
 *   `cleanocr`: update local files with metadata from ocremix.org
-*   `ocra2ocr`: update local metadata when a song on an OCR album gets an
-    official OCR release
+*   `ocra2ocr`: update local metadata when a song on an OCR album gets an official OCR release
 
 [rainwave]: http://rainwave.cc/

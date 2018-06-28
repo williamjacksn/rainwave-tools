@@ -5,7 +5,7 @@ import rainwave_tools.utils
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('path', nargs='*', default='.')
+    parser.add_argument('path', nargs='+', help=rainwave_tools.utils.path_help)
     return parser.parse_args()
 
 

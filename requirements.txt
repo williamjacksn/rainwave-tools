@@ -1,4 +1,0 @@
-lxml
-mutagen
-psycopg2
-requests

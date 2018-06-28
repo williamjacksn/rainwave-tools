@@ -11,7 +11,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('old_name')
     parser.add_argument('new_name')
-    parser.add_argument('path', nargs='*', default='.')
+    parser.add_argument('path', nargs='*', default='.', help=rainwave_tools.utils.path_help)
     return parser.parse_args()
 
 
@@ -39,11 +39,11 @@ def main():
                 errors.append(e)
             else:
                 change_count += 1
-                log('{} : new artist tag {!r}'.format(mp3, artist_tag))
+                log(f'{mp3} : new artist tag {artist_tag!r}')
 
-    m = '** updated tags in {} file'.format(change_count)
+    m = f'** updated tags in {change_count} file'
     if change_count != 1:
-        m = '{}s'.format(m)
+        m = f'{m}s'
     log(m)
     if errors:
         log('**********')
@@ -51,6 +51,7 @@ def main():
         log('**********')
         for error in errors:
             log(error)
+
 
 if __name__ == '__main__':
     main()

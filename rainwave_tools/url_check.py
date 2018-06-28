@@ -65,7 +65,7 @@ def replace_url(cnx, old_url, new_url):
         tags.delall('WXXX')
         tags.add(mutagen.id3.WXXX(encoding=0, url=new_url))
         tags.save()
-        print('{} : new www {!r}'.format(filename, new_url))
+        print(f'{filename} : new www {new_url!r}')
 
 
 def main():
@@ -77,8 +77,7 @@ def main():
 
     c = get_config()
 
-    cnx_string = 'dbname=rainwave user=orpheus password={}'.format(rw_db_pass)
-    cnx = psycopg2.connect(cnx_string)
+    cnx = psycopg2.connect(f'dbname=rainwave user=orpheus password={rw_db_pass}')
 
     sql = 'SELECT DISTINCT song_url FROM r4_songs WHERE song_verified IS TRUE ORDER BY song_url'
     with cnx.cursor() as cur:
@@ -88,7 +87,7 @@ def main():
     count = 0
     for row in urls:
         count += 1
-        print('{}\r'.format(count), end='')
+        print(f'{count}\r', end='')
         url = str(row[0])
         if url is None or url in c.get('good_urls', []):
             continue
