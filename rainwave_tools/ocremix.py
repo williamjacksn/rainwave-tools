@@ -44,6 +44,7 @@ class OCReMix(object):
             if self._tree is None:
                 self.load_from_url()
             self._title = self._tree.xpath('//h1/a')[0].tail[2:-2]
+        self._title = self._title.replace('\ufeff', '')
         return self._title
 
     @property
