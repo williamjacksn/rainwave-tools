@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="rainwave-tools",
-    version='0.7.1',
+    version='0.7.2',
     author='William Jackson',
     author_email='william@subtlecoolness.com',
     url='https://github.com/williamjacksn/rainwave_tools',
