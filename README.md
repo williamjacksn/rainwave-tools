@@ -2,7 +2,7 @@ Tools for maintaining a local library of music for [Rainwave][]
 
 ## Install
 
-    pip install https://github.com/williamjacksn/rainwave_tools/archive/master.zip
+    pip install https://github.com/williamjacksn/rainwave-tools/archive/master.zip
 
 ## Tools
 
@@ -32,4 +32,4 @@ Tools for maintaining a local library of music for [Rainwave][]
 *   `cleanocr`: update local files with metadata from ocremix.org
 *   `ocra2ocr`: update local metadata when a song on an OCR album gets an official OCR release
 
-[rainwave]: http://rainwave.cc/
+[rainwave]: https://rainwave.cc/
