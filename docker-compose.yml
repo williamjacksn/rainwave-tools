@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  rainwave-tools:
+    image: williamjackson/rainwave-tools
+    build: .

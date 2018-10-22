@@ -1,14 +1,27 @@
-from setuptools import find_packages, setup
+import pathlib
+
+from setuptools import setup
+
+
+def version() -> str:
+    """Read version from Dockerfile"""
+    dockerfile = pathlib.Path(__file__).resolve().parent / 'Dockerfile'
+    with open(dockerfile) as f:
+        for line in f:
+            if 'org.label-schema.version' in line:
+                return line.strip().split('=', maxsplit=1)[1]
+    return 'unknown'
+
 
 setup(
     name="rainwave-tools",
-    version='0.7.2',
+    version=version(),
     author='William Jackson',
     author_email='william@subtlecoolness.com',
-    url='https://github.com/williamjacksn/rainwave_tools',
+    url='https://github.com/williamjacksn/rainwave-tools',
     description='Tools for maintaining a local library of music for Rainwave',
     license='MIT License',
-    packages=find_packages(),
+    packages=['rainwave_tools'],
     install_requires=['lxml', 'mutagen', 'psycopg2', 'requests'],
     entry_points={
         'console_scripts': [
