@@ -3,7 +3,7 @@ FROM python:3.7.0-alpine3.8
 COPY requirements-docker.txt /rainwave-tools/requirements-docker.txt
 
 RUN /sbin/apk --no-cache add --virtual .deps gcc libxml2-dev libxslt-dev musl-dev postgresql-dev \
- && /sbin/apk --no-cache add libpq \
+ && /sbin/apk --no-cache add libpq libxslt \
  && /usr/local/bin/pip install --no-cache-dir --requirement /rainwave-tools/requirements-docker.txt \
  && /sbin/apk del .deps
 
