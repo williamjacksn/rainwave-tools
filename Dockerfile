@@ -1,11 +1,11 @@
-FROM python:3.7.0-alpine3.8
+FROM python:3.7.1-alpine3.8
 
-COPY requirements-docker.txt /rainwave-tools/requirements-docker.txt
+COPY requirements.txt /rainwave-tools/requirements.txt
 
-RUN /sbin/apk --no-cache add --virtual .deps gcc libxml2-dev libxslt-dev musl-dev postgresql-dev \
- && /sbin/apk --no-cache add libpq libxslt \
- && /usr/local/bin/pip install --no-cache-dir --requirement /rainwave-tools/requirements-docker.txt \
- && /sbin/apk del .deps
+RUN /sbin/apk add --no-cache --virtual .deps gcc libxml2-dev libxslt-dev musl-dev postgresql-dev \
+ && /sbin/apk add --no-cache libpq libxslt \
+ && /usr/local/bin/pip install --no-cache-dir --requirement /rainwave-tools/requirements.txt \
+ && /sbin/apk del --no-cache .deps
 
 COPY . /rainwave-tools
 
