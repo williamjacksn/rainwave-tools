@@ -1,4 +1,4 @@
-FROM python:3.7.1-alpine3.8
+FROM python:3.7.2-alpine3.9
 
 COPY requirements.txt /rainwave-tools/requirements.txt
 
@@ -9,7 +9,7 @@ RUN /sbin/apk add --no-cache --virtual .deps gcc libxml2-dev libxslt-dev musl-de
 
 COPY . /rainwave-tools
 
-RUN /usr/local/bin/pip install /rainwave-tools
+RUN /usr/local/bin/pip install --no-cache-dir /rainwave-tools
 
 ENV PYTHONUNBUFFERED 1
 
