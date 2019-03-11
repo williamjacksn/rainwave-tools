@@ -17,4 +17,4 @@ ENTRYPOINT ["/bin/sh"]
 
 LABEL maintainer=william@subtlecoolness.com \
       org.label-schema.schema-version=1.0 \
-      org.label-schema.version=0.7.7
+      org.label-schema.version=0.8.0
