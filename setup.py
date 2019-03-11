@@ -31,6 +31,7 @@ setup(
             'cleanocr = rainwave_tools.cleanocr:main',
             'getocr = rainwave_tools.getocr:main',
             'missing_art = rainwave_tools.missing_art:main',
+            'move_ratings = rainwave_tools.move_ratings:main',
             'normalize_filenames = rainwave_tools.normalize_filenames:main',
             'ocra2ocr = rainwave_tools.ocra2ocr:main',
             'rename_artist = rainwave_tools.rename_artist:main',
