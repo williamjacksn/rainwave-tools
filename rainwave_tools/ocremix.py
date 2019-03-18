@@ -58,7 +58,8 @@ class OCReMix(object):
         if self._artist is None:
             if self._tree is None:
                 self.load_from_url()
-            self._artist = ', '.join([a.text for a in self._tree.xpath('//h2/a[starts-with(@href, "/artist")]')])
+            self._artist = ', '.join([a.text.replace('\ufeff', '')
+                                      for a in self._tree.xpath('//h2/a[starts-with(@href, "/artist")]')])
         return self._artist
 
     @property
