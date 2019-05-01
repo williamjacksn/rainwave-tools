@@ -15,6 +15,8 @@ ENV PYTHONUNBUFFERED 1
 
 ENTRYPOINT ["/bin/sh"]
 
-LABEL maintainer=william@subtlecoolness.com \
-      org.label-schema.schema-version=1.0 \
-      org.label-schema.version=0.8.1
+LABEL org.opencontainers.image.authors="William Jackson <william@subtlecoolness.com>" \
+      org.opencontainers.image.description="Tools for maintaining a local library of music for https://rainwave.cc/" \
+      org.opencontainers.image.source="https://github.com/williamjacksn/rainwave-tools" \
+      org.opencontainers.image.title="Rainwave Tools" \
+      org.opencontainers.image.version=0.8.1
