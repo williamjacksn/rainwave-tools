@@ -11,7 +11,8 @@ COPY . /rainwave-tools
 
 RUN /usr/local/bin/pip install --no-cache-dir /rainwave-tools
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED="1" \
+    RAINWAVE_TOOLS_VERSION="0.8.2"
 
 ENTRYPOINT ["/bin/sh"]
 
@@ -19,4 +20,4 @@ LABEL org.opencontainers.image.authors="William Jackson <william@subtlecoolness.
       org.opencontainers.image.description="Tools for maintaining a local library of music for https://rainwave.cc/" \
       org.opencontainers.image.source="https://github.com/williamjacksn/rainwave-tools" \
       org.opencontainers.image.title="Rainwave Tools" \
-      org.opencontainers.image.version=0.8.2
+      org.opencontainers.image.version="${RAINWAVE_TOOLS_VERSION}"

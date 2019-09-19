@@ -1,21 +1,11 @@
-import pathlib
+import rainwave_tools
 
 from setuptools import setup
 
 
-def version() -> str:
-    """Read version from Dockerfile"""
-    dockerfile = pathlib.Path(__file__).resolve().parent / 'Dockerfile'
-    with open(dockerfile) as f:
-        for line in f:
-            if 'org.opencontainers.image.version' in line:
-                return line.strip().split('=', maxsplit=1)[1]
-    return 'unknown'
-
-
 setup(
     name="rainwave-tools",
-    version=version(),
+    version=rainwave_tools.__version__,
     author='William Jackson',
     author_email='william@subtlecoolness.com',
     url='https://github.com/williamjacksn/rainwave-tools',
