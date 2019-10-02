@@ -4,7 +4,7 @@ import urllib.request
 
 
 class OCReMix(object):
-    INFO_URL_TEMPLATE = 'http://ocremix.org/remix/OCR{:05}'
+    INFO_URL_TEMPLATE = 'https://ocremix.org/remix/OCR{:05}'
 
     def __init__(self, ocr_id):
         self.ocr_id = ocr_id
