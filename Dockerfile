@@ -12,7 +12,7 @@ COPY . /rainwave-tools
 RUN /usr/local/bin/pip install --no-cache-dir /rainwave-tools
 
 ENV PYTHONUNBUFFERED="1" \
-    RAINWAVE_TOOLS_VERSION="0.8.7"
+    RAINWAVE_TOOLS_VERSION="0.8.8"
 
 ENTRYPOINT ["/bin/sh"]
 
