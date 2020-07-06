@@ -2,10 +2,8 @@ FROM python:3.8.3-alpine3.12
 
 COPY requirements.txt /rainwave-tools/requirements.txt
 
-RUN /sbin/apk add --no-cache --virtual .deps gcc libxml2-dev libxslt-dev musl-dev postgresql-dev \
- && /sbin/apk add --no-cache libpq libxslt \
- && /usr/local/bin/pip install --no-cache-dir --requirement /rainwave-tools/requirements.txt \
- && /sbin/apk del --no-cache .deps
+RUN /sbin/apk add --no-cache libpq libxslt
+RUN /usr/local/bin/pip install --no-cache-dir --requirement /rainwave-tools/requirements.txt
 
 COPY . /rainwave-tools
 
