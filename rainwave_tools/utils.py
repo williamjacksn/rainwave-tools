@@ -58,7 +58,7 @@ def get_mp3s(paths: Any):
 # }
 
 def make_safe(s):
-    translate_table = {ord(char): None for char in ' !"#%&\'()*+,-./:;<=>?@[\\]^_`{|}~–—あいごま'}
+    translate_table = {ord(char): None for char in ' !"#%&\'()*+,-./:;<=>?@[\\]^_`{|}~–—あいごま고말싶은하'}
     special = dict(zip(map(ord, '²ÉÜàáãäçèéêíðñóöüşКСавеийкмност'), '2EUaaaaceeeidnoousKSaveijkmnost'))
     translate_table.update(special)
     return s.translate(translate_table)
