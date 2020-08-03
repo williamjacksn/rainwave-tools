@@ -1,5 +1,5 @@
 --extra-index-url https://alpine-wheels.github.io/index/
 lxml==4.5.2
-mutagen==1.45.0
+mutagen==1.45.1
 psycopg2==2.8.5
 requests==2.24.0
