@@ -1,6 +1,5 @@
-version: '3'
+version: '3.8'
 
 services:
   rainwave-tools:
-    image: docker.pkg.github.com/williamjacksn/rainwave-tools/rainwave-tools
-    build: .
+    image: ghcr.io/williamjacksn/rainwave-tools
