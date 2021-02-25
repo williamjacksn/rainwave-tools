@@ -1,11 +1,10 @@
 import argparse
 import mutagen.id3
-import os
+import pathlib
 import rainwave_tools.ocremix
 import stat
 import urllib.request
 
-DEST_DIR = '/home/icecast/ocr-staging'
 COMMENT = 'Get @ OCR'
 GENRE_PROMPT = 'Enter a genre > '
 
@@ -16,6 +15,7 @@ def log(m):
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--destination', default='/home/icecast/ocr-staging', type=pathlib.Path)
     parser.add_argument('ocr_num', type=int)
     return parser.parse_args()
 
@@ -68,14 +68,15 @@ def main():
 
     tags.save(temp_file)
 
-    target_file = f'{remix.safe_title}.mp3'
-    mp3_dest = os.path.join(DEST_DIR, remix.safe_album, target_file)
-    log(f'Moving {temp_file} to {mp3_dest}')
-    os.renames(temp_file, mp3_dest)
+    dest_folder = args.destination / remix.safe_album
+    dest_folder.mkdir(parents=True, exist_ok=True)
+    dest_file = dest_folder / f'{remix.safe_title}.mp3'
+    log(f'Moving {temp_file} to {dest_file}')
+    final = pathlib.Path(temp_file).rename(dest_file)
 
     log('Changing file permissions')
     perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP
-    os.chmod(mp3_dest, perms)
+    final.chmod(perms)
 
     log('Cleaning up temporary files')
     urllib.request.urlcleanup()
