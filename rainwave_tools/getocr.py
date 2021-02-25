@@ -2,6 +2,7 @@ import argparse
 import mutagen.id3
 import pathlib
 import rainwave_tools.ocremix
+import shutil
 import stat
 import urllib.request
 
@@ -72,7 +73,7 @@ def main():
     dest_folder.mkdir(parents=True, exist_ok=True)
     dest_file = dest_folder / f'{remix.safe_title}.mp3'
     log(f'Moving {temp_file} to {dest_file}')
-    final = pathlib.Path(temp_file).rename(dest_file)
+    final = shutil.move(temp_file, dest_file)
 
     log('Changing file permissions')
     perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP
