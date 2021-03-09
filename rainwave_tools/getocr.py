@@ -76,7 +76,7 @@ def main():
     final = shutil.move(temp_file, dest_file)
 
     log('Changing file permissions')
-    perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP
+    perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH
     final.chmod(perms)
 
     log('Cleaning up temporary files')
