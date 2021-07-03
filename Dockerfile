@@ -19,7 +19,7 @@ RUN /home/python/venv/bin/pip install --no-cache-dir --requirement /home/python/
 
 ENV PATH="/home/python/venv/bin:${PATH}" \
     PYTHONUNBUFFERED="1" \
-    RAINWAVE_TOOLS_VERSION="2021.3"
+    RAINWAVE_TOOLS_VERSION="2021.4"
 
 ENTRYPOINT ["/bin/sh"]
 
