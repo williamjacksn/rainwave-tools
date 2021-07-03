@@ -1,5 +1,4 @@
-version: '3.8'
-
 services:
   rainwave-tools:
+    build: .
     image: ghcr.io/williamjacksn/rainwave-tools
