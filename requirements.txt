@@ -12,7 +12,7 @@ charset-normalizer==2.0.1
     # via requests
 idna==2.10
     # via requests
-lxml==4.8.0
+lxml==4.9.0
     # via -r requirements.in
 mutagen==1.45.1
     # via -r requirements.in
