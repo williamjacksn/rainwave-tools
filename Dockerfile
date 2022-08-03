@@ -1,4 +1,4 @@
-FROM python:3.10.5-alpine3.15 as builder
+FROM python:3.11.0b5-alpine3.15 as builder
 
 COPY setup.py /rainwave-tools/setup.py
 COPY rainwave_tools /rainwave-tools/rainwave_tools
@@ -6,7 +6,7 @@ COPY rainwave_tools /rainwave-tools/rainwave_tools
 WORKDIR /rainwave-tools
 RUN /usr/local/bin/python setup.py bdist_wheel
 
-FROM python:3.10.5-alpine3.15
+FROM python:3.11.0b5-alpine3.15
 
 RUN /sbin/apk add --no-cache libpq libxslt
 RUN /usr/sbin/adduser -g python -D python
