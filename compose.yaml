@@ -8,4 +8,4 @@ services:
     init: true
     volumes:
       - ./:/home/python/rainwave-tools
-    working_dir: /home/python-rainwave-tools
+    working_dir: /home/python/rainwave-tools
