@@ -18,6 +18,7 @@ COPY --chown=python:python requirements.txt /home/python/rainwave-tools/requirem
 RUN /home/python/venv/bin/pip install --no-cache-dir --requirement /home/python/rainwave-tools/requirements.txt
 
 ENV PATH="/home/python/venv/bin:${PATH}" \
+    PYTHONDONTWRITEBYTECODE="1" \
     PYTHONUNBUFFERED="1" \
     RAINWAVE_TOOLS_VERSION="2021.4"
 
