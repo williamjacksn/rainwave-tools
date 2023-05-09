@@ -20,7 +20,7 @@ RUN /home/python/venv/bin/pip install --no-cache-dir --requirement /home/python/
 ENV PATH="/home/python/venv/bin:${PATH}" \
     PYTHONDONTWRITEBYTECODE="1" \
     PYTHONUNBUFFERED="1" \
-    RAINWAVE_TOOLS_VERSION="2021.4"
+    RAINWAVE_TOOLS_VERSION="2023.1"
 
 ENTRYPOINT ["/bin/sh"]
 
