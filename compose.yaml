@@ -2,3 +2,10 @@ services:
   rainwave-tools:
     build: .
     image: ghcr.io/williamjacksn/rainwave-tools
+
+  shell:
+    image: ghcr.io/williamjacksn/rainwave-tools
+    init: true
+    volumes:
+      - ./:/home/python/rainwave-tools
+    working_dir: /home/python-rainwave-tools
