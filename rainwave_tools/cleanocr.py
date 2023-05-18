@@ -11,6 +11,8 @@ def log(m):
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--titles', action='store_true', help='update titles')
+    parser.add_argument('-u', '--urls', action='store_true', help='update URLs')
     parser.add_argument('path', nargs='+', help=rainwave_tools.utils.path_help)
     return parser.parse_args()
 
@@ -30,18 +32,20 @@ def main():
             continue
         remix = rainwave_tools.ocremix.OCReMix(ocr_id)
 
-        if remix.info_url != tag_www:
-            log(f'{mp3} : updating www to {remix.info_url}')
-            tags.delall('WXXX')
-            tags.add(mutagen.id3.WXXX(encoding=0, url=remix.info_url))
-            changed = True
+        if args.urls:
+            if remix.info_url != tag_www:
+                log(f'{mp3} : updating www to {remix.info_url}')
+                tags.delall('WXXX')
+                tags.add(mutagen.id3.WXXX(encoding=0, url=remix.info_url))
+                changed = True
 
-        tag_title = tags.getall('TIT2')[0][0]
-        if remix.title != tag_title:
-            log(f'{mp3} : updating title to {remix.title}')
-            tags.delall('TIT2')
-            tags.add(mutagen.id3.TIT2(encoding=3, text=[remix.title]))
-            changed = True
+        if args.titles:
+            tag_title = tags.getall('TIT2')[0][0]
+            if remix.title != tag_title:
+                log(f'{mp3} : updating title to {remix.title}')
+                tags.delall('TIT2')
+                tags.add(mutagen.id3.TIT2(encoding=3, text=[remix.title]))
+                changed = True
 
         if changed:
             tags.save()
