@@ -19,8 +19,7 @@ def parse_args():
 
 def get_url(tags: mutagen.id3.ID3):
     for frame in tags.getall('WXXX'):
-        for text in frame:
-            return text.url
+        return frame.url
 
 
 def main():
