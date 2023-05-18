@@ -79,6 +79,9 @@ def replace_url(cnx, old_url, new_url):
 def main():
     args = parse_args()
 
+    if args.skip:
+        print(f'Skipping URLS that match: {args.skip}')
+
     if 'RW_DB_PASS' in os.environ:
         rw_db_pass = os.environ.get('RW_DB_PASS')
     else:
