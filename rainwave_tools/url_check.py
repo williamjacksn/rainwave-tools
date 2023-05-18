@@ -27,7 +27,7 @@ def set_config(c):
     if not config.parent.exists():
         config.parent.mkdir(parents=True)
     with config.open('w') as f:
-        json.dump(c, f)
+        json.dump(c, f, indent=1)
 
 
 def get_files_with_url(cnx, url):
