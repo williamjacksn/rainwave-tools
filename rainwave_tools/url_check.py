@@ -6,7 +6,7 @@ import psycopg2
 import requests
 import sys
 
-from requests.exceptions import ConnectionError, MissingSchema
+from requests.exceptions import ConnectionError, MissingSchema, ReadTimeout
 
 
 def get_config():
@@ -103,7 +103,7 @@ def main():
                 continue
             else:
                 code = resp.status_code
-        except (MissingSchema, ConnectionError):
+        except (MissingSchema, ConnectionError, ReadTimeout):
             code = '---'
         while True:
             new_url = input('{} {} > '.format(code, url))
