@@ -1,3 +1,4 @@
+import argparse
 import json
 import mutagen.id3
 import os
@@ -7,6 +8,12 @@ import requests
 import sys
 
 from requests.exceptions import ConnectionError, MissingSchema, ReadTimeout
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--skip', help='skip URLs that match this substring')
+    return parser.parse_args()
 
 
 def get_config():
@@ -69,6 +76,8 @@ def replace_url(cnx, old_url, new_url):
 
 
 def main():
+    args = parse_args()
+
     if 'RW_DB_PASS' in os.environ:
         rw_db_pass = os.environ.get('RW_DB_PASS')
     else:
@@ -90,6 +99,8 @@ def main():
         print(f'{count}\r', end='')
         url = str(row[0])
         if url is None or url in c.get('good_urls', []):
+            continue
+        if args.skip and args.skip in url:
             continue
         try:
             resp = requests.head(url, timeout=1)
