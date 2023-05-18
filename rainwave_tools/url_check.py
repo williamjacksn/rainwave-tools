@@ -8,6 +8,7 @@ import requests
 import sys
 
 from requests.exceptions import ConnectionError, MissingSchema, ReadTimeout
+from urllib3.exceptions import ReadTimeoutError
 
 
 def parse_args():
@@ -114,7 +115,7 @@ def main():
                 continue
             else:
                 code = resp.status_code
-        except (MissingSchema, ConnectionError, ReadTimeout, TimeoutError):
+        except (MissingSchema, ConnectionError, ReadTimeout, ReadTimeoutError, TimeoutError):
             code = '---'
         while True:
             new_url = input('{} {} > '.format(code, url))
