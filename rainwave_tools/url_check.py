@@ -103,7 +103,7 @@ def main():
                 continue
             else:
                 code = resp.status_code
-        except (MissingSchema, ConnectionError, ReadTimeout):
+        except (MissingSchema, ConnectionError, ReadTimeout, TimeoutError):
             code = '---'
         while True:
             new_url = input('{} {} > '.format(code, url))
