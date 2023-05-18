@@ -92,9 +92,9 @@ def main():
         if url is None or url in c.get('good_urls', []):
             continue
         try:
-            resp = requests.head(url)
+            resp = requests.head(url, timeout=1)
             if resp.status_code in [403, 405]:
-                resp = requests.get(url)
+                resp = requests.get(url, timeout=1)
             if resp.status_code == 200:
                 good_urls = c.get('good_urls', [])
                 good_urls.append(url)
