@@ -17,6 +17,12 @@ def parse_args():
     return parser.parse_args()
 
 
+def get_url(tags: mutagen.id3.ID3):
+    for frame in tags.getall('WXXX'):
+        for text in frame:
+            return text.url
+
+
 def main():
     args = parse_args()
 
@@ -24,17 +30,18 @@ def main():
         ocr_id = None
         changed = False
         tags = mutagen.id3.ID3(str(mp3))
-        tag_www = tags.getall('WXXX')[0].url
-        for match in re.findall('OCR\d{5}', tag_www):
-            ocr_id = int(match[3:])
+        url = get_url(tags)
+        if url:
+            for match in re.findall('OCR\d{5}', url):
+                ocr_id = int(match[3:])
         if ocr_id is None:
             log(f'{mp3} : not an OCR url')
             continue
         remix = rainwave_tools.ocremix.OCReMix(ocr_id)
 
         if args.urls:
-            if remix.info_url != tag_www:
-                log(f'{mp3} : updating www to {remix.info_url}')
+            if remix.info_url != url:
+                log(f'{mp3} : updating url to {remix.info_url}')
                 tags.delall('WXXX')
                 tags.add(mutagen.id3.WXXX(encoding=0, url=remix.info_url))
                 changed = True
@@ -49,8 +56,6 @@ def main():
 
         if changed:
             tags.save()
-        else:
-            log(f'{mp3} : no change')
 
 
 if __name__ == '__main__':
