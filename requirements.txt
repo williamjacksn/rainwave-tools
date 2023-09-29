@@ -16,7 +16,7 @@ lxml==4.9.3
     # via -r requirements.in
 mutagen==1.47.0
     # via -r requirements.in
-psycopg2==2.9.7
+psycopg2==2.9.8
     # via -r requirements.in
 requests==2.31.0
     # via -r requirements.in
