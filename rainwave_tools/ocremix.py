@@ -67,7 +67,7 @@ class OCReMix(object):
         if self._mp3_url is None:
             if self._tree is None:
                 self.load_from_url()
-            _xpath = '//div[@id="modalDownload"]//a[contains(@href, "iterations.org")]/@href'
+            _xpath = '//div[@id="modalDownload"]//a[contains(@href, "ocrmirror.org")]/@href'
             self._mp3_url = self._tree.xpath(_xpath)[0]
         return self._mp3_url
 
