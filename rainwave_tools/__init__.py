@@ -1,3 +1,3 @@
 from . import utils
 
-__version__ = '2023.2'
+__version__ = '2023.3'
