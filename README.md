@@ -2,7 +2,7 @@ Tools for maintaining a local library of music for [Rainwave][]
 
 ## Install
 
-    pip install https://github.com/williamjacksn/rainwave-tools/archive/master.zip
+    pip install rainwave-tools
 
 ## Tools
 

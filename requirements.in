@@ -1,6 +1,3 @@
 --extra-index-url https://alpine-wheels.github.io/index
 
-lxml
-mutagen
-psycopg2
-requests
+build

@@ -1,10 +1,31 @@
 services:
-  rainwave-tools:
-    build: .
-    image: ghcr.io/williamjacksn/rainwave-tools
+  cleanup:
+    entrypoint:
+      - /bin/rm
+      - -fr
+      - dist
+      - src/rainwave-tools.egg-info
+    image: ghcr.io/williamjacksn/rainwave-tools-dev
+    init: true
+    volumes:
+      - ./:/home/python/rainwave-tools
+    working_dir: /home/python/rainwave-tools
+
+  py-build:
+    entrypoint:
+      - /home/python/venv/bin/python
+      - -m
+      - build
+    image: ghcr.io/williamjacksn/rainwave-tools-dev
+    init: true
+    volumes:
+      - ./:/home/python/rainwave-tools
+    working_dir: /home/python/rainwave-tools
 
   shell:
-    image: ghcr.io/williamjacksn/rainwave-tools
+    entrypoint:
+      - /bin/sh
+    image: ghcr.io/williamjacksn/rainwave-tools-dev
     init: true
     volumes:
       - ./:/home/python/rainwave-tools
