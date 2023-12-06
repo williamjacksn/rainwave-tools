@@ -4,7 +4,7 @@ services:
       - /bin/rm
       - -fr
       - dist
-      - src/rainwave-tools.egg-info
+      - src/rainwave_tools.egg-info
     image: ghcr.io/williamjacksn/rainwave-tools-dev
     init: true
     volumes:
