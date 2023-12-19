@@ -16,7 +16,7 @@ def log(m):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--destination', default='/home/icecast/ocr-staging', type=pathlib.Path)
+    parser.add_argument('-d', '--destination', default='/icecast/staging', type=pathlib.Path)
     parser.add_argument('ocr_num', type=int)
     return parser.parse_args()
 
