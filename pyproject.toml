@@ -30,6 +30,7 @@ name = "William Jackson"
 email = "william@subtlecoolness.com"
 
 [project.scripts]
+album_search = "rainwave_tools.album_search:main"
 apply_genres = "rainwave_tools.apply_genres:main"
 assign_genres = "rainwave_tools.assign_genres:main"
 cdg = "rainwave_tools.cdg:main"
