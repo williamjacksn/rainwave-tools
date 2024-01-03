@@ -19,6 +19,10 @@ Tools for maintaining a local library of music for [Rainwave][]
 *   `tit3_tit2`: Copy the contents of TIT3 to TIT2
 *   `titles`: interactively update titles on all mp3 files in a directory
 
+### Dealing with album art files
+
+*   `delete_art`: delete generated album art files for a specific album
+
 ### Dealing with the database
 
 *   `album_search`: search the database for an album by name substring
