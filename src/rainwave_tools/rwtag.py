@@ -73,43 +73,43 @@ def tag_show(args):
     for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         _audio = mutagen.mp3.MP3(str(mp3))
         log(format_field('file', mp3, args.output))
-        log(format_field('length', f'{int(_audio.info.length)} seconds', arg.output))
+        log(format_field('length', f'{int(_audio.info.length)} seconds', args.output))
         _md = mutagen.id3.ID3(str(mp3))
 
         for _frame in _md.getall('TALB'):
             for _text in _frame.text:
-                log(format_field('album', _text, arg.output))
+                log(format_field('album', _text, args.output))
 
         for _frame in _md.getall('TIT2'):
             for _text in _frame:
-                log(format_field('title', _text, arg.output))
+                log(format_field('title', _text, args.output))
 
         for _frame in _md.getall('TPE1'):
             for _text in _frame.text:
-                log(format_field('artist', _text, arg.output))
+                log(format_field('artist', _text, args.output))
 
         for _frame in _md.getall('TCON'):
             for _text in _frame:
-                log(format_field('genre', _text, arg.output))
+                log(format_field('genre', _text, args.output))
 
         for _frame in _md.getall('TRCK'):
             for _text in _frame:
-                log(format_field('track', _text, arg.output))
+                log(format_field('track', _text, args.output))
 
         for _frame in _md.getall('TPOS'):
             for _text in _frame:
-                log(format_field('disc', _text, arg.output))
+                log(format_field('disc', _text, args.output))
 
         for _frame in _md.getall('WXXX'):
-            log(format_field('www', _frame.url, arg.output))
+            log(format_field('www', _frame.url, args.output))
 
         for _frame in _md.getall('COMM'):
             for _text in _frame:
-                log(format_field('comment', _text, arg.output))
+                log(format_field('comment', _text, args.output))
 
         for _frame in _md.getall('TDRC'):
             for _text in _frame:
-                log(format_field('year', _text, arg.output))
+                log(format_field('year', _text, args.output))
         log('')
 
 
