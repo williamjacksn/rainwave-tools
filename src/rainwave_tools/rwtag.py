@@ -8,6 +8,14 @@ def log(m):
     print(m)
 
 
+def format_field(field_name: str, field_value, output_format: str = 'default') -> str:
+    space_count = 0
+    if output_format == 'default':
+        space_count = 8 - len(field_name)
+    spaces = ' ' * space_count
+    return f'{field_name}{spaces}: {field_value}'
+
+
 TAG_SPEC = {'album': 'TALB', 'apic': 'APIC', 'art': 'APIC', 'artist': 'TPE1', 'artist2': 'TPE2', 'bpm': 'TBPM',
             'comm': 'COMM', 'comment': 'COMM', 'composer': 'TCOM', 'disc': 'TPOS', 'encoder': 'TSSE', 'genre': 'TCON',
             'isrc': 'TSRC', 'lyric': 'USLT', 'popm': 'POPM', 'priv': 'PRIV', 'private': 'PRIV', 'rva2': 'RVA2',
@@ -64,45 +72,45 @@ def tag_set(args):
 def tag_show(args):
     for mp3 in rainwave_tools.utils.get_mp3s(args.path):
         _audio = mutagen.mp3.MP3(str(mp3))
-        log(f'file    : {mp3}')
-        log(f'length  : {int(_audio.info.length)} seconds')
+        log(format_field('file', mp3, args.output))
+        log(format_field('length', f'{int(_audio.info.length)} seconds', arg.output))
         _md = mutagen.id3.ID3(str(mp3))
 
         for _frame in _md.getall('TALB'):
             for _text in _frame.text:
-                log(f'album   : {_text}')
+                log(format_field('album', _text, arg.output))
 
         for _frame in _md.getall('TIT2'):
             for _text in _frame:
-                log(f'title   : {_text}')
+                log(format_field('title', _text, arg.output))
 
         for _frame in _md.getall('TPE1'):
             for _text in _frame.text:
-                log(f'artist  : {_text}')
+                log(format_field('artist', _text, arg.output))
 
         for _frame in _md.getall('TCON'):
             for _text in _frame:
-                log(f'genre   : {_text}')
+                log(format_field('genre', _text, arg.output))
 
         for _frame in _md.getall('TRCK'):
             for _text in _frame:
-                log(f'track   : {_text}')
+                log(format_field('track', _text, arg.output))
 
         for _frame in _md.getall('TPOS'):
             for _text in _frame:
-                log(f'disc    : {_text}')
+                log(format_field('disc', _text, arg.output))
 
         for _frame in _md.getall('WXXX'):
-            log(f'www     : {_frame.url}')
+            log(format_field('www', _frame.url, arg.output))
 
         for _frame in _md.getall('COMM'):
             for _text in _frame:
-                log(f'comment : {_text}')
+                log(format_field('comment', _text, arg.output))
 
         for _frame in _md.getall('TDRC'):
             for _text in _frame:
-                log(f'year    : {_text}')
-        log('---------')
+                log(format_field('year', _text, arg.output))
+        log('')
 
 
 def parse_args():
@@ -128,6 +136,7 @@ def parse_args():
     ps_set.set_defaults(func=tag_set)
 
     ps_show = sp.add_parser('show', description='Show only tags that Rainwave cares about on one or more MP3 files.')
+    ps_show.add_argument('-o', '--output', help='Output format, \'default\' or \'recfile\'.', default='default')
     ps_show.add_argument('path', nargs='+', help=rainwave_tools.utils.path_help)
     ps_show.set_defaults(func=tag_show)
 
