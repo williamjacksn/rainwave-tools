@@ -26,7 +26,7 @@ def main():
         cur.execute(sql)
         rows = cur.fetchall()
 
-    art_dir = pathlib.Path('/var/www/album_art')
+    art_dir = pathlib.Path('/var/www/rainwave.cc/album_art')
 
     for row in rows:
         album_id = str(row[0])
