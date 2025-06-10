@@ -2,7 +2,7 @@ import pathlib
 
 from typing import Any
 
-__all__ = ['get_mp3s', 'make_safe', 'path_help']
+__all__ = ["get_mp3s", "make_safe", "path_help"]
 
 
 def get_mp3s(paths: Any):
@@ -18,7 +18,7 @@ def get_mp3s(paths: Any):
                 for mp3 in get_mp3s(item):
                     yield mp3
         else:
-            if p.suffix.lower() == '.mp3':
+            if p.suffix.lower() == ".mp3":
                 yield p
 
 
@@ -59,13 +59,25 @@ def get_mp3s(paths: Any):
 #  'т': 1090
 # }
 
+
 def make_safe(s):
-    translate_table = {ord(char): None for char in ' !"#%&\'()*+,-./:;<=>?@[\\]^_`{|}~–—あいごま고말싶은하'}
-    special = dict(zip(map(ord, '²ÉÜàáâãäçèéêíðñóöúüşКСавеийкмност'), '2EUaaaaaceeeidnoouusKSaveijkmnost'))
+    translate_table = {
+        ord(char): None
+        for char in " !\"#%&'()*+,-./:;<=>?@[\\]^_`{|}~–—あいごま고말싶은하"
+    }
+    special = dict(
+        zip(
+            map(ord, "²ÉÜàáâãäçèéêíðñóöúüşКСавеийкмност"),
+            "2EUaaaaaceeeidnoouusKSaveijkmnost",
+        )
+    )
     translate_table.update(special)
     return s.translate(translate_table)
 
 
-path_help = ("A file or directory to process. If you specify a directory, all files and subdirectories in the "
-             "directory will be processed recursively. Only files with the extension '.mp3' will be processed. You may "
-             "specify more than one file or directory.")
+path_help = (
+    "A file or directory to process. If you specify a directory, all files and "
+    "subdirectories in the directory will be processed recursively. Only files with "
+    "the extension '.mp3' will be processed. You may specify more than one file or "
+    "directory."
+)

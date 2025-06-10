@@ -4,7 +4,7 @@ import urllib.request
 
 
 class OCReMix(object):
-    INFO_URL_TEMPLATE = 'https://ocremix.org/remix/OCR{:05}'
+    INFO_URL_TEMPLATE = "https://ocremix.org/remix/OCR{:05}"
 
     def __init__(self, ocr_id):
         self.ocr_id = ocr_id
@@ -29,7 +29,7 @@ class OCReMix(object):
         if self._album is None:
             if self._tree is None:
                 self.load_from_url()
-            self._album = self._tree.xpath('//h1/a')[0].text
+            self._album = self._tree.xpath("//h1/a")[0].text
         return self._album
 
     @property
@@ -43,8 +43,8 @@ class OCReMix(object):
         if self._title is None:
             if self._tree is None:
                 self.load_from_url()
-            self._title = self._tree.xpath('//h1/a')[0].tail[2:-2]
-        self._title = self._title.replace('\ufeff', '')
+            self._title = self._tree.xpath("//h1/a")[0].tail[2:-2]
+        self._title = self._title.replace("\ufeff", "")
         return self._title
 
     @property
@@ -58,8 +58,12 @@ class OCReMix(object):
         if self._artist is None:
             if self._tree is None:
                 self.load_from_url()
-            self._artist = ', '.join([a.text.replace('\ufeff', '')
-                                      for a in self._tree.xpath('//h2/a[starts-with(@href, "/artist")]')])
+            self._artist = ", ".join(
+                [
+                    a.text.replace("\ufeff", "")
+                    for a in self._tree.xpath('//h2/a[starts-with(@href, "/artist")]')
+                ]
+            )
         return self._artist
 
     @property
@@ -67,7 +71,9 @@ class OCReMix(object):
         if self._mp3_url is None:
             if self._tree is None:
                 self.load_from_url()
-            _xpath = '//div[@id="modalDownload"]//a[contains(@href, "ocrmirror.org")]/@href'
+            _xpath = (
+                '//div[@id="modalDownload"]//a[contains(@href, "ocrmirror.org")]/@href'
+            )
             self._mp3_url = self._tree.xpath(_xpath)[0]
         return self._mp3_url
 
