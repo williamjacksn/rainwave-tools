@@ -4,16 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rainwave-tools"
+version = "2024.4"
 description = "Tools for maintaining a local library of music for Rainwave"
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-]
-dynamic = [
-    "version",
 ]
 dependencies = [
     "lxml",
@@ -50,6 +48,3 @@ url_check = "rainwave_tools.url_check:main"
 [project.urls]
 "Homepage" = "https://github.com/williamjacksn/rainwave-tools"
 "Bug Tracker" = "https://github.com/williamjacksn/rainwave-tools/issues"
-
-[tool.setuptools.dynamic]
-version.attr = "rainwave_tools.__version__"
