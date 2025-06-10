@@ -221,6 +221,7 @@ wheels = [
 
 [[package]]
 name = "rainwave-tools"
+version = "2025.0"
 source = { editable = "." }
 dependencies = [
     { name = "lxml" },
