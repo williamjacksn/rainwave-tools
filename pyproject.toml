@@ -47,4 +47,4 @@ url_check = "rainwave_tools.url_check:main"
 
 [project.urls]
 "Homepage" = "https://github.com/williamjacksn/rainwave-tools"
-"Bug Tracker" = "https://github.com/williamjacksn/rainwave-tools/issues"
+"Issues" = "https://github.com/williamjacksn/rainwave-tools/issues"
