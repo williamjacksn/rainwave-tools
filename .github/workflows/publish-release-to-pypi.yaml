@@ -1,4 +1,7 @@
 {
+  "env": {
+    "_workflow_file_generator": "ci/gen-github-workflows.py"
+  },
   "jobs": {
     "publish": {
       "environment": {

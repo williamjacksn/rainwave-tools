@@ -3,6 +3,7 @@ import gen
 publish = {
     "name": "Publish the release package to PyPI",
     "on": {"release": {"types": ["published"]}},
+    "env": {"_workflow_file_generator": "ci/gen-github-workflows.py"},
     "jobs": {
         "publish": {
             "name": "Publish the release package to PyPI",
