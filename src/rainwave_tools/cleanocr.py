@@ -1,8 +1,10 @@
 import argparse
+import re
+
 import mutagen.id3
+
 import rainwave_tools.ocremix
 import rainwave_tools.utils
-import re
 
 
 def log(m):

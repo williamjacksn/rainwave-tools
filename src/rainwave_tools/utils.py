@@ -1,5 +1,4 @@
 import pathlib
-
 from typing import Any
 
 __all__ = ["get_mp3s", "make_safe", "path_help"]

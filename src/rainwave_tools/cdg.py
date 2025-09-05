@@ -1,7 +1,9 @@
 import argparse
-import mutagen.id3
-import rainwave_tools.utils
 import sys
+
+import mutagen.id3
+
+import rainwave_tools.utils
 
 
 def get_groups(path):

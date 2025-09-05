@@ -1,8 +1,10 @@
 import argparse
 import logging
-import mutagen.id3
-import rainwave_tools
 import sys
+
+import mutagen.id3
+
+import rainwave_tools
 
 log = logging.getLogger(__name__)
 

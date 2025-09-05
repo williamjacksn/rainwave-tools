@@ -1,5 +1,7 @@
 import argparse
+
 import mutagen.id3
+
 import rainwave_tools.utils
 
 

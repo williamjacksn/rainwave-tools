@@ -1,7 +1,8 @@
 import argparse
 import os
-import psycopg2
 import sys
+
+import psycopg2
 
 
 def parse_args():

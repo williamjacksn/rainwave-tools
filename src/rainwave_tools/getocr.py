@@ -1,10 +1,12 @@
 import argparse
-import mutagen.id3
 import pathlib
-import rainwave_tools.ocremix
 import shutil
 import stat
 import urllib.request
+
+import mutagen.id3
+
+import rainwave_tools.ocremix
 
 COMMENT = "Get @ OCR"
 GENRE_PROMPT = "Enter a genre > "

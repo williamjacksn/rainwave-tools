@@ -1,5 +1,6 @@
-import mutagen.id3
 import os
+
+import mutagen.id3
 
 GENRE_FILE = "_genre.txt"
 

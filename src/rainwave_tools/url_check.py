@@ -1,12 +1,12 @@
 import argparse
 import json
-import mutagen.id3
 import os
 import pathlib
-import psycopg2
-import requests
 import sys
 
+import mutagen.id3
+import psycopg2
+import requests
 from requests.exceptions import ConnectionError, MissingSchema, ReadTimeout
 from urllib3.exceptions import ReadTimeoutError
 

@@ -1,6 +1,8 @@
 import argparse
+
 import mutagen.id3
 import mutagen.mp3
+
 import rainwave_tools.utils
 
 

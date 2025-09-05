@@ -1,7 +1,8 @@
 import os
 import pathlib
-import psycopg2
 import sys
+
+import psycopg2
 
 
 def main():

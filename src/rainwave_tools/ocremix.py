@@ -1,6 +1,8 @@
-import lxml.html
-import rainwave_tools.utils
 import urllib.request
+
+import lxml.html
+
+import rainwave_tools.utils
 
 
 class OCReMix(object):
