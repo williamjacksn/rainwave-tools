@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "uv_build"
-requires = ["uv-build>=0.8.17,<0.9.0"]
+requires = ["uv-build>=0.9.0,<0.10.0"]
 
 [project]
 name = "rainwave-tools"
@@ -52,7 +52,7 @@ url_check = "rainwave_tools.url_check:main"
 [dependency-groups]
 dev = [
     "ruff>=0.13.0",
-    "uv-build>=0.8.17",
+    "uv-build>=0.9.0",
 ]
 
 [tool.ruff.lint]
