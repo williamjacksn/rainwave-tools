@@ -24,7 +24,7 @@ def gen_dependabot():
                 "package-ecosystem": e,
                 "allow": [{"dependency-type": "all"}],
                 "directory": "/",
-                "schedule": {"interval": "daily"},
+                "schedule": {"interval": "weekly"},
             }
             for e in ["github-actions", "uv"]
         ],
