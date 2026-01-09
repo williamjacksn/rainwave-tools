@@ -4,7 +4,7 @@ from collections.abc import Iterator
 __all__ = ["get_mp3s", "make_safe", "path_help"]
 
 
-def log(m: str):
+def log(m: str) -> None:
     print(m)
 
 
