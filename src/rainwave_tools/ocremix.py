@@ -5,7 +5,7 @@ import lxml.html
 from rainwave_tools import utils
 
 
-class OCReMix(object):
+class OCReMix:
     INFO_URL_TEMPLATE = "https://ocremix.org/remix/OCR{:05}"
 
     def __init__(self, ocr_id: int) -> None:
