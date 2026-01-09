@@ -104,7 +104,12 @@ def main() -> None:
 
     cnx = psycopg2.connect(f"dbname=rainwave user=orpheus password={rw_db_pass}")
 
-    sql = "SELECT DISTINCT song_url FROM r4_songs WHERE song_verified IS TRUE ORDER BY song_url"
+    sql = """
+        select distinct song_url
+        from r4_songs
+        where song_verified is true
+        order by song_url
+    """
     with cnx.cursor() as cur:
         cur.execute(sql)
         urls = cur.fetchall()

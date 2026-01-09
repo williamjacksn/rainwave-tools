@@ -86,9 +86,10 @@ def main() -> None:
             elif new_song_rating[0] is None:
                 # New song was faved but not rated
                 sql = """
-                    UPDATE r4_song_ratings
-                    SET song_rating_user = %(song_rating_user)s, song_rated_at = %(song_rated_at)s
-                    WHERE song_id = %(song_id)s AND user_id = %(user_id)s
+                    update r4_song_ratings
+                    set song_rating_user = %(song_rating_user)s,
+                        song_rated_at = %(song_rated_at)s
+                    where song_id = %(song_id)s and user_id = %(user_id)s
                 """
                 params = {
                     "song_rating_user": old_song_rating[1],

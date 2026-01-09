@@ -31,7 +31,12 @@ def main() -> None:
             select
                 a.album_id,
                 a.album_name,
-                array_agg(distinct left(s.song_filename, 0 - position('/' in reverse(s.song_filename)))) album_folders
+                array_agg(
+                    distinct left(
+                        s.song_filename,
+                        0 - position('/' in reverse(s.song_filename))
+                    )
+                ) album_folders
             from r4_songs s
             join r4_albums a on a.album_id  = s.album_id
             where s.song_verified is true

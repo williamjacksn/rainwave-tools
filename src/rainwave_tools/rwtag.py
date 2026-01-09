@@ -171,7 +171,10 @@ def tag_show(args: Args) -> None:
 def parse_args() -> Args:
     ap = argparse.ArgumentParser(description="View and edit ID3 tags on MP3 files.")
 
-    sp_desc = "Specify one of the following commands. To get help on an individual command, use 'rwtag <command> -h'."
+    sp_desc = (
+        "Specify one of the following commands. "
+        "To get help on an individual command, use 'rwtag <command> -h'."
+    )
     sp = ap.add_subparsers(
         title="Available commands", description=sp_desc, dest="command"
     )
@@ -200,10 +203,8 @@ def parse_args() -> Args:
     ps_set.add_argument("path", nargs="+", help=utils.path_help)
     ps_set.set_defaults(func=tag_set)
 
-    ps_show = sp.add_parser(
-        "show",
-        description="Show only tags that Rainwave cares about on one or more MP3 files.",
-    )
+    show_desc = "Show only tags that Rainwave cares about on one or more MP3 files."
+    ps_show = sp.add_parser("show", description=show_desc)
     ps_show.add_argument(
         "-o",
         "--output",
