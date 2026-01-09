@@ -2,13 +2,13 @@ import urllib.request
 
 import lxml.html
 
-import rainwave_tools.utils
+from rainwave_tools import utils
 
 
 class OCReMix(object):
     INFO_URL_TEMPLATE = "https://ocremix.org/remix/OCR{:05}"
 
-    def __init__(self, ocr_id):
+    def __init__(self, ocr_id: int):
         self.ocr_id = ocr_id
         self.info_url = self.INFO_URL_TEMPLATE.format(self.ocr_id)
         self._tree = None
@@ -37,7 +37,7 @@ class OCReMix(object):
     @property
     def safe_album(self):
         if self._safe_album is None:
-            self._safe_album = rainwave_tools.utils.make_safe(self.album)
+            self._safe_album = utils.make_safe(self.album)
         return self._safe_album
 
     @property
@@ -52,7 +52,7 @@ class OCReMix(object):
     @property
     def safe_title(self):
         if self._safe_title is None:
-            self._safe_title = rainwave_tools.utils.make_safe(self.title)
+            self._safe_title = utils.make_safe(self.title)
         return self._safe_title
 
     @property

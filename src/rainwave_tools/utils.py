@@ -4,7 +4,11 @@ from typing import Any
 __all__ = ["get_mp3s", "make_safe", "path_help"]
 
 
-def get_mp3s(paths: Any):
+def log(m: str):
+    print(m)
+
+
+def get_mp3s(paths: str | pathlib.Path | list[str] | list[pathlib.Path]):
     if not isinstance(paths, list):
         paths = [paths]
     for path in paths:
@@ -59,7 +63,7 @@ def get_mp3s(paths: Any):
 # }
 
 
-def make_safe(s):
+def make_safe(s: str):
     translate_table = {
         ord(char): None
         for char in " !\"#%&'()*+,-./:;<=>?@[\\]^_`{|}~–—あいごま고말싶은하"  # noqa: RUF001

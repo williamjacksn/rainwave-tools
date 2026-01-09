@@ -2,20 +2,14 @@ import argparse
 
 import mutagen.id3
 
-import rainwave_tools.utils
-
-
-def log(m):
-    print(m)
+from rainwave_tools import utils
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("old_name")
     parser.add_argument("new_name")
-    parser.add_argument(
-        "path", nargs="*", default=".", help=rainwave_tools.utils.path_help
-    )
+    parser.add_argument("path", nargs="*", default=".", help=utils.path_help)
     return parser.parse_args()
 
 
@@ -24,7 +18,7 @@ def main():
     change_count = 0
     errors = []
 
-    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
+    for mp3 in utils.get_mp3s(args.path):
         changed = False
         tags = mutagen.id3.ID3(str(mp3))
         artist_tag = tags.getall("TPE1")[0].text[0]
@@ -43,18 +37,18 @@ def main():
                 errors.append(e)
             else:
                 change_count += 1
-                log(f"{mp3} : new artist tag {artist_tag!r}")
+                utils.log(f"{mp3} : new artist tag {artist_tag!r}")
 
     m = f"** updated tags in {change_count} file"
     if change_count != 1:
         m = f"{m}s"
-    log(m)
+    utils.log(m)
     if errors:
-        log("**********")
-        log("* ERRORS *")
-        log("**********")
+        utils.log("**********")
+        utils.log("* ERRORS *")
+        utils.log("**********")
         for error in errors:
-            log(error)
+            utils.log(error)
 
 
 if __name__ == "__main__":

@@ -2,16 +2,14 @@ import os
 
 import mutagen.id3
 
+from rainwave_tools import utils
+
 GENRE_FILE = "_genre.txt"
-
-
-def log(m):
-    print(m)
 
 
 def main():
     cwd = os.getcwd()
-    log(f"{cwd} : current directory")
+    utils.log(f"{cwd} : current directory")
 
     for root, folders, files in os.walk(cwd):
         used_genre = ""
@@ -27,14 +25,14 @@ def main():
                         used_genre = frame.text[0]
                         break
         if not has_mp3s:
-            log(f"{root} : no mp3s")
+            utils.log(f"{root} : no mp3s")
             continue
 
         this_genre_file = os.path.join(root, GENRE_FILE)
         if GENRE_FILE in files:
             with open(this_genre_file) as f:
                 genre = f.readline().strip()
-                log(f"{this_genre_file} : {genre}")
+                utils.log(f"{this_genre_file} : {genre}")
             continue
         try:
             new_genre = input(f"{root} : set genre [{used_genre}] > ")

@@ -2,23 +2,23 @@ import argparse
 
 import mutagen.id3
 
-import rainwave_tools.utils
+from rainwave_tools import utils
 
 
-def log(message):
-    print(f"** {message}")
+def log(message: str):
+    utils.log(f"** {message}")
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("path", nargs="+", help=rainwave_tools.utils.path_help)
+    parser.add_argument("path", nargs="+", help=utils.path_help)
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
 
-    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
+    for mp3 in utils.get_mp3s(args.path):
         log(mp3)
         tags = mutagen.id3.ID3(str(mp3))
 

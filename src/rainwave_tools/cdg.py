@@ -1,12 +1,17 @@
 import argparse
+import pathlib
 import sys
 
 import mutagen.id3
 
-import rainwave_tools.utils
+from rainwave_tools import utils
 
 
-def get_groups(path):
+class Args:
+    pass
+
+
+def get_groups(path: pathlib.Path):
     rv = set()
     tags = mutagen.id3.ID3(str(path))
     for group_tag in tags.getall("TCON"):
@@ -15,7 +20,7 @@ def get_groups(path):
     return rv
 
 
-def set_groups(path, groups=None):
+def set_groups(path: pathlib.Path, groups: set | None = None):
     if groups is None:
         groups = set()
     tags = mutagen.id3.ID3(str(path))
@@ -27,9 +32,9 @@ def set_groups(path, groups=None):
     print(f"{path} : cooldown groups: {list(groups)!r}")
 
 
-def cdg_add(args):
+def cdg_add(args: Args):
     errors = []
-    for f in rainwave_tools.utils.get_mp3s(args.path):
+    for f in utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.group not in cdgs:
             cdgs.add(args.group)
@@ -40,9 +45,9 @@ def cdg_add(args):
     return errors
 
 
-def cdg_drop(args):
+def cdg_drop(args: Args):
     errors = []
-    for f in rainwave_tools.utils.get_mp3s(args.path):
+    for f in utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.group in cdgs:
             cdgs.discard(args.group)
@@ -53,9 +58,9 @@ def cdg_drop(args):
     return errors
 
 
-def cdg_find(args):
+def cdg_find(args: Args):
     errors = []
-    for f in rainwave_tools.utils.get_mp3s(args.path):
+    for f in utils.get_mp3s(args.path):
         try:
             cdgs = get_groups(f)
         except mutagen.id3.ID3NoHeaderError as e:
@@ -69,9 +74,9 @@ def cdg_find(args):
     return errors
 
 
-def cdg_list(args):
+def cdg_list(args: Args):
     errors = []
-    for f in rainwave_tools.utils.get_mp3s(args.path):
+    for f in utils.get_mp3s(args.path):
         try:
             cdgs = get_groups(f)
         except mutagen.id3.ID3NoHeaderError as e:
@@ -81,9 +86,9 @@ def cdg_list(args):
     return errors
 
 
-def cdg_rename(args):
+def cdg_rename(args: Args):
     errors = []
-    for f in rainwave_tools.utils.get_mp3s(args.path):
+    for f in utils.get_mp3s(args.path):
         cdgs = get_groups(f)
         if args.old_group in cdgs:
             cdgs.discard(args.old_group)
@@ -104,7 +109,7 @@ def parse_args():
 
     ls_help = "Show the current cooldown groups for one or more mp3 files"
     ps_ls = sp.add_parser("ls", aliases=["list"], help=ls_help, description=ls_help)
-    ps_ls.add_argument("path", nargs="+", help=rainwave_tools.utils.path_help)
+    ps_ls.add_argument("path", nargs="+", help=utils.path_help)
     ps_ls.set_defaults(func=cdg_list)
 
     find_help = "Find mp3 files that belong to the specified cooldown group"
@@ -114,7 +119,7 @@ def parse_args():
     )
     ps_find.add_argument("-0", "--print0", action="store_true", help=find_print0_help)
     ps_find.add_argument("group", help="The cooldown group to search for")
-    ps_find.add_argument("path", nargs="+", help=rainwave_tools.utils.path_help)
+    ps_find.add_argument("path", nargs="+", help=utils.path_help)
     ps_find.set_defaults(func=cdg_find)
 
     add_help = "Add a cooldown group to one or more mp3 files"
@@ -122,7 +127,7 @@ def parse_args():
     ps_add.add_argument(
         "group", help="The cooldown group to add to the specified files"
     )
-    ps_add.add_argument("path", nargs="+", help=rainwave_tools.utils.path_help)
+    ps_add.add_argument("path", nargs="+", help=utils.path_help)
     ps_add.set_defaults(func=cdg_add)
 
     rm_help = "Remove a cooldown group from one or more mp3 files"
@@ -132,7 +137,7 @@ def parse_args():
     ps_rm.add_argument(
         "group", help="The cooldown group to remove from the specified files"
     )
-    ps_rm.add_argument("path", nargs="+", help=rainwave_tools.utils.path_help)
+    ps_rm.add_argument("path", nargs="+", help=utils.path_help)
     ps_rm.set_defaults(func=cdg_drop)
 
     mv_help = "Rename a cooldown group in one or more mp3 files"
@@ -146,10 +151,10 @@ def parse_args():
     ps_mv.add_argument(
         "new_group", help="The new name for the cooldown group that you want to rename"
     )
-    ps_mv.add_argument("path", nargs="+", help=rainwave_tools.utils.path_help)
+    ps_mv.add_argument("path", nargs="+", help=utils.path_help)
     ps_mv.set_defaults(func=cdg_rename)
 
-    return ap.parse_args()
+    return ap.parse_args(namespace=Args())
 
 
 def main():

@@ -6,9 +6,12 @@ import sys
 
 import mutagen.id3
 import psycopg2
+import psycopg2.extras
 import requests
 from requests.exceptions import ConnectionError, MissingSchema, ReadTimeout
 from urllib3.exceptions import ReadTimeoutError
+
+PGConnection = psycopg2.extras._connection
 
 
 def parse_args():
@@ -29,7 +32,7 @@ def get_config():
     return data
 
 
-def set_config(c):
+def set_config(c: dict):
     home = pathlib.Path(os.environ.get("HOME")).resolve()
     config = home / ".config/rainwave_tools/url_check.json"
     if not config.parent.exists():
@@ -38,7 +41,7 @@ def set_config(c):
         json.dump(c, f, indent=1)
 
 
-def get_files_with_url(cnx, url):
+def get_files_with_url(cnx: PGConnection, url: str):
     files = []
     sql = """
         SELECT DISTINCT song_filename
@@ -56,7 +59,7 @@ def get_files_with_url(cnx, url):
     return files
 
 
-def replace_url(cnx, old_url, new_url):
+def replace_url(cnx: PGConnection, old_url: str, new_url: str):
     sql = """
         SELECT DISTINCT song_filename
         FROM r4_songs
