@@ -41,7 +41,7 @@ def main() -> None:
             with open(this_genre_file, "w") as f:
                 f.write(f"{new_genre}\n")
         except KeyboardInterrupt:
-            print("")
+            print()
             break
 
 
