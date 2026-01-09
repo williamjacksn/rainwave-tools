@@ -8,7 +8,7 @@ from rainwave_tools import utils
 class OCReMix(object):
     INFO_URL_TEMPLATE = "https://ocremix.org/remix/OCR{:05}"
 
-    def __init__(self, ocr_id: int):
+    def __init__(self, ocr_id: int) -> None:
         self.ocr_id = ocr_id
         self.info_url = self.INFO_URL_TEMPLATE.format(self.ocr_id)
         self._tree = None
