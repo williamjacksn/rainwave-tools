@@ -5,14 +5,19 @@ import mutagen.id3
 from rainwave_tools import utils
 
 
-def parse_args():
+class Args:
+    file: str
+    url: str
+
+
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
     parser.add_argument("file")
     parser.add_argument("url")
-    return parser.parse_args()
+    return parser.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     tags = mutagen.id3.ID3(args.file)

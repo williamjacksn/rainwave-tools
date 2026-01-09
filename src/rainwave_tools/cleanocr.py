@@ -6,20 +6,26 @@ import mutagen.id3
 from rainwave_tools import ocremix, utils
 
 
-def parse_args():
+class Args:
+    titles: bool
+    urls: bool
+    path: list[str]
+
+
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--titles", action="store_true", help="update titles")
     parser.add_argument("-u", "--urls", action="store_true", help="update URLs")
     parser.add_argument("path", nargs="+", help=utils.path_help)
-    return parser.parse_args()
+    return parser.parse_args(namespace=Args())
 
 
-def get_url(tags: mutagen.id3.ID3):
+def get_url(tags: mutagen.id3.ID3) -> str:
     for frame in tags.getall("WXXX"):
         return frame.url
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     for mp3 in utils.get_mp3s(args.path):

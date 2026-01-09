@@ -81,7 +81,7 @@ TAG_SPEC = {
 }
 
 
-def tag_drop(args: Args):
+def tag_drop(args: Args) -> None:
     for mp3 in utils.get_mp3s(args.path):
         try:
             _md = mutagen.id3.ID3(str(mp3))
@@ -97,14 +97,14 @@ def tag_drop(args: Args):
         utils.log(f"{mp3} : dropped all tags of type {args.tag!r}")
 
 
-def tag_dump(args: Args):
+def tag_dump(args: Args) -> None:
     for mp3 in utils.get_mp3s(args.path):
         _md = mutagen.id3.ID3(str(mp3))
         utils.log(_md.pprint())
         utils.log("---------")
 
 
-def tag_set(args: Args):
+def tag_set(args: Args) -> None:
     for mp3 in utils.get_mp3s(args.path):
         try:
             _md = mutagen.id3.ID3(str(mp3))
@@ -122,7 +122,7 @@ def tag_set(args: Args):
         utils.log(f"{mp3}: {args.tag} set to {args.value!r}")
 
 
-def tag_show(args: Args):
+def tag_show(args: Args) -> None:
     for mp3 in utils.get_mp3s(args.path):
         _audio = mutagen.mp3.MP3(str(mp3))
         utils.log(format_field("file", mp3, args.output))
@@ -168,7 +168,7 @@ def tag_show(args: Args):
         utils.log("")
 
 
-def parse_args():
+def parse_args() -> Args:
     ap = argparse.ArgumentParser(description="View and edit ID3 tags on MP3 files.")
 
     sp_desc = "Specify one of the following commands. To get help on an individual command, use 'rwtag <command> -h'."
@@ -216,7 +216,7 @@ def parse_args():
     return ap.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     args = parse_args()
     args.func(args)
 

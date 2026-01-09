@@ -4,24 +4,28 @@ import sys
 
 import mutagen.id3
 
-import rainwave_tools
+from rainwave_tools import utils
 
 log = logging.getLogger(__name__)
 
 
-def parse_args():
+class Args:
+    path: list[str]
+
+
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
-    parser.add_argument("path", nargs="+", help=rainwave_tools.utils.path_help)
-    return parser.parse_args()
+    parser.add_argument("path", nargs="+", help=utils.path_help)
+    return parser.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     logging.basicConfig(stream=sys.stdout, level="INFO", format="%(message)s")
     args = parse_args()
 
     change_count = 0
 
-    for mp3 in rainwave_tools.utils.get_mp3s(args.path):
+    for mp3 in utils.get_mp3s(args.path):
         tags = mutagen.id3.ID3(str(mp3))
         titles = tags.getall("TIT2")
         if titles:

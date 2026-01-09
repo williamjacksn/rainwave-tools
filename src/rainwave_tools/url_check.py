@@ -3,6 +3,7 @@ import json
 import os
 import pathlib
 import sys
+from typing import TypedDict
 
 import mutagen.id3
 import psycopg2
@@ -14,13 +15,21 @@ from urllib3.exceptions import ReadTimeoutError
 PGConnection = psycopg2.extras._connection
 
 
-def parse_args():
+class Args:
+    skip: str
+
+
+class ConfigDict(TypedDict):
+    good_urls: list[str]
+
+
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--skip", help="skip URLs that match this substring")
-    return parser.parse_args()
+    return parser.parse_args(namespace=Args())
 
 
-def get_config():
+def get_config() -> ConfigDict:
     data = {}
     home = pathlib.Path(os.environ.get("HOME")).resolve()
     config = home / ".config/rainwave_tools/url_check.json"
@@ -32,7 +41,7 @@ def get_config():
     return data
 
 
-def set_config(c: dict):
+def set_config(c: dict) -> None:
     home = pathlib.Path(os.environ.get("HOME")).resolve()
     config = home / ".config/rainwave_tools/url_check.json"
     if not config.parent.exists():
@@ -41,7 +50,7 @@ def set_config(c: dict):
         json.dump(c, f, indent=1)
 
 
-def get_files_with_url(cnx: PGConnection, url: str):
+def get_files_with_url(cnx: PGConnection, url: str) -> list[str]:
     files = []
     sql = """
         SELECT DISTINCT song_filename
@@ -59,7 +68,7 @@ def get_files_with_url(cnx: PGConnection, url: str):
     return files
 
 
-def replace_url(cnx: PGConnection, old_url: str, new_url: str):
+def replace_url(cnx: PGConnection, old_url: str, new_url: str) -> None:
     sql = """
         SELECT DISTINCT song_filename
         FROM r4_songs
@@ -79,7 +88,7 @@ def replace_url(cnx: PGConnection, old_url: str, new_url: str):
         print(f"{filename} : new www {new_url!r}")
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     if args.skip:

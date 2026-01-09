@@ -21,13 +21,13 @@ class OCReMix(object):
         self._has_lyrics = None
         self._tags = []
 
-    def load_from_url(self):
+    def load_from_url(self) -> None:
         data = urllib.request.urlopen(self.info_url)
         page = data.read().decode()
         self._tree = lxml.html.fromstring(page)
 
     @property
-    def album(self):
+    def album(self) -> str:
         if self._album is None:
             if self._tree is None:
                 self.load_from_url()
@@ -35,13 +35,13 @@ class OCReMix(object):
         return self._album
 
     @property
-    def safe_album(self):
+    def safe_album(self) -> str:
         if self._safe_album is None:
             self._safe_album = utils.make_safe(self.album)
         return self._safe_album
 
     @property
-    def title(self):
+    def title(self) -> str:
         if self._title is None:
             if self._tree is None:
                 self.load_from_url()
@@ -50,13 +50,13 @@ class OCReMix(object):
         return self._title
 
     @property
-    def safe_title(self):
+    def safe_title(self) -> str:
         if self._safe_title is None:
             self._safe_title = utils.make_safe(self.title)
         return self._safe_title
 
     @property
-    def artist(self):
+    def artist(self) -> str:
         if self._artist is None:
             if self._tree is None:
                 self.load_from_url()
@@ -69,7 +69,7 @@ class OCReMix(object):
         return self._artist
 
     @property
-    def mp3_url(self):
+    def mp3_url(self) -> str:
         if self._mp3_url is None:
             if self._tree is None:
                 self.load_from_url()
@@ -80,7 +80,7 @@ class OCReMix(object):
         return self._mp3_url
 
     @property
-    def has_lyrics(self):
+    def has_lyrics(self) -> bool:
         if self._has_lyrics is None:
             if self._tree is None:
                 self.load_from_url()
@@ -88,7 +88,7 @@ class OCReMix(object):
         return self._has_lyrics
 
     @property
-    def tags(self):
+    def tags(self) -> list[str]:
         if not self._tags:
             xpath = '//*[@id="main-content"]/div[1]/div/div[1]/section[1]/div/div/section[2]/div[2]/section[3]/div/span'
             for t in self._tree.xpath(xpath):

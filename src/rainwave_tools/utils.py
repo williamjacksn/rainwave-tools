@@ -1,5 +1,5 @@
 import pathlib
-from typing import Any
+from collections.abc import Iterator
 
 __all__ = ["get_mp3s", "make_safe", "path_help"]
 
@@ -8,7 +8,9 @@ def log(m: str):
     print(m)
 
 
-def get_mp3s(paths: str | pathlib.Path | list[str] | list[pathlib.Path]):
+def get_mp3s(
+    paths: str | pathlib.Path | list[str] | list[pathlib.Path],
+) -> Iterator[pathlib.Path]:
     if not isinstance(paths, list):
         paths = [paths]
     for path in paths:
@@ -63,7 +65,7 @@ def get_mp3s(paths: str | pathlib.Path | list[str] | list[pathlib.Path]):
 # }
 
 
-def make_safe(s: str):
+def make_safe(s: str) -> str:
     translate_table = {
         ord(char): None
         for char in " !\"#%&'()*+,-./:;<=>?@[\\]^_`{|}~–—あいごま고말싶은하"  # noqa: RUF001

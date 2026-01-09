@@ -7,7 +7,7 @@ from rainwave_tools import utils
 GENRE_FILE = "_genre.txt"
 
 
-def main():
+def main() -> None:
     cwd = os.getcwd()
     utils.log(f"{cwd} : current directory")
 

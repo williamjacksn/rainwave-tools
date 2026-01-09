@@ -5,7 +5,7 @@ import sys
 import psycopg2
 
 
-def main():
+def main() -> None:
     if "RW_DB_PASS" in os.environ:
         rw_db_pass = os.environ.get("RW_DB_PASS")
     else:

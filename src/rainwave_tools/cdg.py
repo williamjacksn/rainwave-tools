@@ -11,7 +11,7 @@ class Args:
     pass
 
 
-def get_groups(path: pathlib.Path):
+def get_groups(path: pathlib.Path) -> set[str]:
     rv = set()
     tags = mutagen.id3.ID3(str(path))
     for group_tag in tags.getall("TCON"):
@@ -20,7 +20,7 @@ def get_groups(path: pathlib.Path):
     return rv
 
 
-def set_groups(path: pathlib.Path, groups: set | None = None):
+def set_groups(path: pathlib.Path, groups: set | None = None) -> None:
     if groups is None:
         groups = set()
     tags = mutagen.id3.ID3(str(path))
@@ -32,7 +32,7 @@ def set_groups(path: pathlib.Path, groups: set | None = None):
     print(f"{path} : cooldown groups: {list(groups)!r}")
 
 
-def cdg_add(args: Args):
+def cdg_add(args: Args) -> list[PermissionError]:
     errors = []
     for f in utils.get_mp3s(args.path):
         cdgs = get_groups(f)
@@ -45,7 +45,7 @@ def cdg_add(args: Args):
     return errors
 
 
-def cdg_drop(args: Args):
+def cdg_drop(args: Args) -> list[PermissionError]:
     errors = []
     for f in utils.get_mp3s(args.path):
         cdgs = get_groups(f)
@@ -58,7 +58,7 @@ def cdg_drop(args: Args):
     return errors
 
 
-def cdg_find(args: Args):
+def cdg_find(args: Args) -> list[mutagen.id3.ID3NoHeaderError]:
     errors = []
     for f in utils.get_mp3s(args.path):
         try:
@@ -74,7 +74,7 @@ def cdg_find(args: Args):
     return errors
 
 
-def cdg_list(args: Args):
+def cdg_list(args: Args) -> list[mutagen.id3.ID3NoHeaderError]:
     errors = []
     for f in utils.get_mp3s(args.path):
         try:
@@ -86,7 +86,7 @@ def cdg_list(args: Args):
     return errors
 
 
-def cdg_rename(args: Args):
+def cdg_rename(args: Args) -> list[PermissionError]:
     errors = []
     for f in utils.get_mp3s(args.path):
         cdgs = get_groups(f)
@@ -100,7 +100,7 @@ def cdg_rename(args: Args):
     return errors
 
 
-def parse_args():
+def parse_args() -> Args:
     ap = argparse.ArgumentParser(
         description="Manage cooldown groups (genre tags) in mp3 files"
     )
@@ -157,7 +157,7 @@ def parse_args():
     return ap.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     args = parse_args()
     errors = args.func(args)
     if errors:

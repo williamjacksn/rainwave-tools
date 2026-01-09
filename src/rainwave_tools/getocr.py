@@ -12,16 +12,21 @@ COMMENT = "Get @ OCR"
 GENRE_PROMPT = "Enter a genre > "
 
 
-def parse_args():
+class Args:
+    destination: pathlib.Path
+    ocr_name: int
+
+
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-d", "--destination", default="/icecast/staging", type=pathlib.Path
     )
     parser.add_argument("ocr_num", type=int)
-    return parser.parse_args()
+    return parser.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     utils.log(f"Processing OCR{args.ocr_num:05}")

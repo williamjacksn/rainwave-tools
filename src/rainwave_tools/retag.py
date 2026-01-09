@@ -5,21 +5,21 @@ import mutagen.id3
 from rainwave_tools import utils
 
 
-def log(message: str):
-    utils.log(f"** {message}")
+class Args:
+    path: list[str]
 
 
-def parse_args():
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
     parser.add_argument("path", nargs="+", help=utils.path_help)
-    return parser.parse_args()
+    return parser.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     for mp3 in utils.get_mp3s(args.path):
-        log(mp3)
+        utils.log(f"** {mp3}")
         tags = mutagen.id3.ID3(str(mp3))
 
         album = tags.getall("TALB")[0].text[0]

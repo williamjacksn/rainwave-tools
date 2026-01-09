@@ -5,15 +5,21 @@ import mutagen.id3
 from rainwave_tools import utils
 
 
-def parse_args():
+class Args:
+    old_name: str
+    new_name: str
+    path: list[str]
+
+
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
     parser.add_argument("old_name")
     parser.add_argument("new_name")
     parser.add_argument("path", nargs="*", default=".", help=utils.path_help)
-    return parser.parse_args()
+    return parser.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     args = parse_args()
     change_count = 0
     errors = []

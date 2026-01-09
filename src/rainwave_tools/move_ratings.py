@@ -5,15 +5,21 @@ import sys
 import psycopg2
 
 
-def parse_args():
+class Args:
+    old_song_id: str
+    new_song_id: str
+    live: bool
+
+
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
     parser.add_argument("old_song_id")
     parser.add_argument("new_song_id")
     parser.add_argument("--live", action="store_true")
-    return parser.parse_args()
+    return parser.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     rw_db_pass = os.getenv("RW_DB_PASS")

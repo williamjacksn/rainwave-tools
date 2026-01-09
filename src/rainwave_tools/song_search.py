@@ -5,13 +5,17 @@ import sys
 import psycopg2
 
 
-def parse_args():
+class Args:
+    query: str
+
+
+def parse_args() -> Args:
     parser = argparse.ArgumentParser()
     parser.add_argument("query")
-    return parser.parse_args()
+    return parser.parse_args(namespace=Args())
 
 
-def main():
+def main() -> None:
     args = parse_args()
 
     if "RW_DB_PASS" in os.environ:
