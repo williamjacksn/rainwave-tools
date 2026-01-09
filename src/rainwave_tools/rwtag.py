@@ -91,8 +91,8 @@ def tag_drop(args: Args) -> None:
         _md.delall(_tag)
         try:
             _md.save()
-        except IOError as _ioe:
-            utils.log(f"ERROR : {_ioe}")
+        except OSError as _ose:
+            utils.log(f"ERROR : {_ose}")
             continue
         utils.log(f"{mp3} : dropped all tags of type {args.tag!r}")
 
