@@ -51,7 +51,6 @@ def set_config(c: dict) -> None:
 
 
 def get_files_with_url(cnx: PGConnection, url: str) -> list[str]:
-    files = []
     sql = """
         SELECT DISTINCT song_filename
         FROM r4_songs
@@ -62,10 +61,7 @@ def get_files_with_url(cnx: PGConnection, url: str) -> list[str]:
         cur.execute(sql, [url])
         rows = cur.fetchall()
 
-    for row in rows:
-        files.append(str(row[0]))
-
-    return files
+    return [str(row[0]) for row in rows]
 
 
 def replace_url(cnx: PGConnection, old_url: str, new_url: str) -> None:
