@@ -20,8 +20,7 @@ def get_mp3s(
             p = pathlib.Path(path).resolve()
         if p.is_dir():
             for item in p.iterdir():
-                for mp3 in get_mp3s(item):
-                    yield mp3
+                yield from get_mp3s(item)
         else:
             if p.suffix.lower() == ".mp3":
                 yield p
