@@ -28,7 +28,7 @@ def main() -> None:
         tags.delall("TXXX:replaygain_track_gain")
         tags.delall("TXXX:replaygain_track_peak")
         tags.save()
-        utils.log("** wiped replaygain tags from {}".format(mp3))
+        utils.log(f"** wiped replaygain tags from {mp3}")
 
 
 if __name__ == "__main__":

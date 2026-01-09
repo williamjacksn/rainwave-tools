@@ -139,7 +139,7 @@ def main() -> None:
         ):
             code = "---"
         while True:
-            new_url = input("{} {} > ".format(code, url))
+            new_url = input(f"{code} {url} > ")
             if new_url == "?":
                 for file in get_files_with_url(cnx, url):
                     print("  * " + file)
