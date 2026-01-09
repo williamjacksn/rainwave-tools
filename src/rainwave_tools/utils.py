@@ -62,7 +62,7 @@ def get_mp3s(paths: Any):
 def make_safe(s):
     translate_table = {
         ord(char): None
-        for char in " !\"#%&'()*+,-./:;<=>?@[\\]^_`{|}~–—あいごま고말싶은하"
+        for char in " !\"#%&'()*+,-./:;<=>?@[\\]^_`{|}~–—あいごま고말싶은하"  # noqa: RUF001
     }
     special = dict(
         zip(
