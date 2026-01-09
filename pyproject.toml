@@ -52,6 +52,7 @@ url_check = "rainwave_tools.url_check:main"
 [dependency-groups]
 dev = [
     "ruff>=0.14.8",
+    "ty>=0.0.10",
     "uv-build>=0.9.16",
 ]
 
