@@ -22,7 +22,7 @@ class OCReMix(object):
         self._tags = []
 
     def load_from_url(self) -> None:
-        data = urllib.request.urlopen(self.info_url)
+        data = urllib.request.urlopen(self.info_url)  # noqa: S310
         page = data.read().decode()
         self._tree = lxml.html.fromstring(page)
 

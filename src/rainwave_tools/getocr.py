@@ -33,7 +33,7 @@ def main() -> None:
     remix = ocremix.OCReMix(args.ocr_num)
 
     utils.log(f"Downloading mp3 file from {remix.mp3_url}")
-    temp_file, _ = urllib.request.urlretrieve(remix.mp3_url)
+    temp_file, _ = urllib.request.urlretrieve(remix.mp3_url)  # noqa: S310
     utils.log(f"Downloaded mp3 file to {temp_file}")
 
     tags = mutagen.id3.ID3(temp_file)
