@@ -1,7 +1,3 @@
-[build-system]
-build-backend = "uv_build"
-requires = ["uv-build>=0.9.16,<0.13.0"]
-
 [project]
 name = "rainwave-tools"
 version = "2026.0"
@@ -49,12 +45,16 @@ url_check = "rainwave_tools.url_check:main"
 "Homepage" = "https://github.com/williamjacksn/rainwave-tools"
 "Issues" = "https://github.com/williamjacksn/rainwave-tools/issues"
 
+[build-system]
+build-backend = "uv_build"
+requires = ["uv-build>=0.9.16,<0.13.0"]
+
 [dependency-groups]
 dev = [
-    "ruff>=0.14.8",
+    "ruff>=0.16.5",
     "ty>=0.0.10",
     "uv-build>=0.9.16",
 ]
 
 [tool.ruff.lint]
-select = ["ANN", "E", "F", "FURB", "I", "PERF", "RUF", "S", "UP"]
+extend-select = ["ANN", "E", "F", "FURB", "I", "PERF", "Q", "RSE", "RUF", "S", "UP"]

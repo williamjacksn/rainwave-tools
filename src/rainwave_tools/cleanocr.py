@@ -34,19 +34,18 @@ def main() -> None:
         tags = mutagen.id3.ID3(str(mp3))
         url = get_url(tags)
         if url:
-            for match in re.findall("OCR\d{5}", url):
+            for match in re.findall(r"OCR\d{5}", url):
                 ocr_id = int(match[3:])
         if ocr_id is None:
             utils.log(f"{mp3} : not an OCR url")
             continue
         remix = ocremix.OCReMix(ocr_id)
 
-        if args.urls:
-            if remix.info_url != url:
-                utils.log(f"{mp3} : updating url to {remix.info_url}")
-                tags.delall("WXXX")
-                tags.add(mutagen.id3.WXXX(encoding=0, url=remix.info_url))
-                changed = True
+        if args.urls and remix.info_url != url:
+            utils.log(f"{mp3} : updating url to {remix.info_url}")
+            tags.delall("WXXX")
+            tags.add(mutagen.id3.WXXX(encoding=0, url=remix.info_url))
+            changed = True
 
         if args.titles:
             tag_title = tags.getall("TIT2")[0][0]

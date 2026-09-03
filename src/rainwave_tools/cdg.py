@@ -16,7 +16,7 @@ def get_groups(path: pathlib.Path) -> set[str]:
     tags = mutagen.id3.ID3(str(path))
     for group_tag in tags.getall("TCON"):
         for group_text in group_tag.text:
-            rv |= set([a.strip() for a in group_text.split(",")])
+            rv |= set({a.strip() for a in group_text.split(",")})
     return rv
 
 
