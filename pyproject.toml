@@ -47,13 +47,13 @@ url_check = "rainwave_tools.url_check:main"
 
 [build-system]
 build-backend = "uv_build"
-requires = ["uv-build>=0.9.16,<0.13.0"]
+requires = ["uv-build>=0.13.5,<0.14.0"]
 
 [dependency-groups]
 dev = [
     "ruff>=0.17.2",
     "ty>=0.0.10",
-    "uv-build>=0.9.16",
+    "uv-build>=0.13.5",
 ]
 
 [tool.ruff.lint]
